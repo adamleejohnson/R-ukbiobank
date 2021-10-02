@@ -3,6 +3,8 @@
 .RData
 .Ruserdata
 .Rbuildignore
+.Rprofile
+renv/
 
 # General
 .DS_Store
