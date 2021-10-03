@@ -3,6 +3,7 @@
 \name{ICD10_lookup}
 \alias{ICD10_lookup}
 \alias{ICD10_htn}
+\alias{ICD10_hld}
 \alias{ICD10_heart_failure}
 \alias{ICD10_pulm_htn}
 \alias{ICD10_pulm_embolism}
@@ -15,6 +16,8 @@
 ICD10_lookup(data, ..., .icd10_field = f.41270.0.0.Diagnoses_ICD10)
 
 ICD10_htn(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10)
+
+ICD10_hld(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10)
 
 ICD10_heart_failure(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10)
 
