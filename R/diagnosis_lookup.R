@@ -16,7 +16,7 @@ diagnosis_lookup <- function(data, ..., .diagnosis_field = f.20002.0.0.Non_cance
 }
 
 #' @noRd
-dx_lines_to_codes <- function(text) {
+dx_text_to_codings <- function(text) {
   meaning <-
     text %>%
     str_trim() %>%
@@ -33,7 +33,7 @@ diagnosed_chf <- function(data,
                           .diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported,
                           .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
 
-  codings <- dx_lines_to_codes("
+  codings <- dx_text_to_codings("
     heart failure/pulmonary odema
   ")
 
@@ -48,7 +48,7 @@ diagnosed_htn <- function(data,
                           .diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported,
                           .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
 
-  codings <- dx_lines_to_codes("
+  codings <- dx_text_to_codings("
     hypertension
     essential hypertension
   ")
@@ -65,7 +65,7 @@ diagnosed_hld <- function(data,
                           .diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported,
                           .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
 
-  codings <- dx_lines_to_codes("
+  codings <- dx_text_to_codings("
     high cholesterol
   ")
   dx <- diagnosis_lookup(data, codings, .diagnosis_field = {{.diagnosis_field}})
@@ -81,7 +81,7 @@ diagnosed_copd <- function(data,
                           .diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported,
                           .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
 
-  codings <- dx_lines_to_codes("
+  codings <- dx_text_to_codings("
     chronic obstructive airways disease/copd
   ")
   dx <- diagnosis_lookup(data, codings, .diagnosis_field = {{.diagnosis_field}})
@@ -97,7 +97,7 @@ diagnosed_pHTN <- function(data,
                           .diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported,
                           .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
 
-  # codings <- dx_lines_to_codes("
+  # codings <- dx_text_to_codings("
   #   chronic obstructive airways disease/copd
   # ")
   # dx <- diagnosis_lookup(data, codings, .diagnosis_field = {{.diagnosis_field}})
@@ -113,12 +113,30 @@ diagnosed_pulm_embolism <- function(data,
                           .diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported,
                           .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
 
-  codings <- dx_lines_to_codes("
+  codings <- dx_text_to_codings("
     pulmonary embolism +/- dvt
   ")
   dx <- diagnosis_lookup(data, codings, .diagnosis_field = {{.diagnosis_field}})
 
   icd10 <- ICD10_pulm_embolism(data, .icd10_field = {{.icd10_field}})
+
+  return(dx | icd10)
+}
+
+#' @rdname diagnosis_lookup
+#' @export
+diagnosed_diabetes <- function(data,
+                          .diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported,
+                          .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
+
+  codings <- dx_text_to_codings("
+    diabetes
+    type 1 diabetes
+    type 2 diabetes
+  ")
+  dx <- diagnosis_lookup(data, codings, .diagnosis_field = {{.diagnosis_field}})
+
+  icd10 <- ICD10_diabetes(data, .icd10_field = {{.icd10_field}})
 
   return(dx | icd10)
 }

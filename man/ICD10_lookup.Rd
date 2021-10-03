@@ -11,6 +11,7 @@
 \alias{ICD10_pulm_ILD}
 \alias{ICD10_copd}
 \alias{ICD10_heart_pulm_transplant}
+\alias{ICD10_diabetes}
 \title{ICD10 Lookup}
 \usage{
 ICD10_lookup(data, ..., .icd10_field = f.41270.0.0.Diagnoses_ICD10)
@@ -32,6 +33,8 @@ ICD10_pulm_ILD(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10)
 ICD10_copd(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10)
 
 ICD10_heart_pulm_transplant(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10)
+
+ICD10_diabetes(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10)
 }
 \arguments{
 \item{data}{data table}

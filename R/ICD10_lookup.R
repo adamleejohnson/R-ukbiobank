@@ -184,3 +184,71 @@ ICD10_heart_pulm_transplant <- function(data, .icd10_field = f.41270.0.0.Diagnos
   ")
   ICD10_lookup(data, codings, .icd10_field = {{.icd10_field}})
 }
+
+#' @rdname ICD10_lookup
+#' @export
+ICD10_diabetes <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
+  codings <- icd10_lines_to_codes("
+    E10 Insulin-dependent diabetes mellitus
+    E10.0 With coma
+    E10.1 With ketoacidosis
+    E10.2 With renal complications
+    E10.3 With ophthalmic complications
+    E10.4 With neurological complications
+    E10.5 With peripheral circulatory complications
+    E10.6 With other specified complications
+    E10.7 With multiple complications
+    E10.8 With unspecified complications
+    E10.9 Without complications
+    E11 Non-insulin-dependent diabetes mellitus
+    E11.0 With coma
+    E11.1 With ketoacidosis
+    E11.2 With renal complications
+    E11.3 With ophthalmic complications
+    E11.4 With neurological complications
+    E11.5 With peripheral circulatory complications
+    E11.6 With other specified complications
+    E11.7 With multiple complications
+    E11.8 With unspecified complications
+    E11.9 Without complications
+    E12 Malnutrition-related diabetes mellitus
+    E12.0 With coma
+    E12.1 With ketoacidosis
+    E12.2 With renal complications
+    E12.3 With ophthalmic complications
+    E12.4 With neurological complications
+    E12.5 With peripheral circulatory complications
+    E12.6 With other specified complications
+    E12.7 With multiple complications
+    E12.8 With unspecified complications
+    E12.9 Without complications
+    E13 Other specified diabetes mellitus
+    E13.0 With coma
+    E13.1 With ketoacidosis
+    E13.2 With renal complications
+    E13.3 With ophthalmic complications
+    E13.4 With neurological complications
+    E13.5 With peripheral circulatory complications
+    E13.6 With other specified complications
+    E13.7 With multiple complications
+    E13.8 With unspecified complications
+    E13.9 Without complications
+    E14 Unspecified diabetes mellitus
+    E14.0 With coma
+    E14.1 With ketoacidosis
+    E14.2 Withrenal complications
+    E14.3 With ophthalmic complications
+    E14.4 With neurological complications
+    E14.5 With peripheral circulatory complications
+    E14.6 With other specified complications
+    E14.7 With multiple complications
+    E14.8 With unspecified complications
+    E14.9 Without complications
+    N08.3 Glomerular disorders in diabetes mellitus
+    O24.0 Pre-existing diabetes mellitus, insulin-dependent
+    O24.1 Pre-existing diabetes mellitus, noninsulin-dependent
+    O24.2 Pre-existing malnutrition-related diabetes mellitus
+    O24.3 Pre-existing diabetes mellitus, unspecified
+  ")
+  ICD10_lookup(data, codings, .icd10_field = {{.icd10_field}})
+}
