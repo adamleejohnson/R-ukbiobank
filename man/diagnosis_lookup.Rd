@@ -2,12 +2,19 @@
 % Please edit documentation in R/diagnosis_lookup.R
 \name{diagnosis_lookup}
 \alias{diagnosis_lookup}
+\alias{diagnosed_chf}
 \title{Diagnosis (self-reported) Lookup}
 \usage{
 diagnosis_lookup(
   data,
   ...,
   .diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
+)
+
+diagnosed_chf(
+  data,
+  .diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported,
+  .icd10_field = f.41270.0.0.Diagnoses_ICD10
 )
 }
 \arguments{

@@ -27,6 +27,8 @@ dx_lines_to_codes <- function(text) {
     pull(coding)
 }
 
+#' @rdname diagnosis_lookup
+#' @export
 diagnosed_chf <- function(data,
                           .diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported,
                           .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
