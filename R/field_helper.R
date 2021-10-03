@@ -1,31 +1,47 @@
 #' @noRd
-expand_instances <- function(field_name, indices = 0:3) {
+.expand_helper <- function(data, field_name, ctrl_ind) {
   field_name <- enquo(field_name)
+  input_is_symbol <- quo_is_symbol(field_name)
   field_name <- as.character(quo_get_expr(field_name))
-  re <- "(.*\\d+\\.)\\d(\\.\\d\\..*)"
-  stopifnot("Column name does not contain Field.Instance.Array" = str_detect(field_name, re))
-  result <- str_replace(field_name, re, paste0("\\1", indices, "\\2"))
-  sapply(result, as.symbol, USE.NAMES = F)
+
+  # define the regex extractor
+  # the ctrl_ind indices correspond to the matching groups to be extracted
+  field_re <- "(.*[^\\d])?(\\d+)(\\.)(\\d)(\\.)(\\d)([^\\d].*)?"
+
+  # ensure field name has correct format
+  stopifnot("Column name does not contain Field.Instance.Array" = str_detect(field_name, field_re))
+
+  # Build regex expression toS test against column names
+  stopifnot("ctrl_ind must be an integer or sequence of consecutive integers" = setequal(ctrl_ind, min(ctrl_ind):max(ctrl_ind)))
+  field_matcher <- str_match(field_name, field_re)[1,-1]
+  pt1 <- quotemeta(paste(field_matcher[1:(min(ctrl_ind) - 1)], collapse = ""))
+  pt2 <- quotemeta(paste(field_matcher[ctrl_ind], collapse = "")) %>% str_replace_all("\\d+", "(\\\\d+)")
+  pt3 <- quotemeta(paste(field_matcher[-(1:max(ctrl_ind))], collapse = ""))
+  field_matcher <- paste0(pt1, pt2, pt3)
+
+  # find matched columns
+  matched_fields <- colnames(data)[str_detect(colnames(data), field_matcher)]
+
+  # return result
+  if (input_is_symbol)
+    sapply(matched_fields, as.symbol, USE.NAMES = F)
+  else
+    matched_fields
+}
+
+#' @noRd
+expand_instances <- function(data, field_name) {
+  .expand_helper(data, {{field_name}}, 4)
 }
 
 #' @noRd
 expand_array <- function(data, field_name) {
-  field_name <- enquo(field_name)
-  field_name <- as.character(quo_get_expr(field_name))
-  re <- "(.*[^\\d])?(\\d+)(\\.)(\\d)(\\.)(\\d)([^\\d].*)?"
-  stopifnot("Column name does not contain Field.Instance.Array" = str_detect(field_name, re))
+  .expand_helper(data, {{field_name}}, 6)
+}
 
-  # Build regex expression to test against column names
-  field_matcher <- str_match(field_name, re)[1,-1]
-  field_matcher <- paste0(c(quotemeta(field_matcher[1:5]), "(\\d+)", quotemeta(field_matcher[7])), collapse = "")
-  matched_fields <- colnames(data)[str_detect(colnames(data), field_matcher)]
-
-  # extract array numbers from all the matched fields and check that all the array indices are present
-  indices <- as.integer(str_match(matched_fields, field_matcher)[,-1])
-  stopifnot("Array indices are missing" = setequal(indices, min(indices):max(indices)))
-
-  # return result
-  sapply(matched_fields, as.symbol, USE.NAMES = F)
+#' @noRd
+expand_instance_and_array <- function(data, field_name) {
+  .expand_helper(data, {{field_name}}, 4:6)
 }
 
 #' Helper to escape characters when building regex strings

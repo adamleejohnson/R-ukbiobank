@@ -15,8 +15,19 @@ Age_at_date <- function(data,
 {
   target_date <- lubridate::as_date(date)
   birth_date <- data %>%
-    mutate(birthString = lubridate::make_date({{.year_of_birth}}, {{.month_of_birth}}, 1)) %>%
+    mutate(birthString = lubridate::make_date({{.year_of_birth}}, {{.month_of_birth}}, 15)) %>%
     pull()
   lubridate::interval(birth_date, target_date) %>%
     as.numeric('years')
+}
+
+#' @rdname Age_at_date
+#' @export
+Age_group_at_date <- function(data,
+                              date = Sys.Date(),
+                              .year_of_birth = f.34.0.0.Year_of_birth,
+                              .month_of_birth = f.52.0.0.Month_of_birth)
+{
+  Age_at_date(data, date, .year_of_birth = {{.year_of_birth}}, .month_of_birth = {{.month_of_birth}}) %>%
+    Age_group()
 }

@@ -19,7 +19,7 @@ ICD10_lookup <- function(data, ..., .icd10_field = f.41270.0.0.Diagnoses_ICD10) 
 }
 
 #' @noRd
-icd10_text_to_codings <- function(text) {
+icd10_lines_to_codes <- function(text) {
   codes <-
     text %>%
     str_trim() %>% str_split("\n", simplify = T) %>%
@@ -28,8 +28,9 @@ icd10_text_to_codings <- function(text) {
 }
 
 #' @rdname ICD10_lookup
+#' @export
 ICD10_heart_failure <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
-  codings <- icd10_text_to_codings("
+  codings <- icd10_lines_to_codes("
     I50 Heart failure
     I50.0 Congestive heart failure
     I50.1 Left ventricular failure
@@ -39,8 +40,9 @@ ICD10_heart_failure <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10
 }
 
 #' @rdname ICD10_lookup
+#' @export
 ICD10_pulm_htn <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
-  codings <- icd10_text_to_codings("
+  codings <- icd10_lines_to_codes("
     I27.0 Primary pulmonary hypertension
     I27.2 Other secondary pulmonary hypertension
     I27.8 Other specified pulmonary heart diseases
@@ -50,8 +52,9 @@ ICD10_pulm_htn <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
 }
 
 #' @rdname ICD10_lookup
+#' @export
 ICD10_pulm_embolism <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
-  codings <- icd10_text_to_codings("
+  codings <- icd10_lines_to_codes("
     I26 Pulmonary embolism
     I26.0 Pulmonary embolism with mention of acute cor pulmonale
     I26.9 Pulmonary embolism without mention of acute cor pulmonale
@@ -60,8 +63,9 @@ ICD10_pulm_embolism <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10
 }
 
 #' @rdname ICD10_lookup
+#' @export
 ICD10_pulm_misc <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
-  codings <- icd10_text_to_codings("
+  codings <- icd10_lines_to_codes("
     I28 Other diseases of pulmonary vessels
     I28.0 Arteriovenous fistula of pulmonary vessels
     I28.1 Aneurysm of pulmonary artery
@@ -93,8 +97,9 @@ ICD10_pulm_misc <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
 }
 
 #' @rdname ICD10_lookup
+#' @export
 ICD10_pulm_ILD <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
-  codings <- icd10_text_to_codings("
+  codings <- icd10_lines_to_codes("
     J70.2 Acute drug-induced interstitial lung disorders
     J70.3 Chronic drug-induced interstitial lung disorders
     J70.4 Drug-induced interstitial lung disorder, unspecified
@@ -108,8 +113,9 @@ ICD10_pulm_ILD <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
 }
 
 #' @rdname ICD10_lookup
+#' @export
 ICD10_pulm_emphysema <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
-  codings <- icd10_text_to_codings("
+  codings <- icd10_lines_to_codes("
     J43 Emphysema
     J43.1 Panlobular emphysema
     J43.2 Centrilobular emphysema
@@ -127,8 +133,9 @@ ICD10_pulm_emphysema <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD1
 }
 
 #' @rdname ICD10_lookup
+#' @export
 ICD10_heart_pulm_transplant <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
-  codings <- icd10_text_to_codings("
+  codings <- icd10_lines_to_codes("
     T86.2 Heart transplant failure and rejection
     T86.3 Heart-lung transplant failure and rejection
     Z94.2 Lung transplant status

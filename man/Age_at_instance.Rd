@@ -2,32 +2,27 @@
 % Please edit documentation in R/Age_at_instance.R
 \name{Age_at_instance}
 \alias{Age_at_instance}
+\alias{Age_group_at_instance}
 \title{Age at instance}
 \usage{
 Age_at_instance(
   data,
-  instance_col,
-  .id_col = f.eid,
-  .age_at_assessment_col = f.21003.0.0.Age_when_attended_assessment_centre,
-  .date_at_assessment_col = f.53.0.0.Date_of_attending_assessment_centre,
-  .year_of_birth = f.34.0.0.Year_of_birth,
-  .month_of_birth = f.52.0.0.Month_of_birth
+  instance_column,
+  .age_at_assessment_col = f.21003.0.0.Age_when_attended_assessment_centre
+)
+
+Age_group_at_instance(
+  data,
+  instance_column,
+  .age_at_assessment_col = f.21003.0.0.Age_when_attended_assessment_centre
 )
 }
 \arguments{
 \item{data}{input data}
 
-\item{instance_col}{name of column containing instance numbers}
-
-\item{.id_col}{id column}
+\item{instance_column}{name of column containing instance numbers}
 
 \item{.age_at_assessment_col}{age at assessment}
-
-\item{.date_at_assessment_col}{date at assessment}
-
-\item{.year_of_birth}{year of birth}
-
-\item{.month_of_birth}{month of birth}
 }
 \description{
 Age at instance

@@ -1,12 +1,7 @@
-#' Title
-#'
-#' @param data
-#' @param .ethnic_bkg
-#'
-#' @return
+#' Self-reported ethnicity, simplified
+#' @param data input data
+#' @param .ethnic_bkg initial ethnic background column
 #' @export
-#'
-#' @examples
 Ethnicity_self_reported <- function(data, .ethnic_bkg = f.21000.0.0.Ethnic_background)
 {
   ethnic_bkg_cols <- expand_instances({{.ethnic_bkg}}, 0:2)

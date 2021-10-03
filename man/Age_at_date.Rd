@@ -2,9 +2,17 @@
 % Please edit documentation in R/Age_at_date.R
 \name{Age_at_date}
 \alias{Age_at_date}
+\alias{Age_group_at_date}
 \title{Age at date}
 \usage{
 Age_at_date(
+  data,
+  date = Sys.Date(),
+  .year_of_birth = f.34.0.0.Year_of_birth,
+  .month_of_birth = f.52.0.0.Month_of_birth
+)
+
+Age_group_at_date(
   data,
   date = Sys.Date(),
   .year_of_birth = f.34.0.0.Year_of_birth,
