@@ -29,12 +29,39 @@ icd10_lines_to_codes <- function(text) {
 
 #' @rdname ICD10_lookup
 #' @export
+ICD10_htn <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
+  codings <- icd10_lines_to_codes("
+    I10 Essential (primary) hypertension
+    I11 Hypertensive heart disease
+    I11.0 Hypertensive heart disease with (congestive) heart failure
+    I11.9 Hypertensive heart disease without (congestive) heart failure
+    I12 Hypertensive renal disease
+    I12.0 Hypertensive renal disease with renal failure
+    I12.9 Hypertensive renal disease without renal failure
+    I13 Hypertensive heart and renal disease
+    I13.0 Hypertensive heart and renal disease with (congestive) heart failure
+    I13.1 Hypertensive heart and renal disease with renal failure
+    I13.2 Hypertensive heart and renal disease with both (congestive) heart failure and renal failure
+    I13.9 Hypertensive heart and renal disease, unspecified
+    I15 Secondary hypertension
+    I15.0 Renovascular hypertension
+    I15.1 Hypertension secondary to other renal disorders
+    I15.2 Hypertension secondary to endocrine disorders
+    I15.8 Other secondary hypertension
+    I15.9 Seconday hypertension, unspecified
+  ")
+  ICD10_lookup(data, codings, .icd10_field = {{.icd10_field}})
+}
+
+#' @rdname ICD10_lookup
+#' @export
 ICD10_heart_failure <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
   codings <- icd10_lines_to_codes("
     I50 Heart failure
     I50.0 Congestive heart failure
     I50.1 Left ventricular failure
     I50.9 Heart failure, unspecified
+    I11.0 Hypertensive heart disease with (congestive) heart failure
   ")
   ICD10_lookup(data, codings, .icd10_field = {{.icd10_field}})
 }

@@ -2,6 +2,7 @@
 % Please edit documentation in R/ICD10_lookup.R
 \name{ICD10_lookup}
 \alias{ICD10_lookup}
+\alias{ICD10_htn}
 \alias{ICD10_heart_failure}
 \alias{ICD10_pulm_htn}
 \alias{ICD10_pulm_embolism}
@@ -12,6 +13,8 @@
 \title{ICD10 Lookup}
 \usage{
 ICD10_lookup(data, ..., .icd10_field = f.41270.0.0.Diagnoses_ICD10)
+
+ICD10_htn(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10)
 
 ICD10_heart_failure(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10)
 

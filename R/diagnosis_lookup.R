@@ -41,3 +41,20 @@ diagnosed_chf <- function(data,
   icd10 <- ICD10_heart_failure(data, .icd10_field = {{.icd10_field}})
   return(dx | icd10)
 }
+
+#' @rdname diagnosis_lookup
+#' @export
+diagnosed_htn <- function(data,
+                          .diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported,
+                          .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
+
+  dcodings <- dx_lines_to_codes("
+    hypertension
+    essential hypertension
+  ")
+  dx <- diagnosis_lookup(data, codings, .diagnosis_field = {{.diagnosis_field}})
+
+  icd10 <- ICD10_htn(data, .icd10_field = {{.icd10_field}})
+
+  return(dx | icd10)
+}
