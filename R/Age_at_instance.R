@@ -9,7 +9,6 @@ Age_at_instance <- function(data,
                             instance_column,
                             .age_at_assessment_col = f.21003.0.0.Age_when_attended_assessment_centre)
 {
-  stopifnot(!is_missing(instance_column))
   age_at_assessment_cols <- expand_instances(data, {{ .age_at_assessment_col }} )
 
   data %>%
