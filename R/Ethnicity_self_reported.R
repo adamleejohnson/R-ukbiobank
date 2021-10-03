@@ -4,7 +4,7 @@
 #' @export
 Ethnicity_self_reported <- function(data, .ethnic_bkg = f.21000.0.0.Ethnic_background)
 {
-  ethnic_bkg_cols <- expand_instances({{.ethnic_bkg}}, 0:2)
+  ethnic_bkg_cols <- expand_instances(data, {{.ethnic_bkg}})
 
   get_ethnic_category <- function(x) {
     data %>%
