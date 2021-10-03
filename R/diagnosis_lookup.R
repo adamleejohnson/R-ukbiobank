@@ -106,3 +106,19 @@ diagnosed_pHTN <- function(data,
 
   return(icd10)
 }
+
+#' @rdname diagnosis_lookup
+#' @export
+diagnosed_pulm_embolism <- function(data,
+                          .diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported,
+                          .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
+
+  codings <- dx_lines_to_codes("
+    pulmonary embolism +/- dvt
+  ")
+  dx <- diagnosis_lookup(data, codings, .diagnosis_field = {{.diagnosis_field}})
+
+  icd10 <- ICD10_pulm_embolism(data, .icd10_field = {{.icd10_field}})
+
+  return(dx | icd10)
+}
