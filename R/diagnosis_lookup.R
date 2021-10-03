@@ -74,3 +74,19 @@ diagnosed_hld <- function(data,
 
   return(dx | icd10)
 }
+
+#' @rdname diagnosis_lookup
+#' @export
+diagnosed_copd <- function(data,
+                          .diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported,
+                          .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
+
+  codings <- dx_lines_to_codes("
+    chronic obstructive airways disease/copd
+  ")
+  dx <- diagnosis_lookup(data, codings, .diagnosis_field = {{.diagnosis_field}})
+
+  icd10 <- ICD10_copd(data, .icd10_field = {{.icd10_field}})
+
+  return(dx | icd10)
+}

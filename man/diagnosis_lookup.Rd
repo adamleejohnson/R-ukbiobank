@@ -5,6 +5,7 @@
 \alias{diagnosed_chf}
 \alias{diagnosed_htn}
 \alias{diagnosed_hld}
+\alias{diagnosed_copd}
 \title{Diagnosis (self-reported) Lookup}
 \usage{
 diagnosis_lookup(
@@ -26,6 +27,12 @@ diagnosed_htn(
 )
 
 diagnosed_hld(
+  data,
+  .diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported,
+  .icd10_field = f.41270.0.0.Diagnoses_ICD10
+)
+
+diagnosed_copd(
   data,
   .diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported,
   .icd10_field = f.41270.0.0.Diagnoses_ICD10

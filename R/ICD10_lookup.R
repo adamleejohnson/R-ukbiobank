@@ -57,11 +57,11 @@ ICD10_htn <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
 #' @export
 ICD10_hld <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
   codings <- icd10_lines_to_codes("
-E78.0 Pure hypercholesterolaemia
-E78.1 Pure hyperglyceridaemia
-E78.2 Mixed hyperlipidaemia
-E78.4 Other hyperlipidaemia
-E78.5 Hyperlipidaemia, unspecified
+    E78.0 Pure hypercholesterolaemia
+    E78.1 Pure hyperglyceridaemia
+    E78.2 Mixed hyperlipidaemia
+    E78.4 Other hyperlipidaemia
+    E78.5 Hyperlipidaemia, unspecified
   ")
   ICD10_lookup(data, codings, .icd10_field = {{.icd10_field}})
 }
@@ -154,7 +154,7 @@ ICD10_pulm_ILD <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
 
 #' @rdname ICD10_lookup
 #' @export
-ICD10_pulm_emphysema <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
+ICD10_copd <- function(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10) {
   codings <- icd10_lines_to_codes("
     J43 Emphysema
     J43.1 Panlobular emphysema

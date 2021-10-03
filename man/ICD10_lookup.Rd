@@ -9,7 +9,7 @@
 \alias{ICD10_pulm_embolism}
 \alias{ICD10_pulm_misc}
 \alias{ICD10_pulm_ILD}
-\alias{ICD10_pulm_emphysema}
+\alias{ICD10_copd}
 \alias{ICD10_heart_pulm_transplant}
 \title{ICD10 Lookup}
 \usage{
@@ -29,7 +29,7 @@ ICD10_pulm_misc(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10)
 
 ICD10_pulm_ILD(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10)
 
-ICD10_pulm_emphysema(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10)
+ICD10_copd(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10)
 
 ICD10_heart_pulm_transplant(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10)
 }
