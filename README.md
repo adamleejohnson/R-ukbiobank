@@ -47,7 +47,7 @@ ukb_data_frame %>%
 
 ### Mutating new columns
 
-Note that if using the pipe `%>%` operator with functions like `dplyr::mutate()`, the `.` symbol must be passed to the first argument of most functions. In other words, most functions require the entire dataset be passed as the first argument.
+Note that if using the pipe `%>%` operator with functions like `dplyr::mutate()`, the `.` symbol must be passed to the first argument of most functions. Most functions require the entire dataset be passed as the first argument.
 
 ```r
 ukb_data_frame %>%
