@@ -64,7 +64,9 @@ diagnosed_diabetes(
 
 \item{...}{Diagnosis codes to look up}
 
-\item{.icd10_field}{example diagnosis field}
+\item{.diagnosis_field}{e.g. f.20002.0.0.Non_cancer_illness_code_self_reported}
+
+\item{.icd10_field}{e.g. f.41270.0.0.Diagnoses_ICD10}
 }
 \description{
 Diagnosis (self-reported) Lookup

@@ -1,7 +1,10 @@
 #' Diagnosis (self-reported) Lookup
+#'
 #' @param data data table
-#' @param .icd10_field example diagnosis field
+#' @param .diagnosis_field e.g. f.20002.0.0.Non_cancer_illness_code_self_reported
+#' @param .icd10_field e.g. f.41270.0.0.Diagnoses_ICD10
 #' @param ... Diagnosis codes to look up
+#'
 #' @export
 diagnosis_lookup <- function(data, ..., .diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported) {
 

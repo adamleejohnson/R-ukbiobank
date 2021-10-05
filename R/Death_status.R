@@ -9,6 +9,12 @@ Death_status <- function(data, .death_date_field = f.40000.0.0.Date_of_death) {
     not()
 }
 
+#' Years from date to death
+#'
+#' @param data Input data
+#' @param date Start date
+#' @param .death_date_field f.40000.0.0.Date_of_death
+#'
 #' @export
 Years_from_date_to_death <- function(data, date, .death_date_field = f.40000.0.0.Date_of_death) {
   initial_date <- lubridate::as_date(date)
@@ -20,6 +26,11 @@ Years_from_date_to_death <- function(data, date, .death_date_field = f.40000.0.0
     as.numeric('years')
 }
 
+#' Years from instance to death
+#' @param data input data
+#' @param instance_column instance column name
+#' @param .instance_date_field e.g. f.53.0.0.Date_of_attending_assessment_centre
+#' @param .death_date_field e.g. f.40000.0.0.Date_of_death
 #' @export
 Years_from_instance_to_death <- function(data,
                                          instance_column,
