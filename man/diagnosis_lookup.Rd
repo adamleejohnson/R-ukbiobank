@@ -60,7 +60,9 @@ diagnosed_diabetes(
 )
 }
 \arguments{
-\item{data}{data table}
+\item{data}{The primary data frame.
+
+This data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, sex).}
 
 \item{...}{Diagnosis codes to look up}
 

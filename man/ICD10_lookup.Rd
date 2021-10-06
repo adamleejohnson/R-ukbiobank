@@ -37,7 +37,9 @@ ICD10_heart_pulm_transplant(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10)
 ICD10_diabetes(data, .icd10_field = f.41270.0.0.Diagnoses_ICD10)
 }
 \arguments{
-\item{data}{data table}
+\item{data}{The primary data frame.
+
+This data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, sex).}
 
 \item{...}{ICD10 codes to look up}
 
