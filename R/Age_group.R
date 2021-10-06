@@ -1,7 +1,7 @@
 #' Age group from vector of ages
 #' @param age Input vector of ages
 #' @export
-Age_group <- function(age) {
+age_group <- function(age) {
   tibble(age) %>%
   mutate(ageGroup = case_when(
     age < 10                ~ "0-9",

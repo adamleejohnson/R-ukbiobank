@@ -1,6 +1,6 @@
 #' Diagnosis (self-reported) Lookup
 #'
-#' @param data data table
+#' @inheritParams ukbiobank
 #' @param .diagnosis_field e.g. f.20002.0.0.Non_cancer_illness_code_self_reported
 #' @param .icd10_field e.g. f.41270.0.0.Diagnoses_ICD10
 #' @param ... Diagnosis codes to look up
@@ -9,11 +9,10 @@
 diagnosis_lookup <- function(data, ..., .diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported) {
 
   dx_columns <- expand_instance_and_array(data, {{ .diagnosis_field }})
-  dx_codes <- c(...)
 
   data %>%
     select(!!!dx_columns) %>%
-    mutate(across(everything(), ~.x %in% dx_codes)) %>%
+    mutate(across(everything(), ~.x %in% c(...))) %>%
     rowwise() %>% mutate(any(c_across(everything()))) %>%
     pull()
 }
@@ -22,12 +21,12 @@ diagnosis_lookup <- function(data, ..., .diagnosis_field = f.20002.0.0.Non_cance
 dx_text_to_codings <- function(text) {
   meaning <-
     text %>%
-    str_trim() %>%
-    str_split("\n", simplify = T) %>%
-    str_trim()
+    stringr::str_trim() %>%
+    stringr::str_split("\n", simplify = T) %>%
+    stringr::str_trim()
   coding_medical_conditions %>%
     right_join(tibble(meaning), by = "meaning") %>%
-    pull(coding)
+    pull("coding")
 }
 
 #' @rdname diagnosis_lookup

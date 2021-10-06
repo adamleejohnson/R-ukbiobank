@@ -1,16 +1,19 @@
 #' Self-reported ethnicity, simplified
-#' @param data input data
+#' @inheritParams ukbiobank
 #' @param .ethnic_bkg initial ethnic background column
 #' @export
-Ethnicity_self_reported <- function(data, .ethnic_bkg = f.21000.0.0.Ethnic_background)
+ethnicity_self_reported <- function(data, .ethnic_bkg = f.21000.0.0.Ethnic_background)
 {
   ethnic_bkg_cols <- expand_instances(data, {{.ethnic_bkg}})
+
+  parent_id = parent_id
+  node_id = node_id
 
   get_ethnic_category <- function(x) {
     data %>%
       rename(meaning = {{x}}) %>%
       left_join(coding_ethnicity, by = "meaning") %>%
-      mutate(category = if_else(parent_id == 0, node_id, floor(node_id/1000))) %>%
+      mutate(category = if_else({{parent_id}} == 0, {{node_id}}, floor({{node_id}}/1000))) %>%
       pull()
   }
 
@@ -25,6 +28,8 @@ Ethnicity_self_reported <- function(data, .ethnic_bkg = f.21000.0.0.Ethnic_backg
     w <- w[!is.na(w)]
     unique(w)
   }
+
+  ethnicity_0 <- ethnicity_1 <- ethnicity_2 <- NULL
 
   data %>%
     transmute(

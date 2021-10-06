@@ -1,22 +1,21 @@
 #' Death status
-#' @param data input data
+#' @inheritParams ukbiobank
 #' @param .death_date_field death field
 #' @export
-Death_status <- function(data, .death_date_field = f.40000.0.0.Date_of_death) {
+death_status <- function(data, .death_date_field = f.40000.0.0.Date_of_death) {
   data %>%
     pull({{.death_date_field}}) %>%
     is.na() %>%
-    not()
+    magrittr::not()
 }
 
 #' Years from date to death
 #'
-#' @param data Input data
-#' @param date Start date
+#' @inheritParams ukbiobank
 #' @param .death_date_field f.40000.0.0.Date_of_death
 #'
 #' @export
-Years_from_date_to_death <- function(data, date, .death_date_field = f.40000.0.0.Date_of_death) {
+years_from_date_to_death <- function(data, date, .death_date_field = f.40000.0.0.Date_of_death) {
   initial_date <- lubridate::as_date(date)
   death_date <- data %>%
     pull({{.death_date_field}}) %>%
@@ -27,13 +26,13 @@ Years_from_date_to_death <- function(data, date, .death_date_field = f.40000.0.0
 }
 
 #' Years from instance to death
-#' @param data input data
-#' @param instance_column instance column name
+#' @inheritParams ukbiobank
+#' @param instance_num instance column name
 #' @param .instance_date_field e.g. f.53.0.0.Date_of_attending_assessment_centre
 #' @param .death_date_field e.g. f.40000.0.0.Date_of_death
 #' @export
-Years_from_instance_to_death <- function(data,
-                                         instance_column,
+years_from_instance_to_death <- function(data,
+                                         instance_num,
                                          .instance_date_field = f.53.0.0.Date_of_attending_assessment_centre,
                                          .death_date_field = f.40000.0.0.Date_of_death) {
 
@@ -43,10 +42,10 @@ Years_from_instance_to_death <- function(data,
     data %>%
     mutate(
       Date_at_Instance = case_when(
-        {{instance_column}} == 0 ~ !!instance_date_cols[[1]],
-        {{instance_column}} == 1 ~ !!instance_date_cols[[2]],
-        {{instance_column}} == 2 ~ !!instance_date_cols[[3]],
-        {{instance_column}} == 3 ~ !!instance_date_cols[[4]],
+        {{instance_num}} == 0 ~ !!instance_date_cols[[1]],
+        {{instance_num}} == 1 ~ !!instance_date_cols[[2]],
+        {{instance_num}} == 2 ~ !!instance_date_cols[[3]],
+        {{instance_num}} == 3 ~ !!instance_date_cols[[4]],
       )
     ) %>%
     pull() %>%

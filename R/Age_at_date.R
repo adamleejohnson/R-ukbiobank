@@ -1,15 +1,16 @@
 #' Age at date
 #'
-#' @param data input data
-#' @param date date string
-#' @param .year_of_birth year of birth column
-#' @param .month_of_birth month of birth column
+#' Get age (in years) as of a particular date. The alternate function, **`age_group_at_date()`**, returns a string describing the age group in decades (e.g. "20-29") for a 24-year-old patient.
 #'
-#' @import lubridate
+#' @inheritParams ukbiobank
+#' @param .year_of_birth <[`data-masking`][dplyr_data_masking]> Name of column containing birth year
+#' @param .month_of_birth <[`data-masking`][dplyr_data_masking]> Name of column containing birth month
+#'
+#' @return Numberic vector of age in years (`age_at_date`), or character vector of age groups (`age_group_at_date`)
 #'
 #' @export
-Age_at_date <- function(data,
-                        date = Sys.Date(),
+age_at_date <- function(data,
+                        date,
                         .year_of_birth = f.34.0.0.Year_of_birth,
                         .month_of_birth = f.52.0.0.Month_of_birth)
 {
@@ -21,13 +22,13 @@ Age_at_date <- function(data,
     as.numeric('years')
 }
 
-#' @rdname Age_at_date
+#' @rdname age_at_date
 #' @export
-Age_group_at_date <- function(data,
-                              date = Sys.Date(),
+age_group_at_date <- function(data,
+                              date,
                               .year_of_birth = f.34.0.0.Year_of_birth,
                               .month_of_birth = f.52.0.0.Month_of_birth)
 {
-  Age_at_date(data, date, .year_of_birth = {{.year_of_birth}}, .month_of_birth = {{.month_of_birth}}) %>%
-    Age_group()
+  age_at_date(data, date, .year_of_birth = {{.year_of_birth}}, .month_of_birth = {{.month_of_birth}}) %>%
+    age_group()
 }

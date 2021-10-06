@@ -1,5 +1,5 @@
 #' ICD10 Lookup
-#' @param data data table
+#' @inheritParams ukbiobank
 #' @param .icd10_field example ICD10 field
 #' @param ... ICD10 codes to look up
 #' @export
@@ -9,7 +9,7 @@ ICD10_lookup <- function(data, ..., .icd10_field = f.41270.0.0.Diagnoses_ICD10) 
   icd10_lookups <-
     tibble(icd10 = c(...)) %>%
     left_join(coding_icd10, by = "icd10") %>%
-    pull(coding)
+    pull("coding")
 
   data %>%
     select(!!!icd10_columns) %>%
@@ -22,8 +22,8 @@ ICD10_lookup <- function(data, ..., .icd10_field = f.41270.0.0.Diagnoses_ICD10) 
 icd10_lines_to_codes <- function(text) {
   codes <-
     text %>%
-    str_trim() %>% str_split("\n", simplify = T) %>%
-    str_trim() %>% str_split("\\s", 2, simplify = T)
+    stringr::str_trim() %>% stringr::str_split("\n", simplify = T) %>%
+    stringr::str_trim() %>% stringr::str_split("\\s", 2, simplify = T)
   codes[,1]
 }
 
