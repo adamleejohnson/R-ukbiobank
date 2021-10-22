@@ -5,6 +5,7 @@
 .Rbuildignore
 .Rprofile
 renv/
+data-raw/
 
 # General
 .DS_Store

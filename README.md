@@ -1,12 +1,15 @@
 # R-ukbiobank
+
 An R package to facilitate UK Biobank analysis
 
 ## Introduction
-This package contains a collection of functions that facilitate the extraction of phenotypes from UK Biobank data. For example, the `ICD10_lookup(...)` function facilitates the indentification of patients whose inpatient hospitalization records match any of the provided ICD codes.
+
+This package contains a collection of functions that facilitate the extraction of phenotypes from UK Biobank data. For example, the `icd10_lookup(...)` function facilitates the indentification of patients whose inpatient hospitalization records match any of the provided ICD codes.
 
 Additionally, several functions have been defined to identify patients diagnosed with various diseases, such as diabetes, heart failure, coronary artery disease, etc. These generally use a combination of sources within the database (ICD10 codes, self-reported diagnoses, medications, lab values) specific to each particular disease. Refer to the source code for each of these functions for details.
 
 ## Installation
+
 Access to this package is currently restricted. Contact the developer to request a Deploy key. See https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys for details on how to install your Deploy key.
 
 Use the `devtools` package in R to facilitate installation as follows:
@@ -16,7 +19,6 @@ devtools::install_github("adamleejohnson/R-ukbiobank")
 ```
 
 For code clarity, it is recommended to refer to functions using `::` notation (e.g. `ukbiobank::Age_at_date()`), rather than loading the library with `library(ukbiobank)`.
-
 
 ## General Usage
 
@@ -40,8 +42,8 @@ To return a numeric vector of the age (in years) of all patients at a specific d
 ukb_data_frame %>%
   ukbiobank::Age_at_date(
     "2020-01-01",
-    .year_of_birth = f.34.0.0.Year_of_birth,
-    .month_of_birth = f.52.0.0.Month_of_birth
+    year_of_birth = f.34.0.0year_of_birth,
+    month_of_birth = f.52.0.0month_of_birth
   )
 ```
 

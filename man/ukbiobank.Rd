@@ -7,14 +7,46 @@
 \arguments{
 \item{data}{The primary data frame.
 
-This data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, sex).}
+This data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
 \item{instance_num}{An integer or string specifying the instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use in the current function.
 
-The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK Biobank study. This column does not exist in a standard distribution of the UKB data set, and should be joined to the data set before performing analyses with this function.}
+The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK BioBank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
 
-\item{date}{Target date, as a string which is then passed to \code{lubridate}.}
+\item{up_to_instance}{An integer or string specifying the instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use as the maximum allowed instance. Same syntax as \code{instance_num}, but used to include all data \emph{up to and including} the specified instance number.
+
+The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK BioBank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
+
+\item{combine_instances}{The method used by \code{\link[=up_to_instance_combiner]{up_to_instance_combiner()}} or other Reduce-like functions when combining results of a lookup (e.g. a medication lookup, icd10 lookup, biomarker lookup) across multiple instances.
+
+For example, when looking up whether a participant is on a medication, the result may differ depending on the instance number. In such a case, one would want to apply the \code{"any"} method so that results for instance 2 will be \code{\link[=Reduce]{Reduce()}}-ed with the \code{or} operator applied to the results of instances 0 and 1. In the case of numeric lookups (e.g. biomarkers that are recorded at multiple instances), one might want to use the \code{"mean"} method to average results across instances.
+
+Can be one of:
+\itemize{
+\item \code{"any"} - use Boolean \code{or} (note: requires that lookup results are \code{logical})
+\item \code{"min"} - use the minimum non-NA value
+\item \code{"max"} - use the maximum non-NA value
+\item \code{"first"} - use the first/earliest non-NA value
+\item \code{"last"} - use the last/latest non-NA value
+\item \code{"mean"} - use the mean of non-NA values
+}
+
+Functions that call \code{combine_instances()} may restrict the choice of options (e.g. it doesn't make sense to apply \code{"any"} to numeric data).}
+
+\item{date}{Target date, as a string which is then passed to \code{\link[lubridate:as_date]{lubridate::as_date()}}.}
+
+\item{age_at_instance_field}{Template field (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) for the age at each instance.}
+
+\item{date_of_instance_field}{Template field (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) for the date associated with each instance.}
+
+\item{year_of_birth_field}{<\code{\link[=dplyr_data_masking]{data-masking}}> Name of column containing birth year}
+
+\item{month_of_birth_field}{<\code{\link[=dplyr_data_masking]{data-masking}}> Name of column containing birth month}
+
+\item{diagnosis_field}{e.g. f.20002.0.0.Non_cancer_illness_code_self_reported}
+
+\item{icd10_field}{e.g. f.41270.0.0.Diagnoses_ICD10}
 }
 \description{
-his package contains a collection of tools and functions to facilitatoe analysis of UK Biobank phenotype data.
+This package contains a collection of tools and functions to facilitatoe analysis of UK Biobank phenotype data.
 }
