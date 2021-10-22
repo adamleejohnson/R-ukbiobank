@@ -11,7 +11,7 @@ death_status(data, death_date_field = f.40000.0.0.Date_of_death)
 
 This data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
-\item{death_date_field}{death field}
+\item{death_date_field}{e.g. f.40000.0.0.Date_of_death}
 }
 \description{
 Death status

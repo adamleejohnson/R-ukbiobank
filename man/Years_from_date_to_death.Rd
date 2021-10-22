@@ -7,7 +7,7 @@
 years_from_date_to_death(
   data,
   date,
-  death_date_field = f.40000.0.0.Date_of_death
+  date_of_instance_field = f.40000.0.0.Date_of_death
 )
 }
 \arguments{
@@ -17,7 +17,7 @@ This data frame includes all necessary columns required to perform look-ups (e.g
 
 \item{date}{Target date, as a string which is then passed to \code{\link[lubridate:as_date]{lubridate::as_date()}}.}
 
-\item{death_date_field}{f.40000.0.0.Date_of_death}
+\item{date_of_instance_field}{Template field (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) for the date associated with each instance.}
 }
 \description{
 Years from date to death

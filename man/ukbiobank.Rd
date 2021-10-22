@@ -35,6 +35,8 @@ Functions that call \code{combine_instances()} may restrict the choice of option
 
 \item{date}{Target date, as a string which is then passed to \code{\link[lubridate:as_date]{lubridate::as_date()}}.}
 
+\item{death_date_field}{e.g. f.40000.0.0.Date_of_death}
+
 \item{age_at_instance_field}{Template field (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) for the age at each instance.}
 
 \item{date_of_instance_field}{Template field (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) for the date associated with each instance.}
