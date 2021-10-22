@@ -4,7 +4,8 @@
 death_status <- function(data, death_date_field = f.40000.0.0.Date_of_death) {
   data %>%
     pull({{ death_date_field }}) %>%
-    magrittr::not(is.na(.))
+    is.na(.) %>%
+    magrittr::not(.)
 }
 
 #' Years from date to death
