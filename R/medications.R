@@ -54,7 +54,7 @@ med_text_to_codings <- function(text) {
 #' @name medication_lookup_by_disease
 #' @title Medication lookups for selected diseases
 #'
-#' These functions are aliases for [medication_lookup()], using hard-coded `codes` that have been pre-selected for each disease/disease category.
+#' These functions are aliases for [medication_lookup()], using hard-coded `codes` that have been pre-selected for each disease/medication class.
 #'
 #' @inheritParams ukbiobank
 #' @param ... Arguments passed to [medication_lookup()] (excluding the `codes` argument, which is pre-set by the `medication_` lookup functions).

@@ -1,13 +1,13 @@
-#' Diagnosis (self-reported) Lookup
+#' Diagnosis lookup
 #'
 #' @inheritParams ukbiobank
 #' @param codes Diagnosis codes to look up
 #'
 #' @export
-diagnosis_self_report_lookup <- function(data,
-                                         codes,
-                                         up_to_instance = 3,
-                                         diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported) {
+dx_self_report_lookup <- function(data,
+                                  codes,
+                                  up_to_instance = 3,
+                                  diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported) {
 
   # remove any columns with only NAs
   data %<>% remove_na_columns()
@@ -29,7 +29,7 @@ diagnosis_self_report_lookup <- function(data,
 }
 
 #' @noRd
-self_dx_text_to_codings <- function(text) {
+dx_self_text_to_codes <- function(text) {
   meaning <-
     text %>%
     stringr::str_trim(.) %>%
@@ -41,26 +41,26 @@ self_dx_text_to_codings <- function(text) {
     pull("coding")
 }
 
-#' @rdname diagnosis_self_report_lookup
+#' @rdname dx_self_report_lookup
 #' @export
 diagnosed_chf <- function(data, up_to_instance = 3) {
-  codings <- self_dx_text_to_codings("
+  codings <- dx_self_text_to_codes("
     heart failure/pulmonary odema
   ")
-  self_dx <- diagnosis_self_report_lookup(data, codings, up_to_instance = {{ up_to_instance }})
+  self_dx <- dx_self_report_lookup(data, codings, up_to_instance = {{ up_to_instance }})
   icd10 <- icd10_heart_failure(data, up_to_instance = {{ up_to_instance }})
 
   return(self_dx %|% icd10)
 }
 
-#' @rdname diagnosis_self_report_lookup
+#' @rdname dx_self_report_lookup
 #' @export
 diagnosed_htn <- function(data, up_to_instance = 3) {
-  codings <- self_dx_text_to_codings("
+  codings <- dx_self_text_to_codes("
     hypertension
     essential hypertension
   ")
-  self_dx <- diagnosis_self_report_lookup(data, codings, up_to_instance = {{ up_to_instance }})
+  self_dx <- dx_self_report_lookup(data, codings, up_to_instance = {{ up_to_instance }})
   icd10 <- icd10_htn(data, up_to_instance = {{ up_to_instance }})
   meds <- medication_antiHTN(data, up_to_instance = {{ up_to_instance }})
   sbp <- physio_systolicBP(data, up_to_instance = {{ up_to_instance }}, combine_instances = "mean")
@@ -69,33 +69,33 @@ diagnosed_htn <- function(data, up_to_instance = 3) {
   return(self_dx %|% icd10 %|% meds %|% (sbp > 130) %|% (dbp > 80))
 }
 
-#' @rdname diagnosis_self_report_lookup
+#' @rdname dx_self_report_lookup
 #' @export
 diagnosed_hld <- function(data, up_to_instance = 3) {
-  codings <- self_dx_text_to_codings("
+  codings <- dx_self_text_to_codes("
     high cholesterol
   ")
-  self_dx <- diagnosis_self_report_lookup(data, codings, up_to_instance = {{ up_to_instance }})
+  self_dx <- dx_self_report_lookup(data, codings, up_to_instance = {{ up_to_instance }})
   icd10 <- icd10_hld(data, up_to_instance = {{ up_to_instance }})
   meds <- medication_antiHLD(data, up_to_instance = {{ up_to_instance }})
   ldl <- biomarker_LDL_mgdL(data, up_to_instance = {{ up_to_instance }}, combine_instances = "max")
 
-  return(self_dx %|% icd10  %|% meds %|% (ldl >= 190))
+  return(self_dx %|% icd10 %|% meds %|% (ldl >= 190))
 }
 
-#' @rdname diagnosis_self_report_lookup
+#' @rdname dx_self_report_lookup
 #' @export
 diagnosed_copd <- function(data, up_to_instance = 3) {
-  codings <- self_dx_text_to_codings("
+  codings <- dx_self_text_to_codes("
     chronic obstructive airways disease/copd
   ")
-  self_dx <- diagnosis_self_report_lookup(data, codings, up_to_instance = {{ up_to_instance }})
+  self_dx <- dx_self_report_lookup(data, codings, up_to_instance = {{ up_to_instance }})
   icd10 <- icd10_copd(data, up_to_instance = {{ up_to_instance }})
 
   return(self_dx %|% icd10)
 }
 
-#' @rdname diagnosis_self_report_lookup
+#' @rdname dx_self_report_lookup
 #' @export
 diagnosed_pHTN <- function(data, up_to_instance = 3) {
   icd10 <- icd10_pulm_htn(data, up_to_instance = {{ up_to_instance }})
@@ -103,27 +103,27 @@ diagnosed_pHTN <- function(data, up_to_instance = 3) {
   return(icd10 %|% meds)
 }
 
-#' @rdname diagnosis_self_report_lookup
+#' @rdname dx_self_report_lookup
 #' @export
 diagnosed_pulm_embolism <- function(data, up_to_instance = 3) {
-  codings <- self_dx_text_to_codings("
+  codings <- dx_self_text_to_codes("
     pulmonary embolism +/- dvt
   ")
-  self_dx <- diagnosis_self_report_lookup(data, codings, up_to_instance = {{ up_to_instance }})
+  self_dx <- dx_self_report_lookup(data, codings, up_to_instance = {{ up_to_instance }})
   icd10 <- icd10_pulm_embolism(data, up_to_instance = {{ up_to_instance }})
 
   return(self_dx %|% icd10)
 }
 
-#' @rdname diagnosis_self_report_lookup
+#' @rdname dx_self_report_lookup
 #' @export
 diagnosed_diabetes <- function(data, up_to_instance = 3) {
-  codings <- self_dx_text_to_codings("
+  codings <- dx_self_text_to_codes("
     diabetes
     type 1 diabetes
     type 2 diabetes
   ")
-  self_dx <- diagnosis_self_report_lookup(data, codings, up_to_instance = {{ up_to_instance }})
+  self_dx <- dx_self_report_lookup(data, codings, up_to_instance = {{ up_to_instance }})
   icd10 <- icd10_diabetes(data, up_to_instance = {{ up_to_instance }})
   insulin <- medication_insulin(data, up_to_instance = {{ up_to_instance }})
   oha_meds <- medication_oralhypoglycemic(data, up_to_instance = {{ up_to_instance }})

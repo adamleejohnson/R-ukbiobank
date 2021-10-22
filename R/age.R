@@ -20,7 +20,7 @@ convert_to_age_group <- function(age) {
 
 #' Age at date
 #'
-#' Get age (in years) as of a particular date. The alternate function, **`age_group_at_date()`**, returns a string describing the age group in decades (e.g. "20-29") for a 24-year-old patient.
+#' Get age (in years) as of a particular date.
 #'
 #' NOTE: This result is approximate, since only the year and month of birth are provided. The day of birth is assumed to be 15.
 #'
@@ -43,7 +43,7 @@ age_at_date <- function(data,
 
 #' Age at instance
 #'
-#' Age, in years, at the time of the specific instance.
+#' Age, in years, at the time of the specified instance.
 #'
 #' `age_at_instance` uses the coded fields that contain the age (rounded to the nearest year) at each instance visit.
 #' `age_at_instance_computed` calculates a slightly more precise age based on the partipants year and month of birth.
