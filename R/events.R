@@ -12,7 +12,9 @@ death_status <- function(data, death_date_field = f.40000.0.0.Date_of_death) {
 #'
 #' @inheritParams ukbiobank
 #' @export
-years_from_date_to_death <- function(data, date, date_of_instance_field = f.40000.0.0.Date_of_death) {
+years_from_date_to_death <- function(data,
+                                     date,
+                                     date_of_instance_field = f.40000.0.0.Date_of_death) {
 
   initial_date <- lubridate::as_date(date)
   death_date <- data %>%
