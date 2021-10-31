@@ -26,7 +26,7 @@ This data frame includes all necessary columns required to perform look-ups (e.g
 Numeric vector of age in years (\code{age_at_date()}), or character vector of age groups (\code{age_group_at_date()})
 }
 \description{
-Get age (in years) as of a particular date. The alternate function, \strong{\code{age_group_at_date()}}, returns a string describing the age group in decades (e.g. "20-29") for a 24-year-old patient.
+Get age (in years) as of a particular date.
 }
 \details{
 NOTE: This result is approximate, since only the year and month of birth are provided. The day of birth is assumed to be 15.

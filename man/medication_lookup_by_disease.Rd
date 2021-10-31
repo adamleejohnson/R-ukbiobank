@@ -17,7 +17,7 @@
 \alias{medication_pulm_endothelin}
 \title{Medication lookups for selected diseases
 
-These functions are aliases for \code{\link[=medication_lookup]{medication_lookup()}}, using hard-coded \code{codes} that have been pre-selected for each disease/disease category.}
+These functions are aliases for \code{\link[=medication_lookup]{medication_lookup()}}, using hard-coded \code{codes} that have been pre-selected for each disease/medication class.}
 \usage{
 medication_statin(data, ...)
 
@@ -62,5 +62,5 @@ Specifically:
 \description{
 Medication lookups for selected diseases
 
-These functions are aliases for \code{\link[=medication_lookup]{medication_lookup()}}, using hard-coded \code{codes} that have been pre-selected for each disease/disease category.
+These functions are aliases for \code{\link[=medication_lookup]{medication_lookup()}}, using hard-coded \code{codes} that have been pre-selected for each disease/medication class.
 }

@@ -37,7 +37,7 @@ The instance number is also known as the assessment visit number, of which there
 \item{month_of_birth_field}{<\code{\link[=dplyr_data_masking]{data-masking}}> Name of column containing birth month}
 }
 \description{
-Age, in years, at the time of the specific instance.
+Age, in years, at the time of the specified instance.
 }
 \details{
 \code{age_at_instance} uses the coded fields that contain the age (rounded to the nearest year) at each instance visit.
