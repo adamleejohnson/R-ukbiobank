@@ -113,6 +113,7 @@ up_to_instance_combiner <- function(data,
   message("\U25A0 ", fn1, " \U2192 ", fn2)
 
   # get max instance numbers
+  expr_class <- class(quo_get_expr(enquo(up_to_instance)))
   if (!quo_is_symbol(enquo(up_to_instance)) && is.numeric(up_to_instance)) {
     # if the up_to_instance is just a number, use it
     max_inst_name <- up_to_instance
@@ -130,21 +131,21 @@ up_to_instance_combiner <- function(data,
   }
 
   # populate results for each instance
-  # inst_0 <- lookup_by_instance_fn(0)
-  # results <- append(list(inst_0), rep(list(rep_along(inst_0, NA)), 3))
+  message("   \U251C Using max instance: ", max_inst_name)
+  message("   \U251C Populating results for instance ", appendLF = F)
   results <- as.list(rep(NA, 4))
-  message("    \U251C Calculating results up to max instance: ", max_inst_name)
   for (inst in 0:max_inst_overall) {
-    message("    \U2502   \U2713 Populating results for instance ", inst)
+    message(inst, appendLF = F)
+    if (inst < max_inst_overall) message("...", appendLF = F)
     results[[inst + 1]] <- lookup_by_instance_fn(inst)
   }
-
-  combine_instances <- match.arg(combine_instances)
-  combine_fxn <- get_combiner_fn(combine_instances)
+  message(" \U2713")
 
   # conditionally combine the results using the provided combining function
-  message("    \U2514 Compiling results")
-  data %>%
+  message("   \U2514 Compiling results...", appendLF = F)
+  combine_instances <- match.arg(combine_instances)
+  combine_fxn <- get_combiner_fn(combine_instances)
+  res <- data %>%
     mutate(
       case_when(
         {{ up_to_instance }} == 0 ~ !!results[[1]],
@@ -154,6 +155,8 @@ up_to_instance_combiner <- function(data,
       )
     ) %>%
     pull()
+  message("done \U2713")
+  return(res)
 }
 
 #' Get Combiner Function
