@@ -23,7 +23,7 @@ medication_lookup <- function(data,
   }
 
 
-  up_to_instance_combiner(
+  instance_combiner(
     data,
     lookup_by_instance_fn = med_by_instance,
     up_to_instance = {{ up_to_instance }}

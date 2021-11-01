@@ -33,7 +33,7 @@ measurement_lookup <- function(data,
   }
 
 
-  up_to_instance_combiner(
+  instance_combiner(
     data,
     lookup_by_instance_fn = measurement_by_instance,
     up_to_instance = {{ up_to_instance }},

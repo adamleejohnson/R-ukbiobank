@@ -102,42 +102,44 @@ quotemeta <- function(string) {
 #'
 #' @inheritParams ukbiobank
 #' @param lookup_by_instance_fn Function that takes a target instance as its only argument, and returns a vector of data.
-up_to_instance_combiner <- function(data,
-                                    lookup_by_instance_fn,
-                                    combine_instances = c("any", "max", "min", "first", "last", "mean"),
-                                    up_to_instance = 3) {
+instance_combiner <- function(data,
+                              lookup_by_instance_fn,
+                              combine_instances = c("any", "max", "min", "first", "last", "mean"),
+                              up_to_instance = 3,
+                              after_instance = 0) {
 
   # print message about calling functions
   fn1 <- sys.calls()[[sys.nframe() - 2]][[1]]
   fn2 <- sys.calls()[[sys.nframe() - 1]][[1]]
   message("\U25A0 ", fn1, " \U2192 ", fn2)
 
-  # get max instance numbers
-  expr_class <- class(quo_get_expr(enquo(up_to_instance)))
-  if (!quo_is_symbol(enquo(up_to_instance)) && is.numeric(up_to_instance)) {
-    # if the up_to_instance is just a number, use it
-    max_inst_name <- up_to_instance
-    max_inst_overall <- up_to_instance
-  } else if (quo_is_symbol(enquo(up_to_instance))) {
-    # if the up_to_instance is a symbol, use it as a conditional column name
-    max_inst_overall <-
-      data %>%
-      pull({{ up_to_instance }}) %>%
+  # get the instance numbers
+  instances <-
+    data %>%
+      mutate(inst_num = {{ up_to_instance }}) %>%
+      pull(inst_num) %>%
       as.numeric() %>%
-      max()
-    max_inst_name <- paste0("col `", quo_text(enquo(up_to_instance)), "` (overall_max = ", max_inst_overall, ")")
-  } else {
+      pmin(MAXIMUM_INSTANCE_NUM) %>%
+      pmax(MINIMUM_INSTANCE_NUM)
+  min_inst_overall <- 0 #min(instances)
+  max_inst_overall <- max(instances)
+  expr_class <- class(quo_get_expr(enquo(up_to_instance)))
+  max_inst_name <- switch (expr_class,
+    "numeric" = max_inst_overall,
+    "name" = paste0("col `", quo_text(enquo(up_to_instance)), "` (overall_max = ", max_inst_overall, ")"),
+    "call" = paste0("formula `", quo_text(enquo(up_to_instance)), "` (overall_max = ", max_inst_overall, ")"),
     stop("Invalid format for `up_to_instance`")
-  }
+  )
 
   # populate results for each instance
   message("   \U251C Using max instance: ", max_inst_name)
   message("   \U251C Populating results for instance ", appendLF = F)
-  results <- as.list(rep(NA, 4))
-  for (inst in 0:max_inst_overall) {
+  populate_inst <- min_inst_overall:max_inst_overall
+  results_by_inst <- data.frame(matrix(NA, nrow = length(instances), ncol = length(populate_inst)))
+  for (inst in populate_inst) {
     message(inst, appendLF = F)
-    if (inst < max_inst_overall) message("...", appendLF = F)
-    results[[inst + 1]] <- lookup_by_instance_fn(inst)
+    if (inst < max(populate_inst)) message("...", appendLF = F)
+    results_by_inst[,inst + 1] <- lookup_by_instance_fn(inst)
   }
   message(" \U2713")
 
@@ -145,23 +147,18 @@ up_to_instance_combiner <- function(data,
   message("   \U2514 Compiling results...", appendLF = F)
   combine_instances <- match.arg(combine_instances)
   combine_fxn <- get_combiner_fn(combine_instances)
-  res <- data %>%
-    mutate(
-      case_when(
-        {{ up_to_instance }} == 0 ~ !!results[[1]],
-        {{ up_to_instance }} == 1 ~ !!Reduce(combine_fxn, results[1:2]),
-        {{ up_to_instance }} == 2 ~ !!Reduce(combine_fxn, results[1:3]),
-        {{ up_to_instance }} == 3 ~ !!Reduce(combine_fxn, results[1:4]),
-      )
-    ) %>%
-    pull()
+  res <- sapply(1:length(instances), function(i) {
+    start_inst <- which(populate_inst == 0)
+    end_inst <- which(populate_inst == instances[i])
+    Reduce(combine_fxn, results_by_inst[i, start_inst:end_inst])
+  })
   message("done \U2713")
   return(res)
 }
 
 #' Get Combiner Function
 #'
-#' Helper to define a reduction function for combining instances and arrays. Returns a binary function based on the specified options. Typically used by [up_to_instance_combiner()] and [reduce_by_row()].
+#' Helper to define a reduction function for combining instances and arrays. Returns a binary function based on the specified options. Typically used by [instance_combiner()] and [reduce_by_row()].
 #'
 #' @inheritParams ukbiobank
 get_combiner_fn <- function(combine_instances = c("any", "max", "min", "first", "last", "mean")) {
