@@ -6,7 +6,8 @@
 #' @export
 icd10_lookup <- function(data,
                          codes,
-                         up_to_instance = 3,
+                         after_instance = DEFAULT_AFTER_INST,
+                         up_to_instance = DEFAULT_UP_TO_INST,
                          icd10_field = f.41270.0.0.Diagnoses_ICD10,
                          icd10_date_field = f.41280.0.0.Date_of_first_in_patient_diagnosis_ICD10,
                          date_of_instance_field = f.53.0.0.Date_of_attending_assessment_centre) {
@@ -63,7 +64,8 @@ icd10_lookup <- function(data,
   instance_combiner(
     data,
     lookup_by_instance_fn = icd10_by_instance,
-    up_to_instance = {{ up_to_instance }}
+    up_to_instance = {{ up_to_instance }},
+    after_instance = {{ after_instance }}
   )
 }
 
@@ -83,7 +85,8 @@ icd10_lines_to_codes <- function(text) {
 #' @rdname icd10_lookup
 #' @export
 icd10_htn <- function(data,
-                      up_to_instance = 3,
+                      after_instance = DEFAULT_AFTER_INST,
+                      up_to_instance = DEFAULT_UP_TO_INST,
                       icd10_field = f.41270.0.0.Diagnoses_ICD10) {
   codings <- icd10_lines_to_codes("
     I10 Essential (primary) hypertension
@@ -105,13 +108,14 @@ icd10_htn <- function(data,
     I15.8 Other secondary hypertension
     I15.9 Seconday hypertension, unspecified
   ")
-  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }
 
 #' @rdname icd10_lookup
 #' @export
 icd10_hld <- function(data,
-                      up_to_instance = 3,
+                      after_instance = DEFAULT_AFTER_INST,
+                      up_to_instance = DEFAULT_UP_TO_INST,
                       icd10_field = f.41270.0.0.Diagnoses_ICD10) {
   codings <- icd10_lines_to_codes("
     E78.0 Pure hypercholesterolaemia
@@ -120,13 +124,14 @@ icd10_hld <- function(data,
     E78.4 Other hyperlipidaemia
     E78.5 Hyperlipidaemia, unspecified
   ")
-  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }
 
 #' @rdname icd10_lookup
 #' @export
 icd10_heart_failure <- function(data,
-                                up_to_instance = 3,
+                                after_instance = DEFAULT_AFTER_INST,
+                                up_to_instance = DEFAULT_UP_TO_INST,
                                 icd10_field = f.41270.0.0.Diagnoses_ICD10) {
   codings <- icd10_lines_to_codes("
     I50 Heart failure
@@ -135,13 +140,14 @@ icd10_heart_failure <- function(data,
     I50.9 Heart failure, unspecified
     I11.0 Hypertensive heart disease with (congestive) heart failure
   ")
-  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }
 
 #' @rdname icd10_lookup
 #' @export
 icd10_pulm_htn <- function(data,
-                           up_to_instance = 3,
+                           after_instance = DEFAULT_AFTER_INST,
+                           up_to_instance = DEFAULT_UP_TO_INST,
                            icd10_field = f.41270.0.0.Diagnoses_ICD10) {
   codings <- icd10_lines_to_codes("
     I27.0 Primary pulmonary hypertension
@@ -149,26 +155,28 @@ icd10_pulm_htn <- function(data,
     I27.8 Other specified pulmonary heart diseases
     I27.9 Pulmonary heart disease, unspecified
   ")
-  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }
 
 #' @rdname icd10_lookup
 #' @export
 icd10_pulm_embolism <- function(data,
-                                up_to_instance = 3,
+                                after_instance = DEFAULT_AFTER_INST,
+                                up_to_instance = DEFAULT_UP_TO_INST,
                                 icd10_field = f.41270.0.0.Diagnoses_ICD10) {
   codings <- icd10_lines_to_codes("
     I26 Pulmonary embolism
     I26.0 Pulmonary embolism with mention of acute cor pulmonale
     I26.9 Pulmonary embolism without mention of acute cor pulmonale
   ")
-  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }
 
 #' @rdname icd10_lookup
 #' @export
 icd10_pulm_misc <- function(data,
-                            up_to_instance = 3,
+                            after_instance = DEFAULT_AFTER_INST,
+                            up_to_instance = DEFAULT_UP_TO_INST,
                             icd10_field = f.41270.0.0.Diagnoses_ICD10) {
   codings <- icd10_lines_to_codes("
     I28 Other diseases of pulmonary vessels
@@ -198,13 +206,14 @@ icd10_pulm_misc <- function(data,
     Q26.4 Anomalous pulmonary venous connexion, unspecified
     S25.4 Injury of pulmonary blood vessels
   ")
-  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }
 
 #' @rdname icd10_lookup
 #' @export
 icd10_pulm_ILD <- function(data,
-                           up_to_instance = 3,
+                           after_instance = DEFAULT_AFTER_INST,
+                           up_to_instance = DEFAULT_UP_TO_INST,
                            icd10_field = f.41270.0.0.Diagnoses_ICD10) {
   codings <- icd10_lines_to_codes("
     J70.2 Acute drug-induced interstitial lung disorders
@@ -216,13 +225,14 @@ icd10_pulm_ILD <- function(data,
     J84.9 Interstitial pulmonary disease, unspecified
     E84.0 Cystic fibrosis with pulmonary manifestations
   ")
-  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }
 
 #' @rdname icd10_lookup
 #' @export
 icd10_copd <- function(data,
-                       up_to_instance = 3,
+                       after_instance = DEFAULT_AFTER_INST,
+                       up_to_instance = DEFAULT_UP_TO_INST,
                        icd10_field = f.41270.0.0.Diagnoses_ICD10) {
   codings <- icd10_lines_to_codes("
     J43 Emphysema
@@ -238,13 +248,14 @@ icd10_copd <- function(data,
     J98.2 Interstitial emphysema
     J98.3 Compensatory emphysema
   ")
-  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }
 
 #' @rdname icd10_lookup
 #' @export
 icd10_heart_pulm_transplant <- function(data,
-                                        up_to_instance = 3,
+                                        after_instance = DEFAULT_AFTER_INST,
+                                        up_to_instance = DEFAULT_UP_TO_INST,
                                         icd10_field = f.41270.0.0.Diagnoses_ICD10) {
   codings <- icd10_lines_to_codes("
     T86.2 Heart transplant failure and rejection
@@ -253,13 +264,14 @@ icd10_heart_pulm_transplant <- function(data,
     Z94.3 Heart and lungs transplant status
     Z99.4 Dependence on artificial heart
   ")
-  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }
 
 #' @rdname icd10_lookup
 #' @export
 icd10_diabetes <- function(data,
-                           up_to_instance = 3,
+                           after_instance = DEFAULT_AFTER_INST,
+                           up_to_instance = DEFAULT_UP_TO_INST,
                            icd10_field = f.41270.0.0.Diagnoses_ICD10) {
   codings <- icd10_lines_to_codes("
     E10 Insulin-dependent diabetes mellitus
@@ -323,5 +335,5 @@ icd10_diabetes <- function(data,
     O24.2 Pre-existing malnutrition-related diabetes mellitus
     O24.3 Pre-existing diabetes mellitus, unspecified
   ")
-  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(data, codings, icd10_field = {{ icd10_field }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }

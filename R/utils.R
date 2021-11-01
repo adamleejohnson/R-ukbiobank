@@ -2,6 +2,8 @@
   if (!is.null(a)) a else b
 }
 
+#' Vectorized OR that prefers non-NA values
+#' @noRd
 "%|%" <- function(a, b) {
   ifelse(is.na(a),
     b,
@@ -11,7 +13,22 @@
   )
 }
 
+#' Wrap a string in a character, if condition is true
+#' @noRd
+wrap_str <- function(input, char, condition = TRUE) {
+  if (condition) paste0(char, input, char)
+  else input
+}
 
+#' Is the expression in a quosure numeric?
+#' @noRd
+quo_is_numeric <- function(x) !is.na(suppressWarnings(as.numeric(quo_text(x))))
+
+#' Helper to escape characters when building regex strings
+#' @noRd
+quotemeta <- function(string) {
+  stringr::str_replace_all(string, "(\\W)", "\\\\\\1")
+}
 
 #' Remove columns with only NAs
 #' @noRd

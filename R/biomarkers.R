@@ -8,7 +8,8 @@
 biomarker_lookup <- function(data,
                              biomarker_field,
                              combine_instances = c("last", "first", "min", "max", "mean"),
-                             up_to_instance = 3) {
+                             after_instance = DEFAULT_AFTER_INST,
+                             up_to_instance = DEFAULT_UP_TO_INST) {
   combine_instances <- match.arg(combine_instances)
 
   # remove any columns with only NAs
@@ -32,10 +33,10 @@ biomarker_lookup <- function(data,
     }
   }
 
-
   instance_combiner(
     data,
     lookup_by_instance_fn = biomarker_by_instance,
+    after_instance = {{ after_instance }},
     up_to_instance = {{ up_to_instance }},
     combine_instances = combine_instances
   )
@@ -45,9 +46,10 @@ biomarker_lookup <- function(data,
 #' @export
 biomarker_A1c_percent <- function(data,
                                   biomarker_field = f.30750.0.0.Glycated_haemoglobin_HbA1c,
-                                  up_to_instance = 3,
+                                  after_instance = DEFAULT_AFTER_INST,
+                                  up_to_instance = DEFAULT_UP_TO_INST,
                                   combine_instances = c("last", "first", "min", "max", "mean")) {
-  v <- biomarker_lookup(data, biomarker_field = {{ biomarker_field }}, up_to_instance = {{ up_to_instance }}, combine_instances = combine_instances)
+  v <- biomarker_lookup(data, biomarker_field = {{ biomarker_field }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, combine_instances = combine_instances)
 
   # convert from mmol/mol to %
   (v / 10.929) + 2.15
@@ -57,9 +59,10 @@ biomarker_A1c_percent <- function(data,
 #' @export
 biomarker_LDL_mgdL <- function(data,
                                biomarker_field = f.30780.0.0.LDL_direct,
-                               up_to_instance = 3,
+                               after_instance = DEFAULT_AFTER_INST,
+                               up_to_instance = DEFAULT_UP_TO_INST,
                                combine_instances = c("last", "first", "min", "max", "mean")) {
-  v <- biomarker_lookup(data, biomarker_field = {{ biomarker_field }}, up_to_instance = {{ up_to_instance }}, combine_instances = combine_instances)
+  v <- biomarker_lookup(data, biomarker_field = {{ biomarker_field }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, combine_instances = combine_instances)
 
   # convert from mmol/L to mg/dL
   v * 38.67
@@ -69,9 +72,10 @@ biomarker_LDL_mgdL <- function(data,
 #' @export
 biomarker_SCr_mgdL <- function(data,
                                biomarker_field = f.30700.0.0.Creatinine,
-                               up_to_instance = 3,
+                               after_instance = DEFAULT_AFTER_INST,
+                               up_to_instance = DEFAULT_UP_TO_INST,
                                combine_instances = c("last", "first", "min", "max", "mean")) {
-  v <- biomarker_lookup(data, biomarker_field = {{ biomarker_field }}, up_to_instance = {{ up_to_instance }}, combine_instances = combine_instances)
+  v <- biomarker_lookup(data, biomarker_field = {{ biomarker_field }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, combine_instances = combine_instances)
 
   # convert from umol/L to mg/dL
   v / 88.4

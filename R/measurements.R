@@ -10,14 +10,15 @@ measurement_lookup <- function(data,
                                measurement_field,
                                combine_instances = c("last", "first", "min", "max", "mean"),
                                combine_array = c("last", "first", "min", "max", "mean"),
-                               up_to_instance = 3) {
+                               after_instance = DEFAULT_AFTER_INST,
+                               up_to_instance = DEFAULT_UP_TO_INST) {
   combine_instances <- match.arg(combine_instances)
   combine_array <- match.arg(combine_array)
 
   # remove any columns with only NAs
   data %<>% remove_na_columns()
 
-  array_reduce_fn <- get_combiner_fn(combine_array)
+  array_reduce_fn <- get_reduce_fn(combine_array)
 
   measurement_by_instance <- function(i) {
     measurement_colnames <-

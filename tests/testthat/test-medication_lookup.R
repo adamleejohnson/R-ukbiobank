@@ -12,12 +12,12 @@ test_that("medication codings", {
   )
 
   expect_equal(
-    df_test %>% medication_statin(up_to_instance = 3),
+    df_test %>% medication_statin(up_to_instance = DEFAULT_UP_TO_INST),
     c(F, T, F, T, T, T, F, F, T, F)
   )
 
   expect_equal(
-    df_test %>% medication_PDE5i(up_to_instance = 3),
+    df_test %>% medication_PDE5i(up_to_instance = DEFAULT_UP_TO_INST),
     c(F, F, F, F, F, F, F, F, F, F)
   )
 })

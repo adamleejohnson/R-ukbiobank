@@ -91,12 +91,6 @@ select_instance_and_array <- function(data, field_name, instance, array) {
   )
 }
 
-#' Helper to escape characters when building regex strings
-#' @noRd
-quotemeta <- function(string) {
-  stringr::str_replace_all(string, "(\\W)", "\\\\\\1")
-}
-
 
 #' Helper to apply a function up to a certain instance
 #'
@@ -105,55 +99,74 @@ quotemeta <- function(string) {
 instance_combiner <- function(data,
                               lookup_by_instance_fn,
                               combine_instances = c("any", "max", "min", "first", "last", "mean"),
-                              up_to_instance = 3,
-                              after_instance = 0) {
+                              up_to_instance = DEFAULT_UP_TO_INST,
+                              after_instance = DEFAULT_AFTER_INST) {
 
   # print message about calling functions
   fn1 <- sys.calls()[[sys.nframe() - 2]][[1]]
   fn2 <- sys.calls()[[sys.nframe() - 1]][[1]]
   message("\U25A0 ", fn1, " \U2192 ", fn2)
 
-  # get the instance numbers
-  instances <-
-    data %>%
-      mutate(inst_num = {{ up_to_instance }}) %>%
-      pull(inst_num) %>%
-      as.numeric() %>%
-      pmin(MAXIMUM_INSTANCE_NUM) %>%
-      pmax(MINIMUM_INSTANCE_NUM)
-  min_inst_overall <- 0 #min(instances)
-  max_inst_overall <- max(instances)
-  expr_class <- class(quo_get_expr(enquo(up_to_instance)))
-  max_inst_name <- switch (expr_class,
-    "numeric" = max_inst_overall,
-    "name" = paste0("col `", quo_text(enquo(up_to_instance)), "` (overall_max = ", max_inst_overall, ")"),
-    "call" = paste0("formula `", quo_text(enquo(up_to_instance)), "` (overall_max = ", max_inst_overall, ")"),
-    stop("Invalid format for `up_to_instance`")
-  )
+  # get the instance numbers and the min/max overall
+  # IMPORTANT: after_instance is NOT inclusive of the starting instance, but min_instances IS inclusive, hence the +1
+  min_instances <- data %>%
+    mutate(pmax(as.numeric({{ after_instance }}) + 1, MINIMUM_INSTANCE_NUM)) %>%
+    pull()
+  max_instances <- data %>%
+    mutate(pmin(as.numeric({{ up_to_instance }}), MAXIMUM_INSTANCE_NUM)) %>%
+    pull()
+  min_inst_overall <- min(min_instances)
+  max_inst_overall <- max(max_instances)
 
   # populate results for each instance
-  message("   \U251C Using max instance: ", max_inst_name)
-  message("   \U251C Populating results for instance ", appendLF = F)
+  # ... create a data frame to hold the results for each instances that we calculate
+  stopifnot("Minimum start instance is greater than the maximum end instance\n\n\t** Remember that `after_instance` is not inclusive!" = min_inst_overall <= max_inst_overall)
+  { # message
+    min_inst_text <- wrap_str(quo_text(enquo(after_instance)), "`", condition = !quo_is_numeric(enquo(after_instance)))
+    max_inst_text <- wrap_str(quo_text(enquo(up_to_instance)), "`", condition = !quo_is_numeric(enquo(up_to_instance)))
+    message(
+      "   \U251C Using instance range = (",
+      min_inst_text, ":", max_inst_text, "] \U2192 Overall range, inclusive = [",
+      min_inst_overall, ":", max_inst_overall, "]"
+    )
+    message("   \U251C Populating results for instance ", appendLF = F)
+  }
   populate_inst <- min_inst_overall:max_inst_overall
-  results_by_inst <- data.frame(matrix(NA, nrow = length(instances), ncol = length(populate_inst)))
-  for (inst in populate_inst) {
-    message(inst, appendLF = F)
-    if (inst < max(populate_inst)) message("...", appendLF = F)
-    results_by_inst[,inst + 1] <- lookup_by_instance_fn(inst)
+  results_by_inst <- data.frame()
+  for (i in populate_inst) {
+    i_idx <- which(i == populate_inst)
+    message(i, if (i_idx < length(populate_inst)) "..." else "", appendLF = F)
+    results_by_inst[, i_idx] <- lookup_by_instance_fn(i)
   }
   message(" \U2713")
 
   # conditionally combine the results using the provided combining function
   message("   \U2514 Compiling results...", appendLF = F)
-  combine_instances <- match.arg(combine_instances)
-  combine_fxn <- get_combiner_fn(combine_instances)
-  res <- sapply(1:length(instances), function(i) {
-    start_inst <- which(populate_inst == 0)
-    end_inst <- which(populate_inst == instances[i])
-    Reduce(combine_fxn, results_by_inst[i, start_inst:end_inst])
-  })
+  reduce_fn <- get_reduce_fn(match.arg(combine_instances))
+
+  # ... create a call to case_when using all possible combinations of start and end
+  casewhen_call <- "case_when("
+  for (i in unique(min_instances)) {
+    for (j in unique(max_instances)) {
+      if (i > j) next
+      casewhen_call <- paste0(casewhen_call, "min_instances == ", i, " & max_instances == ", j)
+      min_idx <- which(i == populate_inst)
+      max_idx <- which(j == populate_inst)
+      if (min_idx == max_idx) {
+        casewhen_call <- paste0(casewhen_call, " ~ results_by_inst[,", min_idx, "], ")
+      } else {
+        casewhen_call <- paste0(casewhen_call, " ~ Reduce(reduce_fn, results_by_inst[,", min_idx, ":", max_idx, "]), ")
+      }
+    }
+  }
+  casewhen_call <- paste0(casewhen_call, "TRUE ~ NA)")
+  # message(casewhen_call)
+  casewhen_call <- str2lang(casewhen_call)
+  output <- eval(casewhen_call)
+
+  # done
   message("done \U2713")
-  return(res)
+  return(output)
 }
 
 #' Get Combiner Function
@@ -161,7 +174,7 @@ instance_combiner <- function(data,
 #' Helper to define a reduction function for combining instances and arrays. Returns a binary function based on the specified options. Typically used by [instance_combiner()] and [reduce_by_row()].
 #'
 #' @inheritParams ukbiobank
-get_combiner_fn <- function(combine_instances = c("any", "max", "min", "first", "last", "mean")) {
+get_reduce_fn <- function(combine_instances = c("any", "max", "min", "first", "last", "mean")) {
   combine_instances <- match.arg(combine_instances)
   switch(combine_instances,
     "any" = function(x, y) {
