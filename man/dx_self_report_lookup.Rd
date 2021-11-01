@@ -14,19 +14,22 @@
 dx_self_report_lookup(
   data,
   codes,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
 )
 
 diagnosed_chf(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
 )
 
 diagnosed_htn(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported,
   min_sbp = 140,
   min_dbp = 90
@@ -34,31 +37,36 @@ diagnosed_htn(
 
 diagnosed_hld(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
 )
 
 diagnosed_copd(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
 )
 
 diagnosed_pHTN(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
 )
 
 diagnosed_pulm_embolism(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
 )
 
 diagnosed_diabetes(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
 )
 }

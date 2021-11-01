@@ -7,7 +7,8 @@
 medication_lookup(
   data,
   codes,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   medication_field = f.20003.0.0.Treatment_medication_code
 )
 }

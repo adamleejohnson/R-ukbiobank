@@ -11,27 +11,31 @@ biomarker_lookup(
   data,
   biomarker_field,
   combine_instances = c("last", "first", "min", "max", "mean"),
-  up_to_instance = 3
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST
 )
 
 biomarker_A1c_percent(
   data,
   biomarker_field = f.30750.0.0.Glycated_haemoglobin_HbA1c,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   combine_instances = c("last", "first", "min", "max", "mean")
 )
 
 biomarker_LDL_mgdL(
   data,
   biomarker_field = f.30780.0.0.LDL_direct,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   combine_instances = c("last", "first", "min", "max", "mean")
 )
 
 biomarker_SCr_mgdL(
   data,
   biomarker_field = f.30700.0.0.Creatinine,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   combine_instances = c("last", "first", "min", "max", "mean")
 )
 }

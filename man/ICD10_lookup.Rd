@@ -17,57 +17,80 @@
 icd10_lookup(
   data,
   codes,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   icd10_field = f.41270.0.0.Diagnoses_ICD10,
   icd10_date_field = f.41280.0.0.Date_of_first_in_patient_diagnosis_ICD10,
   date_of_instance_field = f.53.0.0.Date_of_attending_assessment_centre
 )
 
-icd10_htn(data, up_to_instance = 3, icd10_field = f.41270.0.0.Diagnoses_ICD10)
+icd10_htn(
+  data,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
+  icd10_field = f.41270.0.0.Diagnoses_ICD10
+)
 
-icd10_hld(data, up_to_instance = 3, icd10_field = f.41270.0.0.Diagnoses_ICD10)
+icd10_hld(
+  data,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
+  icd10_field = f.41270.0.0.Diagnoses_ICD10
+)
 
 icd10_heart_failure(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   icd10_field = f.41270.0.0.Diagnoses_ICD10
 )
 
 icd10_pulm_htn(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   icd10_field = f.41270.0.0.Diagnoses_ICD10
 )
 
 icd10_pulm_embolism(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   icd10_field = f.41270.0.0.Diagnoses_ICD10
 )
 
 icd10_pulm_misc(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   icd10_field = f.41270.0.0.Diagnoses_ICD10
 )
 
 icd10_pulm_ILD(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   icd10_field = f.41270.0.0.Diagnoses_ICD10
 )
 
-icd10_copd(data, up_to_instance = 3, icd10_field = f.41270.0.0.Diagnoses_ICD10)
+icd10_copd(
+  data,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
+  icd10_field = f.41270.0.0.Diagnoses_ICD10
+)
 
 icd10_heart_pulm_transplant(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   icd10_field = f.41270.0.0.Diagnoses_ICD10
 )
 
 icd10_diabetes(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   icd10_field = f.41270.0.0.Diagnoses_ICD10
 )
 }

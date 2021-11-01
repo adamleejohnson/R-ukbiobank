@@ -8,8 +8,8 @@ instance_combiner(
   data,
   lookup_by_instance_fn,
   combine_instances = c("any", "max", "min", "first", "last", "mean"),
-  up_to_instance = 3,
-  after_instance = 0
+  up_to_instance = DEFAULT_UP_TO_INST,
+  after_instance = DEFAULT_AFTER_INST
 )
 }
 \arguments{

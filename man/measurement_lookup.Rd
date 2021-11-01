@@ -13,7 +13,8 @@ measurement_lookup(
   measurement_field,
   combine_instances = c("last", "first", "min", "max", "mean"),
   combine_array = c("last", "first", "min", "max", "mean"),
-  up_to_instance = 3
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST
 )
 
 physio_systolicBP(

@@ -21,79 +21,92 @@ These functions are aliases for \code{\link[=medication_lookup]{medication_looku
 \usage{
 medication_statin(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   medication_field = f.20003.0.0.Treatment_medication_code
 )
 
 medication_antiHLD(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   medication_field = f.20003.0.0.Treatment_medication_code
 )
 
 medication_PDE5i(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   medication_field = f.20003.0.0.Treatment_medication_code
 )
 
 medication_BB(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   medication_field = f.20003.0.0.Treatment_medication_code
 )
 
 medication_ACEi(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   medication_field = f.20003.0.0.Treatment_medication_code
 )
 
 medication_ARB(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   medication_field = f.20003.0.0.Treatment_medication_code
 )
 
 medication_CCB(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   medication_field = f.20003.0.0.Treatment_medication_code
 )
 
 medication_loopdiuretic(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   medication_field = f.20003.0.0.Treatment_medication_code
 )
 
 medication_thiazide(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   medication_field = f.20003.0.0.Treatment_medication_code
 )
 
 medication_antiHTN(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   medication_field = f.20003.0.0.Treatment_medication_code
 )
 
 medication_insulin(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   medication_field = f.20003.0.0.Treatment_medication_code
 )
 
 medication_oralhypoglycemic(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   medication_field = f.20003.0.0.Treatment_medication_code
 )
 
 medication_pulm_endothelin(
   data,
-  up_to_instance = 3,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
   medication_field = f.20003.0.0.Treatment_medication_code
 )
 }
@@ -111,7 +124,7 @@ The instance number is also known as the assessment visit number, of which there
 Specifically:
 \itemize{
 \item \code{data}
-\item \code{up_to_instance = 3}
+\item \code{up_to_instance = DEFAULT_UP_TO_INST}
 \item \code{medication_field = f.20003.0.0.Treatment_medication_code}
 }}
 }
