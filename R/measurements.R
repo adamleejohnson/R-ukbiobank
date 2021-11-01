@@ -3,7 +3,6 @@
 #' @inheritParams ukbiobank
 #' @param measurement_field Template field (i.e. the column name) used to look up biomarker values, e.g. `f.4080.0.0.Systolic_blood_pressure_automated_reading`
 #' @param combine_array If a measurement field has multiple array values (e.g. blood pressure recordings are made in duplicate at each instance), specify how these values should be combined. See `combine_instances` for details.
-#' @param ... Arguments passed from specific `physio_measurement_` lookup functions to [measurement_lookup()].
 #'
 #' @export
 measurement_lookup <- function(data,
@@ -37,6 +36,7 @@ measurement_lookup <- function(data,
   instance_combiner(
     data,
     lookup_by_instance_fn = measurement_by_instance,
+    after_instance = {{ after_instance }},
     up_to_instance = {{ up_to_instance }},
     combine_instances = combine_instances
   )
@@ -46,13 +46,17 @@ measurement_lookup <- function(data,
 #' @export
 physio_systolicBP <- function(data,
                               measurement_field = f.4080.0.0.Systolic_blood_pressure_automated_reading,
-                              combine_array = "mean",
-                              ...) {
+                              after_instance = DEFAULT_AFTER_INST,
+                              up_to_instance = DEFAULT_UP_TO_INST,
+                              combine_instances = "last",
+                              combine_array = "mean") {
   measurement_lookup(
     data,
     measurement_field = {{ measurement_field }},
-    combine_array = combine_array,
-    ...
+    after_instance = {{ after_instance }},
+    up_to_instance = {{ up_to_instance }},
+    combine_instances = combine_instances,
+    combine_array = combine_array
   )
 }
 
@@ -60,13 +64,17 @@ physio_systolicBP <- function(data,
 #' @export
 physio_diastolicBP <- function(data,
                                measurement_field = f.4079.0.0.Diastolic_blood_pressure_automated_reading,
-                               combine_array = "mean",
-                               ...) {
+                               after_instance = DEFAULT_AFTER_INST,
+                               up_to_instance = DEFAULT_UP_TO_INST,
+                               combine_instances = "last",
+                               combine_array = "mean") {
   measurement_lookup(
     data,
     measurement_field = {{ measurement_field }},
-    combine_array = combine_array,
-    ...
+    after_instance = {{ after_instance }},
+    up_to_instance = {{ up_to_instance }},
+    combine_instances = combine_instances,
+    combine_array = combine_array
   )
 }
 
@@ -74,11 +82,17 @@ physio_diastolicBP <- function(data,
 #' @export
 physio_height_cm <- function(data,
                              measurement_field = f.50.0.0.Standing_height,
-                             ...) {
+                             after_instance = DEFAULT_AFTER_INST,
+                             up_to_instance = DEFAULT_UP_TO_INST,
+                             combine_instances = "last",
+                             combine_array = "mean") {
   measurement_lookup(
     data,
     measurement_field = {{ measurement_field }},
-    ...
+    after_instance = {{ after_instance }},
+    up_to_instance = {{ up_to_instance }},
+    combine_instances = combine_instances,
+    combine_array = combine_array
   )
 }
 
@@ -86,10 +100,16 @@ physio_height_cm <- function(data,
 #' @export
 physio_weight_kg <- function(data,
                              measurement_field = f.21002.0.0.Weight,
-                             ...) {
+                             after_instance = DEFAULT_AFTER_INST,
+                             up_to_instance = DEFAULT_UP_TO_INST,
+                             combine_instances = "last",
+                             combine_array = "mean") {
   measurement_lookup(
     data,
     measurement_field = {{ measurement_field }},
-    ...
+    after_instance = {{ after_instance }},
+    up_to_instance = {{ up_to_instance }},
+    combine_instances = combine_instances,
+    combine_array = combine_array
   )
 }

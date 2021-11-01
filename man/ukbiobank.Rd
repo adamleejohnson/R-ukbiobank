@@ -11,11 +11,15 @@ This data frame includes all necessary columns required to perform look-ups (e.g
 
 \item{instance_num}{An integer or string specifying the instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use in the current function.
 
-The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK BioBank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
+The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK Biobank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
 
-\item{up_to_instance}{An integer or string specifying the instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use as the maximum allowed instance. Same syntax as \code{instance_num}, but used to include all data \emph{up to and including} the specified instance number.
+\item{after_instance}{An integer or string specifying an instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use as the MINIMUM (NON-INCLUSIVE)  instance. Same syntax as \code{instance_num}, but used to include all data \emph{after and NOT including} the specified instance number.
 
-The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK BioBank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
+The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK Biobank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
+
+\item{up_to_instance}{An integer or string specifying an instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use as the maximum allowed instance. Same syntax as \code{instance_num}, but used to include all data \emph{up to and including} the specified instance number.
+
+The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK Biobank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
 
 \item{combine_instances}{The method used by \code{\link[=instance_combiner]{instance_combiner()}} or other Reduce-like functions when combining results of a lookup (e.g. a medication lookup, icd10 lookup, biomarker lookup) across multiple instances.
 

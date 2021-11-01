@@ -20,20 +20,38 @@ measurement_lookup(
 physio_systolicBP(
   data,
   measurement_field = f.4080.0.0.Systolic_blood_pressure_automated_reading,
-  combine_array = "mean",
-  ...
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
+  combine_instances = "last",
+  combine_array = "mean"
 )
 
 physio_diastolicBP(
   data,
   measurement_field = f.4079.0.0.Diastolic_blood_pressure_automated_reading,
-  combine_array = "mean",
-  ...
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
+  combine_instances = "last",
+  combine_array = "mean"
 )
 
-physio_height_cm(data, measurement_field = f.50.0.0.Standing_height, ...)
+physio_height_cm(
+  data,
+  measurement_field = f.50.0.0.Standing_height,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
+  combine_instances = "last",
+  combine_array = "mean"
+)
 
-physio_weight_kg(data, measurement_field = f.21002.0.0.Weight, ...)
+physio_weight_kg(
+  data,
+  measurement_field = f.21002.0.0.Weight,
+  after_instance = DEFAULT_AFTER_INST,
+  up_to_instance = DEFAULT_UP_TO_INST,
+  combine_instances = "last",
+  combine_array = "mean"
+)
 }
 \arguments{
 \item{data}{The primary data frame.
@@ -60,11 +78,13 @@ Functions that call \code{combine_instances()} may restrict the choice of option
 
 \item{combine_array}{If a measurement field has multiple array values (e.g. blood pressure recordings are made in duplicate at each instance), specify how these values should be combined. See \code{combine_instances} for details.}
 
-\item{up_to_instance}{An integer or string specifying the instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use as the maximum allowed instance. Same syntax as \code{instance_num}, but used to include all data \emph{up to and including} the specified instance number.
+\item{after_instance}{An integer or string specifying an instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use as the MINIMUM (NON-INCLUSIVE)  instance. Same syntax as \code{instance_num}, but used to include all data \emph{after and NOT including} the specified instance number.
 
-The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK BioBank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
+The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK Biobank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
 
-\item{...}{Arguments passed from specific \code{physio_measurement_} lookup functions to \code{\link[=measurement_lookup]{measurement_lookup()}}.}
+\item{up_to_instance}{An integer or string specifying an instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use as the maximum allowed instance. Same syntax as \code{instance_num}, but used to include all data \emph{up to and including} the specified instance number.
+
+The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK Biobank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
 }
 \description{
 General measurement lookups

@@ -64,8 +64,8 @@ icd10_lookup <- function(data,
   instance_combiner(
     data,
     lookup_by_instance_fn = icd10_by_instance,
-    up_to_instance = {{ up_to_instance }},
-    after_instance = {{ after_instance }}
+    after_instance = {{ after_instance }},
+    up_to_instance = {{ up_to_instance }}
   )
 }
 

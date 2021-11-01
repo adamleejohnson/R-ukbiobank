@@ -70,11 +70,10 @@ age_at_instance <- function(data,
 #' @rdname age_at_instance
 #' @export
 age_at_instance_computed <- function(data,
-                            instance_num,
-                            date_of_instance_field = f.53.0.0.Date_of_attending_assessment_centre,
-                            year_of_birth_field = f.34.0.0.Year_of_birth,
-                            month_of_birth_field = f.52.0.0.Month_of_birth) {
-
+                                     instance_num,
+                                     date_of_instance_field = f.53.0.0.Date_of_attending_assessment_centre,
+                                     year_of_birth_field = f.34.0.0.Year_of_birth,
+                                     month_of_birth_field = f.52.0.0.Month_of_birth) {
   date_of_instance_field_cols <- expand_instances(data, {{ date_of_instance_field }})
 
   data %>%

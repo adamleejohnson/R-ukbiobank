@@ -59,6 +59,8 @@ diagnosed_chf <- function(data,
 }
 
 #' @rdname dx_self_report_lookup
+#' @param min_sbp Minimum SBP for HTN diagnosis
+#' @param min_dbp Minimum DBP for HTN diagnosis
 #' @export
 diagnosed_htn <- function(data,
                           after_instance = DEFAULT_AFTER_INST,

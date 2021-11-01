@@ -2,7 +2,6 @@
 #'
 #' @inheritParams ukbiobank
 #' @param biomarker_field Template field (i.e. the column name) used to look up biomarker values, e.g. `f.30750.0.0.Glycated_haemoglobin_HbA1c`
-#' @param ... Arguments passed from specific `biomarker_` lookup functions to [biomarker_lookup()].
 #'
 #' @export
 biomarker_lookup <- function(data,

@@ -57,13 +57,7 @@ med_text_to_codings <- function(text) {
 #'
 #' These functions are aliases for [medication_lookup()], using hard-coded `codes` that have been pre-selected for each disease/medication class.
 #'
-#' @inheritParams ukbiobank
-#' @param ... Arguments passed to [medication_lookup()] (excluding the `codes` argument, which is pre-set by the `medication_` lookup functions).
-#'
-#' Specifically:
-#' * `data`
-#' * `up_to_instance = DEFAULT_UP_TO_INST`
-#' * `medication_field = f.20003.0.0.Treatment_medication_code`
+#' @inheritParams medication_lookup
 NULL
 
 #' @noRd

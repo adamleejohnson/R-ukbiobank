@@ -103,8 +103,8 @@ instance_combiner <- function(data,
                               after_instance = DEFAULT_AFTER_INST) {
 
   # print message about calling functions
-  fn1 <- sys.calls()[[sys.nframe() - 2]][[1]]
-  fn2 <- sys.calls()[[sys.nframe() - 1]][[1]]
+  fn1 <- tryCatch(sys.calls()[[sys.nframe() - 2]][[1]], error = function(e) "null")
+  fn2 <- tryCatch(sys.calls()[[sys.nframe() - 1]][[1]], error = function(e) "null")
   message("\U25A0 ", fn1, " \U2192 ", fn2)
 
   # get the instance numbers and the min/max overall
@@ -132,17 +132,18 @@ instance_combiner <- function(data,
     message("   \U251C Populating results for instance ", appendLF = F)
   }
   populate_inst <- min_inst_overall:max_inst_overall
-  results_by_inst <- data.frame()
+  results_by_inst <- list()
   for (i in populate_inst) {
     i_idx <- which(i == populate_inst)
     message(i, if (i_idx < length(populate_inst)) "..." else "", appendLF = F)
-    results_by_inst[, i_idx] <- lookup_by_instance_fn(i)
+    lookup_result <- lookup_by_instance_fn(i)
+    results_by_inst[[i_idx]] <- lookup_result
   }
   message(" \U2713")
 
   # conditionally combine the results using the provided combining function
   message("   \U2514 Compiling results...", appendLF = F)
-  reduce_fn <- get_reduce_fn(match.arg(combine_instances))
+  reduce_fn <- get_reduce_fn(combine_instances)
 
   # ... create a call to case_when using all possible combinations of start and end
   casewhen_call <- "case_when("
@@ -153,14 +154,13 @@ instance_combiner <- function(data,
       min_idx <- which(i == populate_inst)
       max_idx <- which(j == populate_inst)
       if (min_idx == max_idx) {
-        casewhen_call <- paste0(casewhen_call, " ~ results_by_inst[,", min_idx, "], ")
+        casewhen_call <- paste0(casewhen_call, " ~ results_by_inst[[", min_idx, "]], ")
       } else {
-        casewhen_call <- paste0(casewhen_call, " ~ Reduce(reduce_fn, results_by_inst[,", min_idx, ":", max_idx, "]), ")
+        casewhen_call <- paste0(casewhen_call, " ~ Reduce(reduce_fn, results_by_inst[", min_idx, ":", max_idx, "]), ")
       }
     }
   }
-  casewhen_call <- paste0(casewhen_call, "TRUE ~ NA)")
-  # message(casewhen_call)
+  casewhen_call <- paste0(casewhen_call, ")")
   casewhen_call <- str2lang(casewhen_call)
   output <- eval(casewhen_call)
 

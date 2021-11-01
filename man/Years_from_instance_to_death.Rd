@@ -18,7 +18,7 @@ This data frame includes all necessary columns required to perform look-ups (e.g
 
 \item{instance_num}{An integer or string specifying the instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use in the current function.
 
-The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK BioBank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
+The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK Biobank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
 
 \item{date_of_instance_field}{Template field (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) for the date associated with each instance.}
 
