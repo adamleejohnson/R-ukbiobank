@@ -19,36 +19,92 @@
 
 These functions are aliases for \code{\link[=medication_lookup]{medication_lookup()}}, using hard-coded \code{codes} that have been pre-selected for each disease/medication class.}
 \usage{
-medication_statin(data, ...)
+medication_statin(
+  data,
+  up_to_instance = 3,
+  medication_field = f.20003.0.0.Treatment_medication_code
+)
 
-medication_antiHLD(data, ...)
+medication_antiHLD(
+  data,
+  up_to_instance = 3,
+  medication_field = f.20003.0.0.Treatment_medication_code
+)
 
-medication_PDE5i(data, ...)
+medication_PDE5i(
+  data,
+  up_to_instance = 3,
+  medication_field = f.20003.0.0.Treatment_medication_code
+)
 
-medication_BB(data, ...)
+medication_BB(
+  data,
+  up_to_instance = 3,
+  medication_field = f.20003.0.0.Treatment_medication_code
+)
 
-medication_ACEi(data, ...)
+medication_ACEi(
+  data,
+  up_to_instance = 3,
+  medication_field = f.20003.0.0.Treatment_medication_code
+)
 
-medication_ARB(data, ...)
+medication_ARB(
+  data,
+  up_to_instance = 3,
+  medication_field = f.20003.0.0.Treatment_medication_code
+)
 
-medication_CCB(data, ...)
+medication_CCB(
+  data,
+  up_to_instance = 3,
+  medication_field = f.20003.0.0.Treatment_medication_code
+)
 
-medication_loopdiuretic(data, ...)
+medication_loopdiuretic(
+  data,
+  up_to_instance = 3,
+  medication_field = f.20003.0.0.Treatment_medication_code
+)
 
-medication_thiazide(data, ...)
+medication_thiazide(
+  data,
+  up_to_instance = 3,
+  medication_field = f.20003.0.0.Treatment_medication_code
+)
 
-medication_antiHTN(data, ...)
+medication_antiHTN(
+  data,
+  up_to_instance = 3,
+  medication_field = f.20003.0.0.Treatment_medication_code
+)
 
-medication_insulin(data, ...)
+medication_insulin(
+  data,
+  up_to_instance = 3,
+  medication_field = f.20003.0.0.Treatment_medication_code
+)
 
-medication_oralhypoglycemic(data, ...)
+medication_oralhypoglycemic(
+  data,
+  up_to_instance = 3,
+  medication_field = f.20003.0.0.Treatment_medication_code
+)
 
-medication_pulm_endothelin(data, ...)
+medication_pulm_endothelin(
+  data,
+  up_to_instance = 3,
+  medication_field = f.20003.0.0.Treatment_medication_code
+)
 }
 \arguments{
 \item{data}{The primary data frame.
 
 This data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
+
+\item{up_to_instance}{An integer or string specifying the instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use as the maximum allowed instance. Same syntax as \code{instance_num}, but used to include all data \emph{up to and including} the specified instance number.
+
+The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK BioBank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
 
 \item{...}{Arguments passed to \code{\link[=medication_lookup]{medication_lookup()}} (excluding the \code{codes} argument, which is pre-set by the \code{medication_} lookup functions).
 

@@ -17,12 +17,23 @@ biomarker_lookup(
 biomarker_A1c_percent(
   data,
   biomarker_field = f.30750.0.0.Glycated_haemoglobin_HbA1c,
-  ...
+  up_to_instance = 3,
+  combine_instances = c("last", "first", "min", "max", "mean")
 )
 
-biomarker_LDL_mgdL(data, biomarker_field = f.30780.0.0.LDL_direct, ...)
+biomarker_LDL_mgdL(
+  data,
+  biomarker_field = f.30780.0.0.LDL_direct,
+  up_to_instance = 3,
+  combine_instances = c("last", "first", "min", "max", "mean")
+)
 
-biomarker_SCr_mgdL(data, biomarker_field = f.30700.0.0.Creatinine, ...)
+biomarker_SCr_mgdL(
+  data,
+  biomarker_field = f.30700.0.0.Creatinine,
+  up_to_instance = 3,
+  combine_instances = c("last", "first", "min", "max", "mean")
+)
 }
 \arguments{
 \item{data}{The primary data frame.
@@ -31,7 +42,7 @@ This data frame includes all necessary columns required to perform look-ups (e.g
 
 \item{biomarker_field}{Template field (i.e. the column name) used to look up biomarker values, e.g. \code{f.30750.0.0.Glycated_haemoglobin_HbA1c}}
 
-\item{combine_instances}{The method used by \code{\link[=up_to_instance_combiner]{up_to_instance_combiner()}} or other Reduce-like functions when combining results of a lookup (e.g. a medication lookup, icd10 lookup, biomarker lookup) across multiple instances.
+\item{combine_instances}{The method used by \code{\link[=instance_combiner]{instance_combiner()}} or other Reduce-like functions when combining results of a lookup (e.g. a medication lookup, icd10 lookup, biomarker lookup) across multiple instances.
 
 For example, when looking up whether a participant is on a medication, the result may differ depending on the instance number. In such a case, one would want to apply the \code{"any"} method so that results for instance 2 will be \code{\link[=Reduce]{Reduce()}}-ed with the \code{or} operator applied to the results of instances 0 and 1. In the case of numeric lookups (e.g. biomarkers that are recorded at multiple instances), one might want to use the \code{"mean"} method to average results across instances.
 

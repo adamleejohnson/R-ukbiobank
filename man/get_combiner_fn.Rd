@@ -9,7 +9,7 @@ get_combiner_fn(
 )
 }
 \arguments{
-\item{combine_instances}{The method used by \code{\link[=up_to_instance_combiner]{up_to_instance_combiner()}} or other Reduce-like functions when combining results of a lookup (e.g. a medication lookup, icd10 lookup, biomarker lookup) across multiple instances.
+\item{combine_instances}{The method used by \code{\link[=instance_combiner]{instance_combiner()}} or other Reduce-like functions when combining results of a lookup (e.g. a medication lookup, icd10 lookup, biomarker lookup) across multiple instances.
 
 For example, when looking up whether a participant is on a medication, the result may differ depending on the instance number. In such a case, one would want to apply the \code{"any"} method so that results for instance 2 will be \code{\link[=Reduce]{Reduce()}}-ed with the \code{or} operator applied to the results of instances 0 and 1. In the case of numeric lookups (e.g. biomarkers that are recorded at multiple instances), one might want to use the \code{"mean"} method to average results across instances.
 
@@ -26,5 +26,5 @@ Can be one of:
 Functions that call \code{combine_instances()} may restrict the choice of options (e.g. it doesn't make sense to apply \code{"any"} to numeric data).}
 }
 \description{
-Helper to define a reduction function for combining instances and arrays. Returns a binary function based on the specified options. Typically used by \code{\link[=up_to_instance_combiner]{up_to_instance_combiner()}} and \code{\link[=reduce_by_row]{reduce_by_row()}}.
+Helper to define a reduction function for combining instances and arrays. Returns a binary function based on the specified options. Typically used by \code{\link[=instance_combiner]{instance_combiner()}} and \code{\link[=reduce_by_row]{reduce_by_row()}}.
 }

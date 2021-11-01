@@ -41,7 +41,7 @@ This data frame includes all necessary columns required to perform look-ups (e.g
 
 \item{measurement_field}{Template field (i.e. the column name) used to look up biomarker values, e.g. \code{f.4080.0.0.Systolic_blood_pressure_automated_reading}}
 
-\item{combine_instances}{The method used by \code{\link[=up_to_instance_combiner]{up_to_instance_combiner()}} or other Reduce-like functions when combining results of a lookup (e.g. a medication lookup, icd10 lookup, biomarker lookup) across multiple instances.
+\item{combine_instances}{The method used by \code{\link[=instance_combiner]{instance_combiner()}} or other Reduce-like functions when combining results of a lookup (e.g. a medication lookup, icd10 lookup, biomarker lookup) across multiple instances.
 
 For example, when looking up whether a participant is on a medication, the result may differ depending on the instance number. In such a case, one would want to apply the \code{"any"} method so that results for instance 2 will be \code{\link[=Reduce]{Reduce()}}-ed with the \code{or} operator applied to the results of instances 0 and 1. In the case of numeric lookups (e.g. biomarkers that are recorded at multiple instances), one might want to use the \code{"mean"} method to average results across instances.
 

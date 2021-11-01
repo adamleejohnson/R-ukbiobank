@@ -18,19 +18,49 @@ dx_self_report_lookup(
   diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
 )
 
-diagnosed_chf(data, up_to_instance = 3)
+diagnosed_chf(
+  data,
+  up_to_instance = 3,
+  diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
+)
 
-diagnosed_htn(data, up_to_instance = 3, min_sbp = 140, min_dbp = 90)
+diagnosed_htn(
+  data,
+  up_to_instance = 3,
+  diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported,
+  min_sbp = 140,
+  min_dbp = 90
+)
 
-diagnosed_hld(data, up_to_instance = 3)
+diagnosed_hld(
+  data,
+  up_to_instance = 3,
+  diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
+)
 
-diagnosed_copd(data, up_to_instance = 3)
+diagnosed_copd(
+  data,
+  up_to_instance = 3,
+  diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
+)
 
-diagnosed_pHTN(data, up_to_instance = 3)
+diagnosed_pHTN(
+  data,
+  up_to_instance = 3,
+  diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
+)
 
-diagnosed_pulm_embolism(data, up_to_instance = 3)
+diagnosed_pulm_embolism(
+  data,
+  up_to_instance = 3,
+  diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
+)
 
-diagnosed_diabetes(data, up_to_instance = 3)
+diagnosed_diabetes(
+  data,
+  up_to_instance = 3,
+  diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
+)
 }
 \arguments{
 \item{data}{The primary data frame.

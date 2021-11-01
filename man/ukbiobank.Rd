@@ -17,7 +17,7 @@ The instance number is also known as the assessment visit number, of which there
 
 The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK BioBank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
 
-\item{combine_instances}{The method used by \code{\link[=up_to_instance_combiner]{up_to_instance_combiner()}} or other Reduce-like functions when combining results of a lookup (e.g. a medication lookup, icd10 lookup, biomarker lookup) across multiple instances.
+\item{combine_instances}{The method used by \code{\link[=instance_combiner]{instance_combiner()}} or other Reduce-like functions when combining results of a lookup (e.g. a medication lookup, icd10 lookup, biomarker lookup) across multiple instances.
 
 For example, when looking up whether a participant is on a medication, the result may differ depending on the instance number. In such a case, one would want to apply the \code{"any"} method so that results for instance 2 will be \code{\link[=Reduce]{Reduce()}}-ed with the \code{or} operator applied to the results of instances 0 and 1. In the case of numeric lookups (e.g. biomarkers that are recorded at multiple instances), one might want to use the \code{"mean"} method to average results across instances.
 
