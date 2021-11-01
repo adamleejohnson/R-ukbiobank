@@ -56,7 +56,7 @@ diagnosed_chf <- function(data,
 }
 
 #' @rdname dx_self_report_lookup
-#' @export\U+231B
+#' @export
 diagnosed_htn <- function(data,
                           up_to_instance = 3,
                           diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported,
