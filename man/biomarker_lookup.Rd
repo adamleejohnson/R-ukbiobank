@@ -9,33 +9,33 @@
 \usage{
 biomarker_lookup(
   data,
-  biomarker_field,
+  biomarker_col,
   combine_instances = c("last", "first", "min", "max", "mean"),
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst()
 )
 
 biomarker_A1c_percent(
   data,
-  biomarker_field = f.30750.0.0.Glycated_haemoglobin_HbA1c,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
+  biomarker_col = f.30750.0.0.Glycated_haemoglobin_HbA1c,
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst(),
   combine_instances = c("last", "first", "min", "max", "mean")
 )
 
 biomarker_LDL_mgdL(
   data,
-  biomarker_field = f.30780.0.0.LDL_direct,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
+  biomarker_col = f.30780.0.0.LDL_direct,
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst(),
   combine_instances = c("last", "first", "min", "max", "mean")
 )
 
 biomarker_SCr_mgdL(
   data,
-  biomarker_field = f.30700.0.0.Creatinine,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
+  biomarker_col = f.30700.0.0.Creatinine,
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst(),
   combine_instances = c("last", "first", "min", "max", "mean")
 )
 }
@@ -44,7 +44,7 @@ biomarker_SCr_mgdL(
 
 This data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
-\item{biomarker_field}{Template field (i.e. the column name) used to look up biomarker values, e.g. \code{f.30750.0.0.Glycated_haemoglobin_HbA1c}}
+\item{biomarker_col}{Template field (i.e. the column name) used to look up biomarker values, e.g. \code{f.30750.0.0.Glycated_haemoglobin_HbA1c}}
 
 \item{combine_instances}{The method used by \code{\link[=instance_combiner]{instance_combiner()}} or other Reduce-like functions when combining results of a lookup (e.g. a medication lookup, icd10 lookup, biomarker lookup) across multiple instances.
 
@@ -62,14 +62,23 @@ Can be one of:
 
 Functions that call \code{combine_instances()} may restrict the choice of options (e.g. it doesn't make sense to apply \code{"any"} to numeric data).}
 
-\item{after_instance}{An integer or string specifying an instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use as the MINIMUM (NON-INCLUSIVE)  instance. Same syntax as \code{instance_num}, but used to include all data \emph{after and NOT including} the specified instance number.
+\item{after_instance}{An integer or string specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{minimum instance (non-inclusive)}. Used to include all data \strong{after but NOT including} the specified instance number. Defaults to \code{default_after_inst()}, which is typically -1 (i.e. include instances 0 and later).}
 
-The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK Biobank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
-
-\item{up_to_instance}{An integer or string specifying an instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use as the maximum allowed instance. Same syntax as \code{instance_num}, but used to include all data \emph{up to and including} the specified instance number.
-
-The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK Biobank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
+\item{up_to_instance}{An integer or string specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{maximum instance (inclusive)}. Used to include all data \strong{up to and including} the specified instance number.}
 }
 \description{
-Biomarker lookups
+Perform lookup of biomarkers.
+}
+\section{Instancing}{
+ The UK Biobank records visits as separate "instances." As of this writing, there are 4 instances labeled 0 through 3. At each instance, various information can be recorded or re-recorded. For example, blood pressure is typically recorded at most in-person evaluations. Therefore, there may be 4 separate columns for blood pressure recordings (actually, there could be more because the blood pressure may be recorded multiple times at each instance). Almost all of the functions in this package will utilize instance numbers to specify from which time points data should be retrieved. For example, we may want to know the state of ICD10 diagnoses \emph{before} instance 2. In this case, we would specify \code{up_to_instance = 1} (search up to instance 1, inclusive) in functions that take this as an argument.
+
+Arguments like \code{up_to_instance} and \code{after_instance} can take a constant instance number as their value. But they can also take the name of a column that contains an instance number, so that different instance limits can be used for each participant. For example, some participants undergo MRI at instance 2, and others at instance 3. If we want to know the state of a diagnosis up to and including the time of MRI, we would want to assign \code{up_to_instance} to the name of the column that specifies which instance the MRI occurred at. This column typically has to be generated by the user and attached to the data frame.
+}
+
+\section{Column names}{
+ Most functions in this package will take column names (\verb{*_col}) as optional arguments (otherwise a default column names are used) which are then used as templates to find all other columns with the same field number, but different instance and array numbers. These functions will automatically find all matching instances (and arrays within each instance) within the specified parameters. Internally, a set of \verb{expand_instance_*()} helper functions, which themselves rely on the \code{column_expansion_helper()} function, perform the work of searching for matching columns.
+}
+
+\seealso{
+\code{\link[=measurement_lookup]{measurement_lookup()}}
 }

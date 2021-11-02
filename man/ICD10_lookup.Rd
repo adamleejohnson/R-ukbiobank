@@ -12,86 +12,86 @@
 \alias{icd10_copd}
 \alias{icd10_heart_pulm_transplant}
 \alias{icd10_diabetes}
-\title{ICD10 Lookup}
+\title{ICD10 lookups}
 \usage{
 icd10_lookup(
   data,
   codes,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  icd10_field = f.41270.0.0.Diagnoses_ICD10,
-  icd10_date_field = f.41280.0.0.Date_of_first_in_patient_diagnosis_ICD10,
-  date_of_instance_field = f.53.0.0.Date_of_attending_assessment_centre
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst(),
+  icd10_col = f.41270.0.0.Diagnoses_ICD10,
+  icd10_date_col = f.41280.0.0.Date_of_first_in_patient_diagnosis_ICD10,
+  date_of_instance_col = f.53.0.0.Date_of_attending_assessment_centre
 )
 
 icd10_htn(
   data,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  icd10_field = f.41270.0.0.Diagnoses_ICD10
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst(),
+  icd10_col = f.41270.0.0.Diagnoses_ICD10
 )
 
 icd10_hld(
   data,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  icd10_field = f.41270.0.0.Diagnoses_ICD10
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst(),
+  icd10_col = f.41270.0.0.Diagnoses_ICD10
 )
 
 icd10_heart_failure(
   data,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  icd10_field = f.41270.0.0.Diagnoses_ICD10
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst(),
+  icd10_col = f.41270.0.0.Diagnoses_ICD10
 )
 
 icd10_pulm_htn(
   data,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  icd10_field = f.41270.0.0.Diagnoses_ICD10
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst(),
+  icd10_col = f.41270.0.0.Diagnoses_ICD10
 )
 
 icd10_pulm_embolism(
   data,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  icd10_field = f.41270.0.0.Diagnoses_ICD10
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst(),
+  icd10_col = f.41270.0.0.Diagnoses_ICD10
 )
 
 icd10_pulm_misc(
   data,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  icd10_field = f.41270.0.0.Diagnoses_ICD10
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst(),
+  icd10_col = f.41270.0.0.Diagnoses_ICD10
 )
 
 icd10_pulm_ILD(
   data,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  icd10_field = f.41270.0.0.Diagnoses_ICD10
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst(),
+  icd10_col = f.41270.0.0.Diagnoses_ICD10
 )
 
 icd10_copd(
   data,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  icd10_field = f.41270.0.0.Diagnoses_ICD10
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst(),
+  icd10_col = f.41270.0.0.Diagnoses_ICD10
 )
 
 icd10_heart_pulm_transplant(
   data,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  icd10_field = f.41270.0.0.Diagnoses_ICD10
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst(),
+  icd10_col = f.41270.0.0.Diagnoses_ICD10
 )
 
 icd10_diabetes(
   data,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  icd10_field = f.41270.0.0.Diagnoses_ICD10
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst(),
+  icd10_col = f.41270.0.0.Diagnoses_ICD10
 )
 }
 \arguments{
@@ -99,22 +99,28 @@ icd10_diabetes(
 
 This data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
-\item{codes}{ICD10 codes to look up}
+\item{codes}{ICD10 codes to look up.}
 
-\item{after_instance}{An integer or string specifying an instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use as the MINIMUM (NON-INCLUSIVE)  instance. Same syntax as \code{instance_num}, but used to include all data \emph{after and NOT including} the specified instance number.
+\item{after_instance}{An integer or string specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{minimum instance (non-inclusive)}. Used to include all data \strong{after but NOT including} the specified instance number. Defaults to \code{default_after_inst()}, which is typically -1 (i.e. include instances 0 and later).}
 
-The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK Biobank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
+\item{up_to_instance}{An integer or string specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{maximum instance (inclusive)}. Used to include all data \strong{up to and including} the specified instance number.}
 
-\item{up_to_instance}{An integer or string specifying an instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use as the maximum allowed instance. Same syntax as \code{instance_num}, but used to include all data \emph{up to and including} the specified instance number.
+\item{icd10_col}{Template column name for ICD10 codes.\cr Default = \code{f.41270.0.0.Diagnoses_ICD10}.}
 
-The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK Biobank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
+\item{icd10_date_col}{Template column name for dates of ICD10 diagnoses.\cr Default = \code{f.41280.0.0.Date_of_first_in_patient_diagnosis_ICD10}.}
 
-\item{icd10_field}{example ICD10 field}
-
-\item{icd10_date_field}{example ICD10 date field}
-
-\item{date_of_instance_field}{Template field (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) for the date associated with each instance.}
+\item{date_of_instance_col}{Template column name for date of each instance.\cr Default = \code{f.53.0.0.Date_of_attending_assessment_centre}.}
 }
 \description{
-ICD10 Lookup
+Perform ICD10 lookups using coding 19, as specified in \url{https://biobank.ndph.ox.ac.uk/ukb/coding.cgi?id=19}. For disease-specific \verb{icd10_*()} functions, an internal \code{icd10_text_to_codes()} function is used to convert the text version of ICD10 names into their respective UKB codings.
 }
+\section{Instancing}{
+ The UK Biobank records visits as separate "instances." As of this writing, there are 4 instances labeled 0 through 3. At each instance, various information can be recorded or re-recorded. For example, blood pressure is typically recorded at most in-person evaluations. Therefore, there may be 4 separate columns for blood pressure recordings (actually, there could be more because the blood pressure may be recorded multiple times at each instance). Almost all of the functions in this package will utilize instance numbers to specify from which time points data should be retrieved. For example, we may want to know the state of ICD10 diagnoses \emph{before} instance 2. In this case, we would specify \code{up_to_instance = 1} (search up to instance 1, inclusive) in functions that take this as an argument.
+
+Arguments like \code{up_to_instance} and \code{after_instance} can take a constant instance number as their value. But they can also take the name of a column that contains an instance number, so that different instance limits can be used for each participant. For example, some participants undergo MRI at instance 2, and others at instance 3. If we want to know the state of a diagnosis up to and including the time of MRI, we would want to assign \code{up_to_instance} to the name of the column that specifies which instance the MRI occurred at. This column typically has to be generated by the user and attached to the data frame.
+}
+
+\section{Column names}{
+ Most functions in this package will take column names (\verb{*_col}) as optional arguments (otherwise a default column names are used) which are then used as templates to find all other columns with the same field number, but different instance and array numbers. These functions will automatically find all matching instances (and arrays within each instance) within the specified parameters. Internally, a set of \verb{expand_instance_*()} helper functions, which themselves rely on the \code{column_expansion_helper()} function, perform the work of searching for matching columns.
+}
+

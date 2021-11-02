@@ -7,7 +7,7 @@
 years_from_date_to_death(
   data,
   date,
-  date_of_instance_field = f.40000.0.0.Date_of_death
+  death_date_col = f.40000.0.0.Date_of_death
 )
 }
 \arguments{
@@ -17,8 +17,12 @@ This data frame includes all necessary columns required to perform look-ups (e.g
 
 \item{date}{Target date, as a string which is then passed to \code{\link[lubridate:as_date]{lubridate::as_date()}}.}
 
-\item{date_of_instance_field}{Template field (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) for the date associated with each instance.}
+\item{death_date_col}{Template column name for date of death.\cr Default = \code{f.40000.0.0.Date_of_death}.}
 }
 \description{
 Years from date to death
 }
+\section{Column names}{
+ Most functions in this package will take column names (\verb{*_col}) as optional arguments (otherwise a default column names are used) which are then used as templates to find all other columns with the same field number, but different instance and array numbers. These functions will automatically find all matching instances (and arrays within each instance) within the specified parameters. Internally, a set of \verb{expand_instance_*()} helper functions, which themselves rely on the \code{column_expansion_helper()} function, perform the work of searching for matching columns.
+}
+

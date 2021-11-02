@@ -1,9 +1,10 @@
-#' Self-reported ethnicity, simplified
+#' @title Self-reported ethnicity, simplified
+#' @description Simplifies ethnicity codings (as specified in \url{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=1001}) to the parent category (e.g., converts White-British to White, and Black-African to Black). If reported ethnicity is not consistent across instances (there are a few), returns "Other" for that participant.
 #' @inheritParams ukbiobank
-#' @param ethnic_bkg initial ethnic background column
+#' @inheritSection ukbiobank Column names
 #' @export
-ethnicity_self_reported <- function(data, ethnic_bkg = f.21000.0.0.Ethnic_background) {
-  ethnic_bkg_cols <- expand_instances(data, {{ ethnic_bkg }})
+ethnicity_self_reported <- function(data, ethnicity_col = f.21000.0.0.Ethnic_background) {
+  ethnicity_col_cols <- expand_instances(data, {{ ethnicity_col }})
 
   get_ethnic_category <- function(x) {
     data %>%
@@ -31,9 +32,9 @@ ethnicity_self_reported <- function(data, ethnic_bkg = f.21000.0.0.Ethnic_backgr
 
   data %>%
     transmute(
-      ethnicity_0 = get_ethnic_category(ethnic_bkg_cols[[1]]),
-      ethnicity_1 = get_ethnic_category(ethnic_bkg_cols[[2]]),
-      ethnicity_2 = get_ethnic_category(ethnic_bkg_cols[[3]])
+      ethnicity_0 = get_ethnic_category(ethnicity_col_cols[[1]]),
+      ethnicity_1 = get_ethnic_category(ethnicity_col_cols[[2]]),
+      ethnicity_2 = get_ethnic_category(ethnicity_col_cols[[3]])
     ) %>%
     rowwise() %>%
     mutate(

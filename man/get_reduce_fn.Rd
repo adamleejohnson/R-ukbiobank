@@ -28,3 +28,4 @@ Functions that call \code{combine_instances()} may restrict the choice of option
 \description{
 Helper to define a reduction function for combining instances and arrays. Returns a binary function based on the specified options. Typically used by \code{\link[=instance_combiner]{instance_combiner()}} and \code{\link[=reduce_by_row]{reduce_by_row()}}.
 }
+\keyword{internal}

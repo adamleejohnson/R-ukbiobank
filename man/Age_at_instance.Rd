@@ -8,15 +8,15 @@
 age_at_instance(
   data,
   instance_num,
-  age_at_instance_field = f.21003.0.0.Age_when_attended_assessment_centre
+  age_at_instance_col = f.21003.0.0.Age_when_attended_assessment_centre
 )
 
 age_at_instance_computed(
   data,
   instance_num,
-  date_of_instance_field = f.53.0.0.Date_of_attending_assessment_centre,
-  year_of_birth_field = f.34.0.0.Year_of_birth,
-  month_of_birth_field = f.52.0.0.Month_of_birth
+  date_of_instance_col = f.53.0.0.Date_of_attending_assessment_centre,
+  year_of_birth_col = f.34.0.0.Year_of_birth,
+  month_of_birth_col = f.52.0.0.Month_of_birth
 )
 }
 \arguments{
@@ -24,22 +24,23 @@ age_at_instance_computed(
 
 This data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
-\item{instance_num}{An integer or string specifying the instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use in the current function.
+\item{instance_num}{An integer or string specifying the instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use in the current function.}
 
-The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK Biobank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
+\item{age_at_instance_col}{Template column name for age at instance.\cr Default = \code{f.21003.0.0.Age_when_attended_assessment_centre}.}
 
-\item{age_at_instance_field}{Template field (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) for the age at each instance.}
+\item{date_of_instance_col}{Template column name for date of each instance.\cr Default = \code{f.53.0.0.Date_of_attending_assessment_centre}.}
 
-\item{date_of_instance_field}{Template field (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) for the date associated with each instance.}
+\item{year_of_birth_col}{Template column name for year of birth.\cr Default = \code{f.34.0.0.Year_of_birth}.}
 
-\item{year_of_birth_field}{<\code{\link[=dplyr_data_masking]{data-masking}}> Name of column containing birth year}
-
-\item{month_of_birth_field}{<\code{\link[=dplyr_data_masking]{data-masking}}> Name of column containing birth month}
+\item{month_of_birth_col}{Template column name for month of birth.\cr Default = \code{f.52.0.0.Month_of_birth}.}
 }
 \description{
 Age, in years, at the time of the specified instance.
-}
-\details{
+
 \code{age_at_instance} uses the coded fields that contain the age (rounded to the nearest year) at each instance visit.
 \code{age_at_instance_computed} calculates a slightly more precise age based on the partipants year and month of birth.
 }
+\section{Column names}{
+ Most functions in this package will take column names (\verb{*_col}) as optional arguments (otherwise a default column names are used) which are then used as templates to find all other columns with the same field number, but different instance and array numbers. These functions will automatically find all matching instances (and arrays within each instance) within the specified parameters. Internally, a set of \verb{expand_instance_*()} helper functions, which themselves rely on the \code{column_expansion_helper()} function, perform the work of searching for matching columns.
+}
+

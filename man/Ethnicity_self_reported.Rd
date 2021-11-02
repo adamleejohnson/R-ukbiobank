@@ -4,15 +4,19 @@
 \alias{ethnicity_self_reported}
 \title{Self-reported ethnicity, simplified}
 \usage{
-ethnicity_self_reported(data, ethnic_bkg = f.21000.0.0.Ethnic_background)
+ethnicity_self_reported(data, ethnicity_col = f.21000.0.0.Ethnic_background)
 }
 \arguments{
 \item{data}{The primary data frame.
 
 This data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
-\item{ethnic_bkg}{initial ethnic background column}
+\item{ethnicity_col}{Template column name for ethnic background.\cr Default = \code{f.21000.0.0.Ethnic_background}.}
 }
 \description{
-Self-reported ethnicity, simplified
+Simplifies ethnicity codings (as specified in \url{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=1001}) to the parent category (e.g., converts White-British to White, and Black-African to Black). If reported ethnicity is not consistent across instances (there are a few), returns "Other" for that participant.
 }
+\section{Column names}{
+ Most functions in this package will take column names (\verb{*_col}) as optional arguments (otherwise a default column names are used) which are then used as templates to find all other columns with the same field number, but different instance and array numbers. These functions will automatically find all matching instances (and arrays within each instance) within the specified parameters. Internally, a set of \verb{expand_instance_*()} helper functions, which themselves rely on the \code{column_expansion_helper()} function, perform the work of searching for matching columns.
+}
+

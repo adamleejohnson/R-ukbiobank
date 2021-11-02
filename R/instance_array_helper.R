@@ -1,11 +1,11 @@
 #' @noRd
-expand_helper_ <- function(data,
-                           field_name,
-                           ctrl_ind,
-                           min_instance = 0,
-                           max_instance = Inf,
-                           min_array = 0,
-                           max_array = Inf) {
+column_expansion_helper <- function(data,
+                                    field_name,
+                                    ctrl_ind,
+                                    min_instance = 0,
+                                    max_instance = Inf,
+                                    min_array = 0,
+                                    max_array = Inf) {
   field_name <- enquo(field_name)
   input_is_symbol <- quo_is_symbol(field_name)
   field_name <- as.character(quo_get_expr(field_name))
@@ -26,55 +26,55 @@ expand_helper_ <- function(data,
   field_matcher <- paste0(pt1, pt2, pt3)
 
   # find matched columns
-  matched_fields <- colnames(data)[stringr::str_detect(colnames(data), field_matcher)]
+  matched_cols <- colnames(data)[stringr::str_detect(colnames(data), field_matcher)]
 
   # apply MIN and MAX instance filters if expanding by instance
   if (4 %in% ctrl_ind) {
-    instance_nums <- stringr::str_match(matched_fields, field_re)[, 4 + 1] %>%
+    instance_nums <- stringr::str_match(matched_cols, field_re)[, 4 + 1] %>%
       as.numeric()
     keep_ind <- seq_along(instance_nums) %>%
       intersect(which(instance_nums >= min_instance)) %>%
       intersect(which(instance_nums <= max_instance))
-    matched_fields <- matched_fields[keep_ind]
+    matched_cols <- matched_cols[keep_ind]
   }
 
   # apply MIN and MAX instance filters if expanding by array
   if (6 %in% ctrl_ind) {
-    array_nums <- stringr::str_match(matched_fields, field_re)[, 6 + 1] %>%
+    array_nums <- stringr::str_match(matched_cols, field_re)[, 6 + 1] %>%
       as.numeric()
     keep_ind <- intersect(
       which(array_nums >= min_array),
       which(array_nums <= max_array)
     )
-    matched_fields <- matched_fields[keep_ind]
+    matched_cols <- matched_cols[keep_ind]
   }
 
   # return result
   if (input_is_symbol) {
-    sapply(matched_fields, as.symbol, USE.NAMES = F)
+    sapply(matched_cols, as.symbol, USE.NAMES = F)
   } else {
-    matched_fields
+    matched_cols
   }
 }
 
 #' @noRd
 expand_instances <- function(data, field_name, ...) {
-  expand_helper_(data, {{ field_name }}, 4, ...)
+  column_expansion_helper(data, {{ field_name }}, 4, ...)
 }
 
 #' @noRd
 expand_array <- function(data, field_name, ...) {
-  expand_helper_(data, {{ field_name }}, 6, ...)
+  column_expansion_helper(data, {{ field_name }}, 6, ...)
 }
 
 #' @noRd
 expand_instances_and_array <- function(data, field_name, ...) {
-  expand_helper_(data, {{ field_name }}, 4:6, ...)
+  column_expansion_helper(data, {{ field_name }}, 4:6, ...)
 }
 
 #' @noRd
 select_instance_and_expand_array <- function(data, field_name, instance, ...) {
-  expand_helper_(data, {{ field_name }}, 4:6,
+  column_expansion_helper(data, {{ field_name }}, 4:6,
     min_instance = instance,
     max_instance = instance,
     ...
@@ -83,7 +83,7 @@ select_instance_and_expand_array <- function(data, field_name, instance, ...) {
 
 #' @noRd
 select_instance_and_array <- function(data, field_name, instance, array) {
-  expand_helper_(data, {{ field_name }}, 4:6,
+  column_expansion_helper(data, {{ field_name }}, 4:6,
     min_instance = instance,
     max_instance = instance,
     min_array = array,
@@ -92,15 +92,15 @@ select_instance_and_array <- function(data, field_name, instance, array) {
 }
 
 
-#' Helper to apply a function up to a certain instance
-#'
+#' Helper to apply a a lookup function to a range of instances, and combine the result
 #' @inheritParams ukbiobank
 #' @param lookup_by_instance_fn Function that takes a target instance as its only argument, and returns a vector of data.
+#' @keywords internal
 instance_combiner <- function(data,
                               lookup_by_instance_fn,
                               combine_instances = c("any", "max", "min", "first", "last", "mean"),
-                              up_to_instance = DEFAULT_UP_TO_INST,
-                              after_instance = DEFAULT_AFTER_INST) {
+                              up_to_instance = default_up_to_inst(),
+                              after_instance = default_after_inst()) {
 
   # print message about calling functions
   fn1 <- tryCatch(sys.calls()[[sys.nframe() - 2]][[1]], error = function(e) "null")
@@ -169,11 +169,10 @@ instance_combiner <- function(data,
   return(output)
 }
 
-#' Get Combiner Function
-#'
-#' Helper to define a reduction function for combining instances and arrays. Returns a binary function based on the specified options. Typically used by [instance_combiner()] and [reduce_by_row()].
-#'
+#' @title Get Combiner Function
+#' @description Helper to define a reduction function for combining instances and arrays. Returns a binary function based on the specified options. Typically used by [instance_combiner()] and [reduce_by_row()].
 #' @inheritParams ukbiobank
+#' @keywords internal
 get_reduce_fn <- function(combine_instances = c("any", "max", "min", "first", "last", "mean")) {
   combine_instances <- match.arg(combine_instances)
   switch(combine_instances,

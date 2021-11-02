@@ -7,8 +7,8 @@
 age_at_date(
   data,
   date,
-  year_of_birth_field = f.34.0.0.Year_of_birth,
-  month_of_birth_field = f.52.0.0.Month_of_birth
+  year_of_birth_col = f.34.0.0.Year_of_birth,
+  month_of_birth_col = f.52.0.0.Month_of_birth
 )
 }
 \arguments{
@@ -18,16 +18,19 @@ This data frame includes all necessary columns required to perform look-ups (e.g
 
 \item{date}{Target date, as a string which is then passed to \code{\link[lubridate:as_date]{lubridate::as_date()}}.}
 
-\item{year_of_birth_field}{<\code{\link[=dplyr_data_masking]{data-masking}}> Name of column containing birth year}
+\item{year_of_birth_col}{Template column name for year of birth.\cr Default = \code{f.34.0.0.Year_of_birth}.}
 
-\item{month_of_birth_field}{<\code{\link[=dplyr_data_masking]{data-masking}}> Name of column containing birth month}
+\item{month_of_birth_col}{Template column name for month of birth.\cr Default = \code{f.52.0.0.Month_of_birth}.}
 }
 \value{
 Numeric vector of age in years (\code{age_at_date()}), or character vector of age groups (\code{age_group_at_date()})
 }
 \description{
 Get age (in years) as of a particular date.
-}
-\details{
+
 NOTE: This result is approximate, since only the year and month of birth are provided. The day of birth is assumed to be 15.
 }
+\section{Column names}{
+ Most functions in this package will take column names (\verb{*_col}) as optional arguments (otherwise a default column names are used) which are then used as templates to find all other columns with the same field number, but different instance and array numbers. These functions will automatically find all matching instances (and arrays within each instance) within the specified parameters. Internally, a set of \verb{expand_instance_*()} helper functions, which themselves rely on the \code{column_expansion_helper()} function, perform the work of searching for matching columns.
+}
+

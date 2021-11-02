@@ -7,8 +7,8 @@
 years_from_instance_to_death(
   data,
   instance_num,
-  date_of_instance_field = f.53.0.0.Date_of_attending_assessment_centre,
-  death_date_field = f.40000.0.0.Date_of_death
+  date_of_instance_col = f.53.0.0.Date_of_attending_assessment_centre,
+  death_date_col = f.40000.0.0.Date_of_death
 )
 }
 \arguments{
@@ -16,14 +16,16 @@ years_from_instance_to_death(
 
 This data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
-\item{instance_num}{An integer or string specifying the instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use in the current function.
+\item{instance_num}{An integer or string specifying the instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use in the current function.}
 
-The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK Biobank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
+\item{date_of_instance_col}{Template column name for date of each instance.\cr Default = \code{f.53.0.0.Date_of_attending_assessment_centre}.}
 
-\item{date_of_instance_field}{Template field (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) for the date associated with each instance.}
-
-\item{death_date_field}{e.g. f.40000.0.0.Date_of_death}
+\item{death_date_col}{Template column name for date of death.\cr Default = \code{f.40000.0.0.Date_of_death}.}
 }
 \description{
 Years from instance to death
 }
+\section{Column names}{
+ Most functions in this package will take column names (\verb{*_col}) as optional arguments (otherwise a default column names are used) which are then used as templates to find all other columns with the same field number, but different instance and array numbers. These functions will automatically find all matching instances (and arrays within each instance) within the specified parameters. Internally, a set of \verb{expand_instance_*()} helper functions, which themselves rely on the \code{column_expansion_helper()} function, perform the work of searching for matching columns.
+}
+

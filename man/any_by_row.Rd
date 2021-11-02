@@ -24,3 +24,4 @@ reduce_by_row(data, fn)
 \item \code{reduce_by_row}:  Apply \code{\link[=Reduce]{Reduce()}} across each row of matrix or dataframe
 }
 }
+\keyword{internal}

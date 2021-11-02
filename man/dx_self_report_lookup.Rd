@@ -2,72 +2,14 @@
 % Please edit documentation in R/diagnoses.R
 \name{dx_self_report_lookup}
 \alias{dx_self_report_lookup}
-\alias{diagnosed_chf}
-\alias{diagnosed_htn}
-\alias{diagnosed_hld}
-\alias{diagnosed_copd}
-\alias{diagnosed_pHTN}
-\alias{diagnosed_pulm_embolism}
-\alias{diagnosed_diabetes}
-\title{Diagnosis lookup}
+\title{Self-reported diagnosis lookup}
 \usage{
 dx_self_report_lookup(
   data,
   codes,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
-)
-
-diagnosed_chf(
-  data,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
-)
-
-diagnosed_htn(
-  data,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported,
-  min_sbp = 140,
-  min_dbp = 90
-)
-
-diagnosed_hld(
-  data,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
-)
-
-diagnosed_copd(
-  data,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
-)
-
-diagnosed_pHTN(
-  data,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
-)
-
-diagnosed_pulm_embolism(
-  data,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
-)
-
-diagnosed_diabetes(
-  data,
-  after_instance = DEFAULT_AFTER_INST,
-  up_to_instance = DEFAULT_UP_TO_INST,
-  diagnosis_field = f.20002.0.0.Non_cancer_illness_code_self_reported
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst(),
+  diagnosis_col = f.20002.0.0.Non_cancer_illness_code_self_reported
 )
 }
 \arguments{
@@ -75,22 +17,14 @@ diagnosed_diabetes(
 
 This data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
-\item{codes}{Diagnosis codes to look up}
+\item{codes}{Diagnosis codes to look up.}
 
-\item{after_instance}{An integer or string specifying an instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use as the MINIMUM (NON-INCLUSIVE)  instance. Same syntax as \code{instance_num}, but used to include all data \emph{after and NOT including} the specified instance number.
+\item{after_instance}{An integer or string specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{minimum instance (non-inclusive)}. Used to include all data \strong{after but NOT including} the specified instance number. Defaults to \code{default_after_inst()}, which is typically -1 (i.e. include instances 0 and later).}
 
-The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK Biobank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
+\item{up_to_instance}{An integer or string specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{maximum instance (inclusive)}. Used to include all data \strong{up to and including} the specified instance number.}
 
-\item{up_to_instance}{An integer or string specifying an instance number, or the <\code{\link[=dplyr_data_masking]{data-masking}}> name of the column containing instance numbers to use as the maximum allowed instance. Same syntax as \code{instance_num}, but used to include all data \emph{up to and including} the specified instance number.
-
-The instance number is also known as the assessment visit number, of which there are 4 (labeled 0...3) in the UK Biobank study. This column does not exist in a standard distribution of the UKB data set, and should be defined and joined to the data set before performing analyses with this function.}
-
-\item{diagnosis_field}{e.g. f.20002.0.0.Non_cancer_illness_code_self_reported}
-
-\item{min_sbp}{Minimum SBP for HTN diagnosis}
-
-\item{min_dbp}{Minimum DBP for HTN diagnosis}
+\item{diagnosis_col}{Template column name for self-reported diagnosis codes.\cr Default = \code{f.20002.0.0.Non_cancer_illness_code_self_reported}.}
 }
 \description{
-Diagnosis lookup
+Look up whether a diagnosis has been self-reported, based on coding 6. See \url{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=6}. For disease-specific \verb{diagnosis_*()} functions, the function \code{\link[=dx_self_text_to_codes]{dx_self_text_to_codes()}} is used internally to convert the text form of the diagnosis to the code used in the UKB data table.
 }

@@ -1,22 +1,22 @@
-#' Medication Lookups
-#'
+#' @title Medication lookups
+#' @description Perform medication lookups using coding 4, as specified in \url{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=4}. For disease/class-specific `medication_*()` functions, an internal `med_text_to_codings()` function is used to convert the text version of medication names into their respective UKB codings.
 #' @inheritParams ukbiobank
-#' @param codes Medication codes to look up
-#' @param medication_field e.g. `f.20003.0.0.Treatment_medication_code`
-#'
+#' @inheritSection ukbiobank Instancing
+#' @inheritSection ukbiobank Column names
+#' @param codes A vector of medication codes to look up
 #' @export
 medication_lookup <- function(data,
                               codes,
-                              after_instance = DEFAULT_AFTER_INST,
-                              up_to_instance = DEFAULT_UP_TO_INST,
-                              medication_field = f.20003.0.0.Treatment_medication_code) {
+                              after_instance = default_after_inst(),
+                              up_to_instance = default_up_to_inst(),
+                              medication_col = f.20003.0.0.Treatment_medication_code) {
 
   # remove any columns with only NAs
   data %<>% remove_na_columns()
   codes %<>% unique()
 
   med_by_instance <- function(i) {
-    med_colnames <- select_instance_and_expand_array(data, {{ medication_field }}, instance = i)
+    med_colnames <- select_instance_and_expand_array(data, {{ medication_col }}, instance = i)
     data %>%
       select(!!!med_colnames) %>%
       mutate(across(everything(), ~ .x %in% codes)) %>%
@@ -53,10 +53,10 @@ med_text_to_codings <- function(text) {
 }
 
 #' @name medication_lookup_by_disease
-#' @title Medication lookups for selected diseases
-#'
-#' These functions are aliases for [medication_lookup()], using hard-coded `codes` that have been pre-selected for each disease/medication class.
-#'
+#' @title Medication lookups for selected categories
+#' @description These functions are aliases for [medication_lookup()], using hard-coded `codes` that have been pre-selected for each disease/medication class.
+#' @inheritSection ukbiobank Instancing
+#' @inheritSection ukbiobank Column names
 #' @inheritParams medication_lookup
 NULL
 
@@ -288,73 +288,73 @@ meds_pulm_endothelin <- "
 
 #' @rdname medication_lookup_by_disease
 #' @export
-medication_statin <- function(data, after_instance = DEFAULT_AFTER_INST, up_to_instance = DEFAULT_UP_TO_INST, medication_field = f.20003.0.0.Treatment_medication_code) {
+medication_statin <- function(data, after_instance = default_after_inst(), up_to_instance = default_up_to_inst(), medication_col = f.20003.0.0.Treatment_medication_code) {
   codes <- med_text_to_codings(meds_statin)
-  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_field = {{ medication_field }})
+  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_col = {{ medication_col }})
 }
 
 #' @rdname medication_lookup_by_disease
 #' @export
-medication_antiHLD <- function(data, after_instance = DEFAULT_AFTER_INST, up_to_instance = DEFAULT_UP_TO_INST, medication_field = f.20003.0.0.Treatment_medication_code) {
+medication_antiHLD <- function(data, after_instance = default_after_inst(), up_to_instance = default_up_to_inst(), medication_col = f.20003.0.0.Treatment_medication_code) {
   codes <- c(
     med_text_to_codings(meds_statin),
     med_text_to_codings(meds_antiHLD_other)
   )
-  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_field = {{ medication_field }})
+  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_col = {{ medication_col }})
 }
 
 #' @rdname medication_lookup_by_disease
 #' @export
-medication_PDE5i <- function(data, after_instance = DEFAULT_AFTER_INST, up_to_instance = DEFAULT_UP_TO_INST, medication_field = f.20003.0.0.Treatment_medication_code) {
+medication_PDE5i <- function(data, after_instance = default_after_inst(), up_to_instance = default_up_to_inst(), medication_col = f.20003.0.0.Treatment_medication_code) {
   codes <- med_text_to_codings(meds_PDE5i)
-  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_field = {{ medication_field }})
+  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_col = {{ medication_col }})
 }
 
 #' @rdname medication_lookup_by_disease
 #' @export
-medication_BB <- function(data, after_instance = DEFAULT_AFTER_INST, up_to_instance = DEFAULT_UP_TO_INST, medication_field = f.20003.0.0.Treatment_medication_code) {
+medication_BB <- function(data, after_instance = default_after_inst(), up_to_instance = default_up_to_inst(), medication_col = f.20003.0.0.Treatment_medication_code) {
   codes <- med_text_to_codings(meds_betablocker)
-  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_field = {{ medication_field }})
+  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_col = {{ medication_col }})
 }
 
 #' @rdname medication_lookup_by_disease
 #' @export
-medication_ACEi <- function(data, after_instance = DEFAULT_AFTER_INST, up_to_instance = DEFAULT_UP_TO_INST, medication_field = f.20003.0.0.Treatment_medication_code) {
+medication_ACEi <- function(data, after_instance = default_after_inst(), up_to_instance = default_up_to_inst(), medication_col = f.20003.0.0.Treatment_medication_code) {
   codes <- med_text_to_codings(meds_ACEi)
-  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_field = {{ medication_field }})
+  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_col = {{ medication_col }})
 }
 
 #' @rdname medication_lookup_by_disease
 #' @export
-medication_ARB <- function(data, after_instance = DEFAULT_AFTER_INST, up_to_instance = DEFAULT_UP_TO_INST, medication_field = f.20003.0.0.Treatment_medication_code) {
+medication_ARB <- function(data, after_instance = default_after_inst(), up_to_instance = default_up_to_inst(), medication_col = f.20003.0.0.Treatment_medication_code) {
   codes <- med_text_to_codings(meds_ARB)
-  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_field = {{ medication_field }})
+  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_col = {{ medication_col }})
 }
 
 #' @rdname medication_lookup_by_disease
 #' @export
-medication_CCB <- function(data, after_instance = DEFAULT_AFTER_INST, up_to_instance = DEFAULT_UP_TO_INST, medication_field = f.20003.0.0.Treatment_medication_code) {
+medication_CCB <- function(data, after_instance = default_after_inst(), up_to_instance = default_up_to_inst(), medication_col = f.20003.0.0.Treatment_medication_code) {
   codes <- med_text_to_codings(meds_CCB)
-  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_field = {{ medication_field }})
+  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_col = {{ medication_col }})
 }
 
 #' @rdname medication_lookup_by_disease
 #' @export
-medication_loopdiuretic <- function(data, after_instance = DEFAULT_AFTER_INST, up_to_instance = DEFAULT_UP_TO_INST, medication_field = f.20003.0.0.Treatment_medication_code) {
+medication_loopdiuretic <- function(data, after_instance = default_after_inst(), up_to_instance = default_up_to_inst(), medication_col = f.20003.0.0.Treatment_medication_code) {
   codes <- med_text_to_codings(meds_loopdiuretic)
-  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_field = {{ medication_field }})
+  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_col = {{ medication_col }})
 }
 
 #' @rdname medication_lookup_by_disease
 #' @export
-medication_thiazide <- function(data, after_instance = DEFAULT_AFTER_INST, up_to_instance = DEFAULT_UP_TO_INST, medication_field = f.20003.0.0.Treatment_medication_code) {
+medication_thiazide <- function(data, after_instance = default_after_inst(), up_to_instance = default_up_to_inst(), medication_col = f.20003.0.0.Treatment_medication_code) {
   codes <- med_text_to_codings(meds_thiazide)
-  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_field = {{ medication_field }})
+  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_col = {{ medication_col }})
 }
 
 #' @rdname medication_lookup_by_disease
 #' @export
-medication_antiHTN <- function(data, after_instance = DEFAULT_AFTER_INST, up_to_instance = DEFAULT_UP_TO_INST, medication_field = f.20003.0.0.Treatment_medication_code) {
+medication_antiHTN <- function(data, after_instance = default_after_inst(), up_to_instance = default_up_to_inst(), medication_col = f.20003.0.0.Treatment_medication_code) {
   codes <- c(
     med_text_to_codings(meds_antiHTN_other),
     med_text_to_codings(meds_ACEi),
@@ -363,26 +363,26 @@ medication_antiHTN <- function(data, after_instance = DEFAULT_AFTER_INST, up_to_
     med_text_to_codings(meds_betablocker),
     med_text_to_codings(meds_thiazide)
   )
-  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_field = {{ medication_field }})
+  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_col = {{ medication_col }})
 }
 
 #' @rdname medication_lookup_by_disease
 #' @export
-medication_insulin <- function(data, after_instance = DEFAULT_AFTER_INST, up_to_instance = DEFAULT_UP_TO_INST, medication_field = f.20003.0.0.Treatment_medication_code) {
+medication_insulin <- function(data, after_instance = default_after_inst(), up_to_instance = default_up_to_inst(), medication_col = f.20003.0.0.Treatment_medication_code) {
   codes <- med_text_to_codings(meds_insulin)
-  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_field = {{ medication_field }})
+  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_col = {{ medication_col }})
 }
 
 #' @rdname medication_lookup_by_disease
 #' @export
-medication_oralhypoglycemic <- function(data, after_instance = DEFAULT_AFTER_INST, up_to_instance = DEFAULT_UP_TO_INST, medication_field = f.20003.0.0.Treatment_medication_code) {
+medication_oralhypoglycemic <- function(data, after_instance = default_after_inst(), up_to_instance = default_up_to_inst(), medication_col = f.20003.0.0.Treatment_medication_code) {
   codes <- med_text_to_codings(meds_OHA)
-  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_field = {{ medication_field }})
+  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_col = {{ medication_col }})
 }
 
 #' @rdname medication_lookup_by_disease
 #' @export
-medication_pulm_endothelin <- function(data, after_instance = DEFAULT_AFTER_INST, up_to_instance = DEFAULT_UP_TO_INST, medication_field = f.20003.0.0.Treatment_medication_code) {
+medication_pulm_endothelin <- function(data, after_instance = default_after_inst(), up_to_instance = default_up_to_inst(), medication_col = f.20003.0.0.Treatment_medication_code) {
   codes <- med_text_to_codings(meds_pulm_endothelin)
-  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_field = {{ medication_field }})
+  medication_lookup(data, codes = codes, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }}, medication_col = {{ medication_col }})
 }

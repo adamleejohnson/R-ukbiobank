@@ -2,7 +2,7 @@
 % Please edit documentation in R/age.R
 \name{convert_to_age_group}
 \alias{convert_to_age_group}
-\title{Age group from vector of ages}
+\title{Convert ages to age groups}
 \usage{
 convert_to_age_group(age)
 }
@@ -10,5 +10,5 @@ convert_to_age_group(age)
 \item{age}{Input vector of ages}
 }
 \description{
-Age group from vector of ages
+Convert ages to age groups
 }
