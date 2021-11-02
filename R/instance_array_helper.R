@@ -30,11 +30,18 @@ column_expansion_helper <- function(.data,
   stopifnot(
     "There are no columns in the dataframe that match the template column name" = length(matched_cols) > 0
   )
+  instance_nums <- stringr::str_match(matched_cols, field_re)[, 4 + 1] %>% as.numeric()
+  array_nums <- stringr::str_match(matched_cols, field_re)[, 6 + 1] %>% as.numeric()
+
+  # sort by array & instance
+  arr_order <- order(array_nums)
+  inst_order <- order(instance_nums[arr_order])
+  matched_cols <- matched_cols[arr_order]
+  matched_cols <- matched_cols[inst_order]
 
   # apply MIN and MAX instance filters if expanding by instance
   if (4 %in% ctrl_ind) {
-    instance_nums <- stringr::str_match(matched_cols, field_re)[, 4 + 1] %>%
-      as.numeric()
+    instance_nums <- stringr::str_match(matched_cols, field_re)[, 4 + 1] %>% as.numeric()
     keep_ind <- seq_along(instance_nums) %>%
       intersect(which(instance_nums >= min_instance)) %>%
       intersect(which(instance_nums <= max_instance))
@@ -43,8 +50,7 @@ column_expansion_helper <- function(.data,
 
   # apply MIN and MAX instance filters if expanding by array
   if (6 %in% ctrl_ind) {
-    array_nums <- stringr::str_match(matched_cols, field_re)[, 6 + 1] %>%
-      as.numeric()
+    array_nums <- stringr::str_match(matched_cols, field_re)[, 6 + 1] %>% as.numeric()
     keep_ind <- intersect(
       which(array_nums >= min_array),
       which(array_nums <= max_array)
