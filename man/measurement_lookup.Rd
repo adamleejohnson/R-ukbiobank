@@ -6,51 +6,72 @@
 \alias{physio_diastolicBP}
 \alias{physio_height_cm}
 \alias{physio_weight_kg}
+\alias{physio_bmi}
+\alias{physio_bsa}
 \title{General measurement lookups}
 \usage{
 measurement_lookup(
   data,
   measurement_col,
-  combine_instances = c("last", "first", "min", "max", "mean"),
-  combine_array = c("last", "first", "min", "max", "mean"),
   after_instance = default_after_inst(),
-  up_to_instance = default_up_to_inst()
+  up_to_instance = default_up_to_inst(),
+  combine_instances = c("last", "first", "min", "max", "mean"),
+  combine_array = c("last", "first", "min", "max", "mean")
 )
 
 physio_systolicBP(
   data,
-  measurement_col = f.4080.0.0.Systolic_blood_pressure_automated_reading,
   after_instance = default_after_inst(),
   up_to_instance = default_up_to_inst(),
   combine_instances = "last",
-  combine_array = "mean"
+  combine_array = "mean",
+  measurement_col = f.4080.0.0.Systolic_blood_pressure_automated_reading
 )
 
 physio_diastolicBP(
   data,
-  measurement_col = f.4079.0.0.Diastolic_blood_pressure_automated_reading,
   after_instance = default_after_inst(),
   up_to_instance = default_up_to_inst(),
   combine_instances = "last",
-  combine_array = "mean"
+  combine_array = "mean",
+  measurement_col = f.4079.0.0.Diastolic_blood_pressure_automated_reading
 )
 
 physio_height_cm(
   data,
-  measurement_col = f.50.0.0.Standing_height,
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst(),
+  combine_instances = "last",
+  combine_array = "mean",
+  measurement_col = f.50.0.0.Standing_height
+)
+
+physio_weight_kg(
+  data,
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst(),
+  combine_instances = "last",
+  combine_array = "mean",
+  measurement_col = f.21002.0.0.Weight
+)
+
+physio_bmi(
+  data,
+  measurement_col = f.21001.0.0.Body_mass_index_BMI,
   after_instance = default_after_inst(),
   up_to_instance = default_up_to_inst(),
   combine_instances = "last",
   combine_array = "mean"
 )
 
-physio_weight_kg(
+physio_bsa(
   data,
-  measurement_col = f.21002.0.0.Weight,
   after_instance = default_after_inst(),
   up_to_instance = default_up_to_inst(),
   combine_instances = "last",
-  combine_array = "mean"
+  combine_array = "mean",
+  height_col = f.50.0.0.Standing_height,
+  weight_col = f.21002.0.0.Weight
 )
 }
 \arguments{
@@ -58,7 +79,11 @@ physio_weight_kg(
 
 This data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
-\item{measurement_col}{Template field (i.e. the column name) used to look up biomarker values, e.g. \code{f.4080.0.0.Systolic_blood_pressure_automated_reading}}
+\item{measurement_col}{Template column name for general measurements.\cr Default = \code{f.4080.0.0.Systolic_blood_pressure_automated_reading}.}
+
+\item{after_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{minimum instance (non-inclusive)}. Used to include all data \strong{after but NOT including} the specified instance number. Defaults to \code{default_after_inst()}, which is typically -1 (i.e., include instances 0 and later).}
+
+\item{up_to_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{maximum instance (inclusive)}. Used to include all data \strong{up to and including} the specified instance number. Defaults to \code{default_up_to_inst()}, which as of this writing returns \code{3}.}
 
 \item{combine_instances}{The method used by \code{\link[=instance_combiner]{instance_combiner()}} or other Reduce-like functions when combining results of a lookup (e.g. a medication lookup, icd10 lookup, biomarker lookup) across multiple instances.
 
@@ -76,11 +101,13 @@ Can be one of:
 
 Functions that call \code{combine_instances()} may restrict the choice of options (e.g. it doesn't make sense to apply \code{"any"} to numeric data).}
 
-\item{combine_array}{If a measurement field has multiple array values (e.g. blood pressure recordings are made in duplicate at each instance), specify how these values should be combined. See \code{combine_instances} for details.}
+\item{combine_array}{If a measurement field has multiple array values (e.g. blood pressure recordings are made in duplicate), specify how these values should be combined. See \code{combine_instances} for details and options.}
 
-\item{after_instance}{An integer or string specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{minimum instance (non-inclusive)}. Used to include all data \strong{after but NOT including} the specified instance number. Defaults to \code{default_after_inst()}, which is typically -1 (i.e. include instances 0 and later).}
+\item{height_col}{Template column name for height.\cr Default = \code{f.50.0.0.Standing_height}.}
 
-\item{up_to_instance}{An integer or string specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{maximum instance (inclusive)}. Used to include all data \strong{up to and including} the specified instance number.}
+\item{weight_col}{Template column name for weight.\cr Default = \code{f.21002.0.0.Weight}.}
+
+\item{measurement_col_alt}{Alternate column name to lookup, used specifically for manual readings of measurements when automated methods return NA.}
 }
 \description{
 Perform lookups for various measurements. Because many measurements are repeated across instances, and sometimes within instances, two special arguments (\code{combine_instances} and \code{combine_array}) are used to specify how multiple measurements should be aggregated.
@@ -90,7 +117,7 @@ Several convenience \verb{physio_*()} functions are provided to facilitate looku
 \section{Instancing}{
  The UK Biobank records visits as separate "instances." As of this writing, there are 4 instances labeled 0 through 3. At each instance, various information can be recorded or re-recorded. For example, blood pressure is typically recorded at most in-person evaluations. Therefore, there may be 4 separate columns for blood pressure recordings (actually, there could be more because the blood pressure may be recorded multiple times at each instance). Almost all of the functions in this package will utilize instance numbers to specify from which time points data should be retrieved. For example, we may want to know the state of ICD10 diagnoses \emph{before} instance 2. In this case, we would specify \code{up_to_instance = 1} (search up to instance 1, inclusive) in functions that take this as an argument.
 
-Arguments like \code{up_to_instance} and \code{after_instance} can take a constant instance number as their value. But they can also take the name of a column that contains an instance number, so that different instance limits can be used for each participant. For example, some participants undergo MRI at instance 2, and others at instance 3. If we want to know the state of a diagnosis up to and including the time of MRI, we would want to assign \code{up_to_instance} to the name of the column that specifies which instance the MRI occurred at. This column typically has to be generated by the user and attached to the data frame.
+Arguments like \code{up_to_instance} and \code{after_instance} can take a constant instance number as their value. But they can also take the name of a column that contains an instance number, so that different instance limits can be used for each participant. For example, some participants undergo MRI at instance 2, and others at instance 3. If we want to know the state of a diagnosis up to and including the time of MRI, we would want to assign \code{up_to_instance} to the name of the column that specifies which instance the MRI occurred at. This column typically has to be generated by the user and attached to the data frame beforehand.
 }
 
 \section{Column names}{

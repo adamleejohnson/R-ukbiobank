@@ -27,6 +27,9 @@ column_expansion_helper <- function(data,
 
   # find matched columns
   matched_cols <- colnames(data)[stringr::str_detect(colnames(data), field_matcher)]
+  stopifnot(
+    "There are no columns in the dataframe that match the template column name" = length(matched_cols) > 0
+  )
 
   # apply MIN and MAX instance filters if expanding by instance
   if (4 %in% ctrl_ind) {
@@ -92,7 +95,8 @@ select_instance_and_array <- function(data, field_name, instance, array) {
 }
 
 
-#' Helper to apply a a lookup function to a range of instances, and combine the result
+#' @title Instance combiner helper function
+#' @description Helper to apply a lookup function to a range of instances, and combine the result.
 #' @inheritParams ukbiobank
 #' @param lookup_by_instance_fn Function that takes a target instance as its only argument, and returns a vector of data.
 #' @keywords internal
@@ -120,7 +124,7 @@ instance_combiner <- function(data,
 
   # populate results for each instance
   # ... create a data frame to hold the results for each instances that we calculate
-  stopifnot("Minimum start instance is greater than the maximum end instance\n\n\t** Remember that `after_instance` is not inclusive!" = min_inst_overall <= max_inst_overall)
+  stopifnot("** Minimum start instance is greater than the maximum end instance" = min_inst_overall <= max_inst_overall)
   { # message
     min_inst_text <- wrap_str(quo_text(enquo(after_instance)), "`", condition = !quo_is_numeric(enquo(after_instance)))
     max_inst_text <- wrap_str(quo_text(enquo(up_to_instance)), "`", condition = !quo_is_numeric(enquo(up_to_instance)))
@@ -180,7 +184,7 @@ get_reduce_fn <- function(combine_instances = c("any", "max", "min", "first", "l
       stopifnot(class(x) == "logical" && class(y) == "logical")
       x | y
     },
-    "max" = function(x, y) {
+    "max" = function(x, y){
       pmax(x, y, na.rm = T)
     },
     "min" = function(x, y) {

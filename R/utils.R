@@ -5,6 +5,8 @@
 #' Vectorized OR that prefers non-NA values
 #' @noRd
 "%|%" <- function(a, b) {
+  a <- a %||% NA
+  b <- b %||% NA
   ifelse(is.na(a),
     b,
     ifelse(is.na(b),

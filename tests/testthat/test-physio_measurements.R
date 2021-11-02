@@ -13,7 +13,7 @@ test_that("array combination works", {
 test_that("after_instance works", {
   expect_equal(
     df_test %>% physio_systolicBP(after_instance = 1, up_to_instance = 3, combine_array = "mean"),
-    c(139, 141.5, 151.5, 151, NA, 191, 164.5, 170, 152.5, 143)
+    c(136.5, 141.5, 151.5, 151, 175, 191, 164.5, 170, 152.5, 141.5)
   )
 
   expect_equal(

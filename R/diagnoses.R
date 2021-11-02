@@ -1,5 +1,5 @@
 #' @title Self-reported diagnosis lookup
-#' @description Look up whether a diagnosis has been self-reported, based on coding 6. See \url{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=6}. For disease-specific `diagnosis_*()` functions, the function [dx_self_text_to_codes()] is used internally to convert the text form of the diagnosis to the code used in the UKB data table.
+#' @description Look up whether a diagnosis has been self-reported, based on coding 6. See \url{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=6}. For disease-specific `diagnosis_*()` functions, the function `dx_self_text_to_codes()` is used internally to convert the text form of the diagnosis to the code used in the UKB data table.
 #' @inheritParams ukbiobank
 #' @param codes Diagnosis codes to look up.
 #' @export

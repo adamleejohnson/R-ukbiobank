@@ -116,6 +116,13 @@ test_that("catch bad field name", {
   })
 })
 
+test_that("catch field not found", {
+  expect_error({
+    df_test %>%
+      select_instance_and_expand_array(f.9999999.0.0.Dummy)
+  }, regexp = "There are no columns in the dataframe that match the template column name")
+})
+
 test_that("check number of biomarker columns", {
   expect_equal(
     df_test %>%

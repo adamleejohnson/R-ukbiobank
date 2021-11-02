@@ -16,7 +16,7 @@ years_from_instance_to_death(
 
 This data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
-\item{instance_num}{An integer or string specifying the instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use in the current function.}
+\item{instance_num}{An integer specifying the instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use in the current function.}
 
 \item{date_of_instance_col}{Template column name for date of each instance.\cr Default = \code{f.53.0.0.Date_of_attending_assessment_centre}.}
 
