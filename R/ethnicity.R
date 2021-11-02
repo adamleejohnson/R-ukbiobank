@@ -3,11 +3,11 @@
 #' @inheritParams ukbiobank
 #' @inheritSection ukbiobank Column names
 #' @export
-ethnicity_self_reported <- function(data, ethnicity_col = f.21000.0.0.Ethnic_background) {
-  ethnicity_col_cols <- expand_instances(data, {{ ethnicity_col }})
+ethnicity_self_reported <- function(.data, ethnicity_col = f.21000.0.0.Ethnic_background) {
+  ethnicity_col_cols <- expand_instances(.data, {{ ethnicity_col }})
 
   get_ethnic_category <- function(x) {
-    data %>%
+    .data %>%
       rename(meaning = {{ x }}) %>%
       left_join(coding_ethnicity, by = "meaning") %>%
       mutate(
@@ -30,7 +30,7 @@ ethnicity_self_reported <- function(data, ethnicity_col = f.21000.0.0.Ethnic_bac
 
   ethnicity_0 <- ethnicity_1 <- ethnicity_2 <- NULL
 
-  data %>%
+  .data %>%
     transmute(
       ethnicity_0 = get_ethnic_category(ethnicity_col_cols[[1]]),
       ethnicity_1 = get_ethnic_category(ethnicity_col_cols[[2]]),

@@ -5,7 +5,7 @@
 #' @inheritSection ukbiobank Column names
 #' @param codes ICD10 codes to look up.
 #' @export
-icd10_lookup <- function(data,
+icd10_lookup <- function(.data,
                          codes,
                          after_instance = default_after_inst(),
                          up_to_instance = default_up_to_inst(),
@@ -20,13 +20,13 @@ icd10_lookup <- function(data,
     pull("coding")
 
   # remove any columns with only NAs
-  data %<>% remove_na_columns()
+  .data %<>% remove_na_columns()
   codes %<>% unique()
 
   # generate lists of column names
-  date_of_instance_colnames <- expand_instances(data, {{ date_of_instance_col }})
-  icd10_colnames <- expand_array(data, {{ icd10_col }})
-  icd10_date_colnames <- expand_array(data, {{ icd10_date_col }})
+  date_of_instance_colnames <- expand_instances(.data, {{ date_of_instance_col }})
+  icd10_colnames <- expand_array(.data, {{ icd10_col }})
+  icd10_date_colnames <- expand_array(.data, {{ icd10_date_col }})
   stopifnot(length(icd10_colnames) == length(icd10_date_colnames))
 
   # define function that will return whether the patient has icd10 codes
@@ -35,7 +35,7 @@ icd10_lookup <- function(data,
 
     # Check if icd10 codes match the provided search codes
     icd_match <-
-      data %>%
+      .data %>%
       select(!!!icd10_colnames) %>%
       mutate(across(everything(), ~ .x %in% icd10_lookups)) %>%
       as.matrix()
@@ -43,13 +43,13 @@ icd10_lookup <- function(data,
     # compare dates from the icd columns to dates of the instance,
     # and create a filter based on whether the date is allowed
     inst_dates <-
-      data %>%
+      .data %>%
       pull(!!date_of_instance_colnames[[inst + 1]]) %>%
       as.Date() %>%
       as.integer() %>%
       matrix(., length(.), length(icd10_date_colnames))
     icd_dates <-
-      data %>%
+      .data %>%
       select(!!!icd10_date_colnames) %>%
       mutate(across(everything(), ~ as.integer(as.Date(.x)))) %>%
       as.matrix()
@@ -63,7 +63,7 @@ icd10_lookup <- function(data,
 
 
   instance_combiner(
-    data,
+    .data,
     lookup_by_instance_fn = icd10_by_instance,
     after_instance = {{ after_instance }},
     up_to_instance = {{ up_to_instance }}
@@ -85,7 +85,7 @@ icd10_text_to_codes <- function(text) {
 
 #' @rdname icd10_lookup
 #' @export
-icd10_htn <- function(data,
+icd10_htn <- function(.data,
                       after_instance = default_after_inst(),
                       up_to_instance = default_up_to_inst(),
                       icd10_col = f.41270.0.0.Diagnoses_ICD10) {
@@ -109,12 +109,12 @@ icd10_htn <- function(data,
     I15.8 Other secondary hypertension
     I15.9 Seconday hypertension, unspecified
   ")
-  icd10_lookup(data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(.data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }
 
 #' @rdname icd10_lookup
 #' @export
-icd10_hld <- function(data,
+icd10_hld <- function(.data,
                       after_instance = default_after_inst(),
                       up_to_instance = default_up_to_inst(),
                       icd10_col = f.41270.0.0.Diagnoses_ICD10) {
@@ -125,12 +125,12 @@ icd10_hld <- function(data,
     E78.4 Other hyperlipidaemia
     E78.5 Hyperlipidaemia, unspecified
   ")
-  icd10_lookup(data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(.data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }
 
 #' @rdname icd10_lookup
 #' @export
-icd10_heart_failure <- function(data,
+icd10_heart_failure <- function(.data,
                                 after_instance = default_after_inst(),
                                 up_to_instance = default_up_to_inst(),
                                 icd10_col = f.41270.0.0.Diagnoses_ICD10) {
@@ -141,12 +141,12 @@ icd10_heart_failure <- function(data,
     I50.9 Heart failure, unspecified
     I11.0 Hypertensive heart disease with (congestive) heart failure
   ")
-  icd10_lookup(data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(.data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }
 
 #' @rdname icd10_lookup
 #' @export
-icd10_pulm_htn <- function(data,
+icd10_pulm_htn <- function(.data,
                            after_instance = default_after_inst(),
                            up_to_instance = default_up_to_inst(),
                            icd10_col = f.41270.0.0.Diagnoses_ICD10) {
@@ -156,12 +156,12 @@ icd10_pulm_htn <- function(data,
     I27.8 Other specified pulmonary heart diseases
     I27.9 Pulmonary heart disease, unspecified
   ")
-  icd10_lookup(data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(.data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }
 
 #' @rdname icd10_lookup
 #' @export
-icd10_pulm_embolism <- function(data,
+icd10_pulm_embolism <- function(.data,
                                 after_instance = default_after_inst(),
                                 up_to_instance = default_up_to_inst(),
                                 icd10_col = f.41270.0.0.Diagnoses_ICD10) {
@@ -170,12 +170,12 @@ icd10_pulm_embolism <- function(data,
     I26.0 Pulmonary embolism with mention of acute cor pulmonale
     I26.9 Pulmonary embolism without mention of acute cor pulmonale
   ")
-  icd10_lookup(data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(.data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }
 
 #' @rdname icd10_lookup
 #' @export
-icd10_pulm_misc <- function(data,
+icd10_pulm_misc <- function(.data,
                             after_instance = default_after_inst(),
                             up_to_instance = default_up_to_inst(),
                             icd10_col = f.41270.0.0.Diagnoses_ICD10) {
@@ -207,12 +207,12 @@ icd10_pulm_misc <- function(data,
     Q26.4 Anomalous pulmonary venous connexion, unspecified
     S25.4 Injury of pulmonary blood vessels
   ")
-  icd10_lookup(data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(.data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }
 
 #' @rdname icd10_lookup
 #' @export
-icd10_pulm_ILD <- function(data,
+icd10_pulm_ILD <- function(.data,
                            after_instance = default_after_inst(),
                            up_to_instance = default_up_to_inst(),
                            icd10_col = f.41270.0.0.Diagnoses_ICD10) {
@@ -226,12 +226,12 @@ icd10_pulm_ILD <- function(data,
     J84.9 Interstitial pulmonary disease, unspecified
     E84.0 Cystic fibrosis with pulmonary manifestations
   ")
-  icd10_lookup(data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(.data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }
 
 #' @rdname icd10_lookup
 #' @export
-icd10_copd <- function(data,
+icd10_copd <- function(.data,
                        after_instance = default_after_inst(),
                        up_to_instance = default_up_to_inst(),
                        icd10_col = f.41270.0.0.Diagnoses_ICD10) {
@@ -249,12 +249,12 @@ icd10_copd <- function(data,
     J98.2 Interstitial emphysema
     J98.3 Compensatory emphysema
   ")
-  icd10_lookup(data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(.data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }
 
 #' @rdname icd10_lookup
 #' @export
-icd10_heart_pulm_transplant <- function(data,
+icd10_heart_pulm_transplant <- function(.data,
                                         after_instance = default_after_inst(),
                                         up_to_instance = default_up_to_inst(),
                                         icd10_col = f.41270.0.0.Diagnoses_ICD10) {
@@ -265,12 +265,12 @@ icd10_heart_pulm_transplant <- function(data,
     Z94.3 Heart and lungs transplant status
     Z99.4 Dependence on artificial heart
   ")
-  icd10_lookup(data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(.data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }
 
 #' @rdname icd10_lookup
 #' @export
-icd10_diabetes <- function(data,
+icd10_diabetes <- function(.data,
                            after_instance = default_after_inst(),
                            up_to_instance = default_up_to_inst(),
                            icd10_col = f.41270.0.0.Diagnoses_ICD10) {
@@ -336,5 +336,5 @@ icd10_diabetes <- function(data,
     O24.2 Pre-existing malnutrition-related diabetes mellitus
     O24.3 Pre-existing diabetes mellitus, unspecified
   ")
-  icd10_lookup(data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
+  icd10_lookup(.data, codings, icd10_col = {{ icd10_col }}, after_instance = {{ after_instance }}, up_to_instance = {{ up_to_instance }})
 }

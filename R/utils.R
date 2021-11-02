@@ -38,23 +38,23 @@ quotemeta <- function(string) {
 
 #' Remove columns with only NAs
 #' @noRd
-remove_na_columns <- function(data) data[colSums(!is.na(data)) > 0]
+remove_na_columns <- function(.data) .data[colSums(!is.na(.data)) > 0]
 
 #' @title Apply functions across rows
 #' @description
 #' * `any_by_row`:  For each row, are any of the columns true (see [any()])
 #' * `fn_by_row`:  Apply function across each entire row (function takes whole row as argument)
 #' * `reduce_by_row`:  Apply [Reduce()] across each row of matrix or dataframe
-#' @param data input data
+#' @param.data input data
 #' @param fn function to apply
 #' @keywords internal
-any_by_row <- function(data) apply(as.matrix(data), 1, any)
+any_by_row <- function(.data) apply(as.matrix(.data), 1, any)
 
 #' @rdname any_by_row
-fn_by_row <- function(data, fn) apply(as.matrix(data), 1, fn)
+fn_by_row <- function(.data, fn) apply(as.matrix(.data), 1, fn)
 
 #' @rdname any_by_row
-reduce_by_row <- function(data, fn) Reduce(fn, as.data.frame(data))
+reduce_by_row <- function(.data, fn) Reduce(fn, as.data.frame(.data))
 
 #' Forward all arguments of the calling function to the specified function.
 #' Works as expected with formals.

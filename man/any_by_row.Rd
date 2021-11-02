@@ -6,14 +6,14 @@
 \alias{reduce_by_row}
 \title{Apply functions across rows}
 \usage{
-any_by_row(data)
+any_by_row(.data)
 
-fn_by_row(data, fn)
+fn_by_row(.data, fn)
 
-reduce_by_row(data, fn)
+reduce_by_row(.data, fn)
 }
 \arguments{
-\item{data}{input data}
+\item{.data}{input data}
 
 \item{fn}{function to apply}
 }

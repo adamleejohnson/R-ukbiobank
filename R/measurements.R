@@ -10,33 +10,32 @@
 #' @inheritSection ukbiobank Instancing
 #' @inheritSection ukbiobank Column names
 #' @export
-measurement_lookup <- function(data,
+measurement_lookup <- function(.data,
                                measurement_col,
                                after_instance = default_after_inst(),
                                up_to_instance = default_up_to_inst(),
                                combine_instances = c("last", "first", "min", "max", "mean"),
                                combine_array = c("last", "first", "min", "max", "mean")) {
-
   combine_instances <- match.arg(combine_instances)
   combine_array <- match.arg(combine_array)
-  data %<>% remove_na_columns()
+  .data %<>% remove_na_columns()
   array_reduce_fn <- get_reduce_fn(combine_array)
 
   measurement_by_instance <- function(i) {
     measurement_colnames <-
       select_instance_and_expand_array(
-        data,
+        .data,
         {{ measurement_col }},
         instance = i
       )
 
-    data %>%
+    .data %>%
       select(!!!measurement_colnames) %>%
       reduce_by_row(array_reduce_fn)
   }
 
   instance_combiner(
-    data,
+    .data,
     lookup_by_instance_fn = measurement_by_instance,
     after_instance = {{ after_instance }},
     up_to_instance = {{ up_to_instance }},
@@ -46,38 +45,37 @@ measurement_lookup <- function(data,
 
 #' @rdname measurement_lookup
 #' @export
-measurement_lookup_with_alt <- function(data,
-                                       measurement_col,
-                                       measurement_col_alt,
-                                       after_instance = default_after_inst(),
-                                       up_to_instance = default_up_to_inst(),
-                                       combine_instances = c("last", "first", "min", "max", "mean"),
-                                       combine_array = c("last", "first", "min", "max", "mean")) {
-
+measurement_lookup_with_alt <- function(.data,
+                                        measurement_col,
+                                        measurement_col_alt,
+                                        after_instance = default_after_inst(),
+                                        up_to_instance = default_up_to_inst(),
+                                        combine_instances = c("last", "first", "min", "max", "mean"),
+                                        combine_array = c("last", "first", "min", "max", "mean")) {
   combine_instances <- match.arg(combine_instances)
   combine_array <- match.arg(combine_array)
-  data %<>% remove_na_columns()
+  .data %<>% remove_na_columns()
   array_reduce_fn <- get_reduce_fn(combine_array)
 
   measurement_by_instance <- function(i) {
     measurement_colnames <-
       select_instance_and_expand_array(
-        data,
+        .data,
         {{ measurement_col }},
         instance = i
       )
     measurement_colnames_alt <-
       select_instance_and_expand_array(
-        data,
+        .data,
         {{ measurement_col_alt }},
         instance = i
       )
 
-    primary <- data %>%
+    primary <- .data %>%
       select(!!!measurement_colnames) %>%
       reduce_by_row(array_reduce_fn)
     primary <- primary %||% NA
-    alt <- data %>%
+    alt <- .data %>%
       select(!!!measurement_colnames_alt) %>%
       reduce_by_row(array_reduce_fn)
     alt <- alt %||% NA
@@ -85,7 +83,7 @@ measurement_lookup_with_alt <- function(data,
   }
 
   instance_combiner(
-    data,
+    .data,
     lookup_by_instance_fn = measurement_by_instance,
     after_instance = {{ after_instance }},
     up_to_instance = {{ up_to_instance }},
@@ -97,7 +95,7 @@ measurement_lookup_with_alt <- function(data,
 
 #' @rdname measurement_lookup
 #' @export
-physio_systolicBP <- function(data,
+physio_systolicBP <- function(.data,
                               after_instance = default_after_inst(),
                               up_to_instance = default_up_to_inst(),
                               combine_instances = "last",
@@ -105,7 +103,7 @@ physio_systolicBP <- function(data,
                               measurement_col = f.4080.0.0.Systolic_blood_pressure_automated_reading,
                               measurement_col_alt = f.93.0.0.Systolic_blood_pressure_manual_reading) {
   measurement_lookup_with_alt(
-    data,
+    .data,
     measurement_col = {{ measurement_col }},
     measurement_col_alt = {{ measurement_col_alt }},
     after_instance = {{ after_instance }},
@@ -117,7 +115,7 @@ physio_systolicBP <- function(data,
 
 #' @rdname measurement_lookup
 #' @export
-physio_diastolicBP <- function(data,
+physio_diastolicBP <- function(.data,
                                after_instance = default_after_inst(),
                                up_to_instance = default_up_to_inst(),
                                combine_instances = "last",
@@ -125,7 +123,7 @@ physio_diastolicBP <- function(data,
                                measurement_col = f.4079.0.0.Diastolic_blood_pressure_automated_reading,
                                measurement_col_alt = f.94.0.0.Diastolic_blood_pressure_manual_reading) {
   measurement_lookup_with_alt(
-    data,
+    .data,
     measurement_col = {{ measurement_col }},
     measurement_col_alt = {{ measurement_col_alt }},
     after_instance = {{ after_instance }},
@@ -137,14 +135,14 @@ physio_diastolicBP <- function(data,
 
 #' @rdname measurement_lookup
 #' @export
-physio_height_cm <- function(data,
+physio_height_cm <- function(.data,
                              after_instance = default_after_inst(),
                              up_to_instance = default_up_to_inst(),
                              combine_instances = "last",
                              combine_array = "mean",
                              measurement_col = f.50.0.0.Standing_height) {
   measurement_lookup(
-    data,
+    .data,
     measurement_col = {{ measurement_col }},
     after_instance = {{ after_instance }},
     up_to_instance = {{ up_to_instance }},
@@ -155,14 +153,14 @@ physio_height_cm <- function(data,
 
 #' @rdname measurement_lookup
 #' @export
-physio_weight_kg <- function(data,
+physio_weight_kg <- function(.data,
                              after_instance = default_after_inst(),
                              up_to_instance = default_up_to_inst(),
                              combine_instances = "last",
                              combine_array = "mean",
                              measurement_col = f.21002.0.0.Weight) {
   measurement_lookup(
-    data,
+    .data,
     measurement_col = {{ measurement_col }},
     after_instance = {{ after_instance }},
     up_to_instance = {{ up_to_instance }},
@@ -173,15 +171,14 @@ physio_weight_kg <- function(data,
 
 #' @rdname measurement_lookup
 #' @export
-physio_bmi <- function(data,
+physio_bmi <- function(.data,
                        measurement_col = f.21001.0.0.Body_mass_index_BMI,
                        after_instance = default_after_inst(),
                        up_to_instance = default_up_to_inst(),
                        combine_instances = "last",
                        combine_array = "mean") {
-
   measurement_lookup(
-    data,
+    .data,
     measurement_col = {{ measurement_col }},
     after_instance = {{ after_instance }},
     up_to_instance = {{ up_to_instance }},
@@ -192,16 +189,15 @@ physio_bmi <- function(data,
 
 #' @rdname measurement_lookup
 #' @export
-physio_bsa <- function(data,
+physio_bsa <- function(.data,
                        after_instance = default_after_inst(),
                        up_to_instance = default_up_to_inst(),
                        combine_instances = "last",
                        combine_array = "mean",
                        height_col = f.50.0.0.Standing_height,
                        weight_col = f.21002.0.0.Weight) {
-
   height <- physio_height_cm(
-    data,
+    .data,
     measurement_col = {{ height_col }},
     after_instance = {{ after_instance }},
     up_to_instance = {{ up_to_instance }},
@@ -209,12 +205,12 @@ physio_bsa <- function(data,
     combine_array = combine_array
   )
   weight <- physio_weight_kg(
-    data,
+    .data,
     measurement_col = {{ weight_col }},
     after_instance = {{ after_instance }},
     up_to_instance = {{ up_to_instance }},
     combine_instances = combine_instances,
     combine_array = combine_array
   )
-  0.20247 * (weight^0.425) * ((height/100)^0.725)
+  0.20247 * (weight^0.425) * ((height / 100)^0.725)
 }

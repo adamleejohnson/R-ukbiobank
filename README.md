@@ -22,15 +22,15 @@ For code clarity, it is recommended to refer to functions using `::` notation (e
 
 ## General Usage
 
-Most functions in this package take an entire data frame (containing UKB data) as the first argument. The user then specifies the names of columns (with [data masking](https://dplyr.tidyverse.org/reference/dplyr_data_masking.html)) in the data frame that correspond to relevant fields.
+Most functions in this package take an entire.data frame (containing UKB data) as the first argument. The user then specifies the names of columns (with .data masking](https://dplyr.tidyverse.org/reference/dplyr_data_masking.html)) in the.data frame that correspond to relevant fields.
 
 ### Data masking
 
-Functions that require the name of a column in the data frame can accept quoted (i.e. symbols) column names to facilitate "tidy" data masking. See https://dplyr.tidyverse.org/reference/dplyr_data_masking.html.
+Functions that require the name of a column in the.data frame can accept quoted (i.e. symbols) column names to facilitate "tidy".data masking. See https://dplyr.tidyverse.org/reference/dplyr_data_masking.html.
 
 ### Column name expansion
 
-Some functions (for example those that look-up ICD10 codes) will need to search many related columns. In this case, only one column name needs to be provided and the function will identify all related columns. For example, the ICD10 lookup function needs to know that column `f.41270.0.0.Diagnoses_ICD10` is used for ICD10 diagnoses, but will automatically search all columns of the form `f.41270.###.###.Diagnoses_ICD10`. This means, however, that the UKB data frame columns must include "Field.Instance.Array" in `###.###.###` format somewhere in the name.
+Some functions (for example those that look-up ICD10 codes) will need to search many related columns. In this case, only one column name needs to be provided and the function will identify all related columns. For example, the ICD10 lookup function needs to know that column `f.41270.0.0.Diagnoses_ICD10` is used for ICD10 diagnoses, but will automatically search all columns of the form `f.41270.###.###.Diagnoses_ICD10`. This means, however, that the UKB.data frame columns must include "Field.Instance.Array" in `###.###.###` format somewhere in the name.
 
 ## Examples
 

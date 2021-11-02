@@ -5,15 +5,15 @@
 \title{Years from date to death}
 \usage{
 years_from_date_to_death(
-  data,
+  .data,
   date,
   death_date_col = f.40000.0.0.Date_of_death
 )
 }
 \arguments{
-\item{data}{The primary data frame.
+\item{.data}{The primary.data frame.
 
-This data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
+This.data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
 \item{date}{Target date, as a string which is then passed to \code{\link[lubridate:as_date]{lubridate::as_date()}}.}
 

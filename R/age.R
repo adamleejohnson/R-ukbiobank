@@ -26,11 +26,11 @@ convert_to_age_group <- function(age) {
 #' @inheritSection ukbiobank Column names
 #' @return Numeric vector of age in years (`age_at_date()`), or character vector of age groups (`age_group_at_date()`)
 #' @export
-age_at_date <- function(data,
+age_at_date <- function(.data,
                         date,
                         year_of_birth_col = f.34.0.0.Year_of_birth,
                         month_of_birth_col = f.52.0.0.Month_of_birth) {
-  data %>%
+  .data %>%
     mutate(
       birth_date = lubridate::make_date({{ year_of_birth_col }}, {{ month_of_birth_col }}, 15),
       target_date = lubridate::as_date(as.character({{ date }})),
@@ -49,12 +49,12 @@ age_at_date <- function(data,
 #' @inheritSection ukbiobank Column names
 #' @inheritParams ukbiobank
 #' @export
-age_at_instance <- function(data,
+age_at_instance <- function(.data,
                             instance_num,
                             age_at_instance_col = f.21003.0.0.Age_when_attended_assessment_centre) {
-  age_at_instance_col_cols <- expand_instances(data, {{ age_at_instance_col }})
+  age_at_instance_col_cols <- expand_instances(.data, {{ age_at_instance_col }})
 
-  data %>%
+  .data %>%
     mutate(
       case_when(
         {{ instance_num }} == 0 ~ !!age_at_instance_col_cols[[1]],
@@ -68,14 +68,14 @@ age_at_instance <- function(data,
 
 #' @rdname age_at_instance
 #' @export
-age_at_instance_computed <- function(data,
+age_at_instance_computed <- function(.data,
                                      instance_num,
                                      date_of_instance_col = f.53.0.0.Date_of_attending_assessment_centre,
                                      year_of_birth_col = f.34.0.0.Year_of_birth,
                                      month_of_birth_col = f.52.0.0.Month_of_birth) {
-  date_of_instance_col_cols <- expand_instances(data, {{ date_of_instance_col }})
+  date_of_instance_col_cols <- expand_instances(.data, {{ date_of_instance_col }})
 
-  data %>%
+  .data %>%
     mutate(
       birth_date = lubridate::make_date({{ year_of_birth_col }}, {{ month_of_birth_col }}, 15),
       inst_date = case_when(

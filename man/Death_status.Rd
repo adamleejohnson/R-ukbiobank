@@ -4,12 +4,12 @@
 \alias{death_status}
 \title{Death status (true/false)}
 \usage{
-death_status(data, death_date_col = f.40000.0.0.Date_of_death)
+death_status(.data, death_date_col = f.40000.0.0.Date_of_death)
 }
 \arguments{
-\item{data}{The primary data frame.
+\item{.data}{The primary.data frame.
 
-This data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
+This.data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
 \item{death_date_col}{Template column name for date of death.\cr Default = \code{f.40000.0.0.Date_of_death}.}
 }

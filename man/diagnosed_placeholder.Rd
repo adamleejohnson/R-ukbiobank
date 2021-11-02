@@ -12,14 +12,14 @@
 \title{Diagnosis algorithms for selected diseases}
 \usage{
 diagnosed_chf(
-  data,
+  .data,
   after_instance = default_after_inst(),
   up_to_instance = default_up_to_inst(),
   diagnosis_col = f.20002.0.0.Non_cancer_illness_code_self_reported
 )
 
 diagnosed_htn(
-  data,
+  .data,
   after_instance = default_after_inst(),
   up_to_instance = default_up_to_inst(),
   diagnosis_col = f.20002.0.0.Non_cancer_illness_code_self_reported,
@@ -28,48 +28,48 @@ diagnosed_htn(
 )
 
 diagnosed_hld(
-  data,
+  .data,
   after_instance = default_after_inst(),
   up_to_instance = default_up_to_inst(),
   diagnosis_col = f.20002.0.0.Non_cancer_illness_code_self_reported
 )
 
 diagnosed_copd(
-  data,
+  .data,
   after_instance = default_after_inst(),
   up_to_instance = default_up_to_inst(),
   diagnosis_col = f.20002.0.0.Non_cancer_illness_code_self_reported
 )
 
 diagnosed_pHTN(
-  data,
+  .data,
   after_instance = default_after_inst(),
   up_to_instance = default_up_to_inst(),
   diagnosis_col = f.20002.0.0.Non_cancer_illness_code_self_reported
 )
 
 diagnosed_pulm_embolism(
-  data,
+  .data,
   after_instance = default_after_inst(),
   up_to_instance = default_up_to_inst(),
   diagnosis_col = f.20002.0.0.Non_cancer_illness_code_self_reported
 )
 
 diagnosed_diabetes(
-  data,
+  .data,
   after_instance = default_after_inst(),
   up_to_instance = default_up_to_inst(),
   diagnosis_col = f.20002.0.0.Non_cancer_illness_code_self_reported
 )
 }
 \arguments{
-\item{data}{The primary data frame.
+\item{.data}{The primary.data frame.
 
-This data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
+This.data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
-\item{after_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{minimum instance (non-inclusive)}. Used to include all data \strong{after but NOT including} the specified instance number. Defaults to \code{default_after_inst()}, which is typically -1 (i.e., include instances 0 and later).}
+\item{after_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{minimum instance (non-inclusive)}. Used to include all.data \strong{after but NOT including} the specified instance number. Defaults to \code{default_after_inst()}, which is typically -1 (i.e., include instances 0 and later).}
 
-\item{up_to_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{maximum instance (inclusive)}. Used to include all data \strong{up to and including} the specified instance number. Defaults to \code{default_up_to_inst()}, which as of this writing returns \code{3}.}
+\item{up_to_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{maximum instance (inclusive)}. Used to include all.data \strong{up to and including} the specified instance number. Defaults to \code{default_up_to_inst()}, which as of this writing returns \code{3}.}
 
 \item{diagnosis_col}{Template column name for self-reported diagnosis codes.\cr Default = \code{f.20002.0.0.Non_cancer_illness_code_self_reported}.}
 
@@ -81,9 +81,9 @@ This data frame includes all necessary columns required to perform look-ups (e.g
 These convenience functions perform a combination of self-reported diagnosis lookups, ICD10 lookups, medication lookups, and lab/measurement value lookups in order to return a boolean vector indicating whether a diagnosis has been made within the provided instance ranges. The actual algorithm for each disease diagnosis (e.g. hypertension) is somewhat arbitrary, and (for example) is based on a selected list of medications, blood pressure measurements, ICD10 codes, etc. Users should construct their own algorithms to fit specific use-case scenarios.
 }
 \section{Instancing}{
- The UK Biobank records visits as separate "instances." As of this writing, there are 4 instances labeled 0 through 3. At each instance, various information can be recorded or re-recorded. For example, blood pressure is typically recorded at most in-person evaluations. Therefore, there may be 4 separate columns for blood pressure recordings (actually, there could be more because the blood pressure may be recorded multiple times at each instance). Almost all of the functions in this package will utilize instance numbers to specify from which time points data should be retrieved. For example, we may want to know the state of ICD10 diagnoses \emph{before} instance 2. In this case, we would specify \code{up_to_instance = 1} (search up to instance 1, inclusive) in functions that take this as an argument.
+ The UK Biobank records visits as separate "instances." As of this writing, there are 4 instances labeled 0 through 3. At each instance, various information can be recorded or re-recorded. For example, blood pressure is typically recorded at most in-person evaluations. Therefore, there may be 4 separate columns for blood pressure recordings (actually, there could be more because the blood pressure may be recorded multiple times at each instance). Almost all of the functions in this package will utilize instance numbers to specify from which time points.data should be retrieved. For example, we may want to know the state of ICD10 diagnoses \emph{before} instance 2. In this case, we would specify \code{up_to_instance = 1} (search up to instance 1, inclusive) in functions that take this as an argument.
 
-Arguments like \code{up_to_instance} and \code{after_instance} can take a constant instance number as their value. But they can also take the name of a column that contains an instance number, so that different instance limits can be used for each participant. For example, some participants undergo MRI at instance 2, and others at instance 3. If we want to know the state of a diagnosis up to and including the time of MRI, we would want to assign \code{up_to_instance} to the name of the column that specifies which instance the MRI occurred at. This column typically has to be generated by the user and attached to the data frame beforehand.
+Arguments like \code{up_to_instance} and \code{after_instance} can take a constant instance number as their value. But they can also take the name of a column that contains an instance number, so that different instance limits can be used for each participant. For example, some participants undergo MRI at instance 2, and others at instance 3. If we want to know the state of a diagnosis up to and including the time of MRI, we would want to assign \code{up_to_instance} to the name of the column that specifies which instance the MRI occurred at. This column typically has to be generated by the user and attached to the.data frame beforehand.
 }
 
 \section{Column names}{
