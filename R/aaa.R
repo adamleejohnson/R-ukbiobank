@@ -40,6 +40,7 @@
 #' @param icd10_date_col  Template column name for dates of ICD10 diagnoses.\cr Default = `f.41280.0.0.Date_of_first_in_patient_diagnosis_ICD10`.
 #' @param ethnicity_col  Template column name for ethnic background.\cr Default = `f.21000.0.0.Ethnic_background`.
 #' @param measurement_col Template column name for general measurements.\cr Example = `f.4080.0.0.Systolic_blood_pressure_automated_reading`.
+#' @param measurement_col_alt Alternate template column name, used specifically for manual readings of measurements when automated methods return NA.
 #' @param height_col Template column name for height.\cr Default = `f.50.0.0.Standing_height`.
 #' @param weight_col Template column name for weight.\cr Default = `f.21002.0.0.Weight`.
 #'

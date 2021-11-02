@@ -2,6 +2,7 @@
 % Please edit documentation in R/measurements.R
 \name{measurement_lookup}
 \alias{measurement_lookup}
+\alias{measurement_lookup_with_alt}
 \alias{physio_systolicBP}
 \alias{physio_diastolicBP}
 \alias{physio_height_cm}
@@ -19,13 +20,24 @@ measurement_lookup(
   combine_array = c("last", "first", "min", "max", "mean")
 )
 
+measurement_lookup_with_alt(
+  data,
+  measurement_col,
+  measurement_col_alt,
+  after_instance = default_after_inst(),
+  up_to_instance = default_up_to_inst(),
+  combine_instances = c("last", "first", "min", "max", "mean"),
+  combine_array = c("last", "first", "min", "max", "mean")
+)
+
 physio_systolicBP(
   data,
   after_instance = default_after_inst(),
   up_to_instance = default_up_to_inst(),
   combine_instances = "last",
   combine_array = "mean",
-  measurement_col = f.4080.0.0.Systolic_blood_pressure_automated_reading
+  measurement_col = f.4080.0.0.Systolic_blood_pressure_automated_reading,
+  measurement_col_alt = f.93.0.0.Systolic_blood_pressure_manual_reading
 )
 
 physio_diastolicBP(
@@ -34,7 +46,8 @@ physio_diastolicBP(
   up_to_instance = default_up_to_inst(),
   combine_instances = "last",
   combine_array = "mean",
-  measurement_col = f.4079.0.0.Diastolic_blood_pressure_automated_reading
+  measurement_col = f.4079.0.0.Diastolic_blood_pressure_automated_reading,
+  measurement_col_alt = f.94.0.0.Diastolic_blood_pressure_manual_reading
 )
 
 physio_height_cm(
@@ -79,7 +92,7 @@ physio_bsa(
 
 This data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
-\item{measurement_col}{Template column name for general measurements.\cr Default = \code{f.4080.0.0.Systolic_blood_pressure_automated_reading}.}
+\item{measurement_col}{Template column name for general measurements.\cr Example = \code{f.4080.0.0.Systolic_blood_pressure_automated_reading}.}
 
 \item{after_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{minimum instance (non-inclusive)}. Used to include all data \strong{after but NOT including} the specified instance number. Defaults to \code{default_after_inst()}, which is typically -1 (i.e., include instances 0 and later).}
 
@@ -103,14 +116,16 @@ Functions that call \code{combine_instances()} may restrict the choice of option
 
 \item{combine_array}{If a measurement field has multiple array values (e.g. blood pressure recordings are made in duplicate), specify how these values should be combined. See \code{combine_instances} for details and options.}
 
+\item{measurement_col_alt}{Alternate template column name, used specifically for manual readings of measurements when automated methods return NA.}
+
 \item{height_col}{Template column name for height.\cr Default = \code{f.50.0.0.Standing_height}.}
 
 \item{weight_col}{Template column name for weight.\cr Default = \code{f.21002.0.0.Weight}.}
-
-\item{measurement_col_alt}{Alternate column name to lookup, used specifically for manual readings of measurements when automated methods return NA.}
 }
 \description{
 Perform lookups for various measurements. Because many measurements are repeated across instances, and sometimes within instances, two special arguments (\code{combine_instances} and \code{combine_array}) are used to specify how multiple measurements should be aggregated.
+
+The \code{measurement_lookup()} function is the general function for lookups. The \code{measurement_lookup_with_alt()} function is similar, but also looks for an alternate value if the primary value is NA. This is common when manual measurements (of, for example, blood pressure) are made after an automated method fails.
 
 Several convenience \verb{physio_*()} functions are provided to facilitate lookup of commonly used measurements (e.g., blood pressure, BMI, etc.).
 }

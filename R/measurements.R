@@ -45,15 +45,14 @@ measurement_lookup <- function(data,
 }
 
 #' @rdname measurement_lookup
-#' @param measurement_col_alt Alternate column name to lookup, used specifically for manual readings of measurements when automated methods return NA.
 #' @export
 measurement_lookup_with_alt <- function(data,
-                               measurement_col,
-                               measurement_col_alt,
-                               after_instance = default_after_inst(),
-                               up_to_instance = default_up_to_inst(),
-                               combine_instances = c("last", "first", "min", "max", "mean"),
-                               combine_array = c("last", "first", "min", "max", "mean")) {
+                                       measurement_col,
+                                       measurement_col_alt,
+                                       after_instance = default_after_inst(),
+                                       up_to_instance = default_up_to_inst(),
+                                       combine_instances = c("last", "first", "min", "max", "mean"),
+                                       combine_array = c("last", "first", "min", "max", "mean")) {
 
   combine_instances <- match.arg(combine_instances)
   combine_array <- match.arg(combine_array)
@@ -96,7 +95,7 @@ measurement_lookup_with_alt <- function(data,
 
 # ===================================================================================================================
 
-#' @rdname measurement_lookup_with_alt
+#' @rdname measurement_lookup
 #' @export
 physio_systolicBP <- function(data,
                               after_instance = default_after_inst(),

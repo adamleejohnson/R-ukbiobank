@@ -55,7 +55,9 @@ Functions that call \code{combine_instances()} may restrict the choice of option
 
 \item{ethnicity_col}{Template column name for ethnic background.\cr Default = \code{f.21000.0.0.Ethnic_background}.}
 
-\item{measurement_col}{Template column name for general measurements.\cr Default = \code{f.4080.0.0.Systolic_blood_pressure_automated_reading}.}
+\item{measurement_col}{Template column name for general measurements.\cr Example = \code{f.4080.0.0.Systolic_blood_pressure_automated_reading}.}
+
+\item{measurement_col_alt}{Alternate template column name, used specifically for manual readings of measurements when automated methods return NA.}
 
 \item{height_col}{Template column name for height.\cr Default = \code{f.50.0.0.Standing_height}.}
 
