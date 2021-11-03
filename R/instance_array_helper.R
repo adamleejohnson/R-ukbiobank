@@ -27,9 +27,9 @@ column_expansion_helper <- function(.data,
 
   # find matched columns
   matched_cols <- colnames(.data)[stringr::str_detect(colnames(.data), field_matcher)]
-  stopifnot(
-    "There are no columns in the dataframe that match the template column name" = length(matched_cols) > 0
-  )
+  if (length(matched_cols) == 0) {
+    stop("\n\n\U26D4 There are no columns in the dataframe that match the template column name: \U26D4\n\n\t\"", field_name, "\"")
+  }
   instance_nums <- stringr::str_match(matched_cols, field_re)[, 4 + 1] %>% as.numeric()
   array_nums <- stringr::str_match(matched_cols, field_re)[, 6 + 1] %>% as.numeric()
 
