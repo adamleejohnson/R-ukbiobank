@@ -1,0 +1,26 @@
+Package: ukbiobank
+Type: Package
+Title: UK Biobank Utilities
+Description: This package contains a collection of tools and functions to facilitate analysis of UK Biobank phenotype data.
+Version: 1.1.0
+Authors@R: 
+    person(given = "Adam",
+           family = "Johnson",
+           role = c("aut", "cre"),
+           email = "sealant.06.sirloin@icloud.com")
+License: GPL (>= 3)
+Encoding: UTF-8
+Imports: 
+    dplyr,
+    magrittr,
+    lubridate,
+    rlang,
+    stringr
+Depends:
+    R (>= 3.60)
+RoxygenNote: 7.1.2
+Roxygen: list(markdown = TRUE)
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Config/testthat/parallel: true
