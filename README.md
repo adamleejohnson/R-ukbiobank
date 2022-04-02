@@ -60,7 +60,7 @@ ukb_data_frame %>%
   )
 ```
 
-### Mutating new columns
+### Mutating new columns with dplyr
 
 Note that if using the pipe `%>%` operator with functions like `dplyr::mutate()`, the `.` symbol must be passed to the first argument of most functions in this package (i.e., most functions require the entire dataset be passed as the first argument).
 
