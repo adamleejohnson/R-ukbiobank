@@ -5,7 +5,7 @@
 .Rbuildignore
 .Rprofile
 renv/
-data-raw/
+data-raw/df_test.rds
 
 # General
 .DS_Store
