@@ -15,9 +15,7 @@ Additionally, several functions have been defined to identify patients diagnosed
 
 ## Installation
 
-Access to this package is currently restricted. Contact the developer to request a Deploy key. See https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys for details on how to install your Deploy key.
-
-Use the `devtools` package in R to facilitate installation as follows:
+Use the `devtools` package in R to install as follows:
 
 ```r
 devtools::install_github("adamleejohnson/R-ukbiobank")
