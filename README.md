@@ -43,7 +43,7 @@ Functions that require the name of a field (i.e., column) in the data frame can 
 
 ### Field name expansion
 
-Some functions (for example those that look-up ICD10 codes) will need to search many related field. In this case, only one field name needs to be provided and the function will identify all related fields. For example, the ICD10 lookup function needs to know that field `f.41270.0.0.Diagnoses_ICD10` is used for ICD10 diagnoses, but will automatically search all fields of the form `f.41270.###.###.Diagnoses_ICD10`. This means, however, that the UKBdata frame fields must include "Field.Instance.Array" in `###.###.###` format somewhere in the name.
+Some functions (for example those that look-up ICD10 codes) will need to search many consecutive fields that are indexed by instance number or array number. In this case, only one field name needs to be provided and the function will identify all related fields. For example, the ICD10 lookup function needs to know that field `f.41270.0.0.Diagnoses_ICD10` is used for ICD10 diagnoses, but will automatically search all fields of the form `f.41270.###.###.Diagnoses_ICD10`. This means, however, that each field must include "Field.Instance.Array" in `###.###.###` format somewhere in the name.
 
 ## Examples
 
