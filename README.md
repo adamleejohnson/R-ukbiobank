@@ -1,5 +1,10 @@
 # R-ukbiobank
 
+![build](https://raw.githubusercontent.com/dwyl/repo-badges/main/svg/build-passing.svg)
+![release_date](https://img.shields.io/github/release-date/adamleejohnson/R-ukbiobank)
+![license](https://img.shields.io/github/license/adamleejohnson/R-ukbiobank)
+![code_size](https://img.shields.io/github/languages/code-size/adamleejohnson/R-ukbiobank)
+
 An R package to facilitate UK Biobank analysis
 
 ## Introduction
@@ -57,3 +62,7 @@ ukb_data_frame %>%
     has_CHF = ukbiobank::diagnosed_chf(.)
   )
 ```
+
+---
+
+Written by Adam L. Johnson, MD [✉️](mailto:sealant.06.sirloin@icloud.com?subject=AJTools%20R%20Package) © 2022
