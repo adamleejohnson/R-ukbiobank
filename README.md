@@ -7,6 +7,8 @@
 
 An R package to facilitate UK Biobank analysis
 
+*Written by Adam L. Johnson, MD [✉️](mailto:sealant.06.sirloin@icloud.com?subject=AJTools%20R%20Package) © 2022*
+
 ## Introduction
 
 This package contains a collection of functions that facilitate the extraction of phenotypes from UK Biobank data. For example, the `icd10_lookup(...)` function facilitates the indentification of patients whose inpatient hospitalization records match any of the provided ICD codes.
@@ -70,7 +72,3 @@ ukb_data_frame %>%
     has_CHF = ukbiobank::diagnosed_chf(.)
   )
 ```
-
----
-
-Written by Adam L. Johnson, MD [✉️](mailto:sealant.06.sirloin@icloud.com?subject=AJTools%20R%20Package) © 2022
