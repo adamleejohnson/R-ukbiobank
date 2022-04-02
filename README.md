@@ -21,8 +21,6 @@ Use the `devtools` package in R to install as follows:
 devtools::install_github("adamleejohnson/R-ukbiobank")
 ```
 
-For code clarity, it is recommended to refer to functions using `::` notation (e.g. `ukbiobank::Age_at_date()`), rather than loading the library with `library(ukbiobank)`.
-
 ## General Usage
 
 Most functions in this package take an entire data frame (containing UKB data) as the first argument. The user then specifies the names of columns (with [data masking](https://dplyr.tidyverse.org/reference/dplyr_data_masking.html)) in the data frame that correspond to relevant UKB fields.
@@ -36,6 +34,8 @@ For example, field 53, containing the date of visit to the assessment center, is
     f.53.0.0.Date_of_attending_assessment_centre
 
 The field names can be specified and overriden if they have been formatted differently in the UKB data frame. However, this may break the field name expansion functionality (see below), so it is therefore recommended to at least have the leading portion of the field name in the above format.
+
+For code clarity, it is recommended to refer to functions using `::` notation (e.g. `ukbiobank::Age_at_date()`), rather than loading the library with `library(ukbiobank)`.
 
 ### Data masking
 
