@@ -7,7 +7,7 @@
 
 An R package to facilitate UK Biobank analysis
 
-*Written by Adam L. Johnson, MD [✉️](mailto:sealant.06.sirloin@icloud.com?subject=AJTools%20R%20Package) © 2022*
+*Written by Adam L. Johnson, MD [✉️](mailto:sealant.06.sirloin@icloud.com?subject=UKBiobank%20R%20Package) © 2022*
 
 ## Introduction
 
