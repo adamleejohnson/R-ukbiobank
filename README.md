@@ -27,9 +27,9 @@ For code clarity, it is recommended to refer to functions using `::` notation (e
 
 ## General Usage
 
-Most functions in this package take an entiredata frame (containing UKB data) as the first argument. The user then specifies the names of columns (with [data masking](https://dplyr.tidyverse.org/reference/dplyr_data_masking.html)) in the data frame that correspond to relevant fields.
+Most functions in this package take an entire data frame (containing UKB data) as the first argument. The user then specifies the names of columns (with [data masking](https://dplyr.tidyverse.org/reference/dplyr_data_masking.html)) in the data frame that correspond to relevant UKB fields.
 
-The default names of the columns are in the following format, which may differ depending on how the UKB data has been imported into R:
+The default names of the fields are in the following format, which may differ depending on how the UKB data has been imported into R:
 
     f.{FieldNum}.{InstanceNum}.{ArrayNum}.{Field_Description}
 
@@ -37,11 +37,11 @@ For example, field 53, containing the date of visit to the assessment center, is
 
     f.53.0.0.Date_of_attending_assessment_centre
 
-The field names can be over-riden.
+The field names can be specified and overriden if they have been formatted differently in the UKB data frame. However, this may break the field name expansion functionality (see below), so it is therefore recommended to at least have the leading portion of the field name in the above format.
 
 ### Data masking
 
-Functions that require the name of a column in the data frame can accept quoted (i.e. symbolic) column names to facilitate tidy data masking. See https://dplyr.tidyverse.org/reference/dplyr_data_masking.html.
+Functions that require the name of a field (i.e., column) in the data frame can accept quoted (i.e. symbolic) field names to facilitate tidy data masking. See https://dplyr.tidyverse.org/reference/dplyr_data_masking.html.
 
 ### Field name expansion
 
