@@ -1,7 +1,7 @@
 test_that("remove_na_columns works", {
   expect_equal(
     df_test %>% remove_na_columns() %>% length(),
-    650
+    611
   )
 
   expect_equal(
