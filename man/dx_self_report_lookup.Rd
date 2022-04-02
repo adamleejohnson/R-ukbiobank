@@ -5,7 +5,7 @@
 \title{Self-reported diagnosis lookup}
 \usage{
 dx_self_report_lookup(
-  .data,
+  data,
   codes,
   after_instance = default_after_inst(),
   up_to_instance = default_up_to_inst(),
@@ -13,18 +13,18 @@ dx_self_report_lookup(
 )
 }
 \arguments{
-\item{.data}{The primary.data frame.
+\item{data}{The primarydata frame.
 
-This.data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
+Thisdata frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
 \item{codes}{Diagnosis codes to look up.}
 
-\item{after_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{minimum instance (non-inclusive)}. Used to include all.data \strong{after but NOT including} the specified instance number. Defaults to \code{default_after_inst()}, which is typically -1 (i.e., include instances 0 and later).}
+\item{after_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{minimum instance (non-inclusive)}. Used to include alldata \strong{after but NOT including} the specified instance number. Defaults to \code{default_after_inst()}, which is typically -1 (i.e., include instances 0 and later).}
 
-\item{up_to_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{maximum instance (inclusive)}. Used to include all.data \strong{up to and including} the specified instance number. Defaults to \code{default_up_to_inst()}, which as of this writing returns \code{3}.}
+\item{up_to_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{maximum instance (inclusive)}. Used to include alldata \strong{up to and including} the specified instance number. Defaults to \code{default_up_to_inst()}, which as of this writing returns \code{3}.}
 
 \item{diagnosis_col}{Template column name for self-reported diagnosis codes.\cr Default = \code{f.20002.0.0.Non_cancer_illness_code_self_reported}.}
 }
 \description{
-Look up whether a diagnosis has been self-reported, based on coding 6. See \url{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=6}. For disease-specific \verb{diagnosis_*()} functions, the function \code{dx_self_text_to_codes()} is used internally to convert the text form of the diagnosis to the code used in the UKB.data table.
+Look up whether a diagnosis has been self-reported, based on coding 6. See \url{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=6}. For disease-specific \verb{diagnosis_*()} functions, the function \code{dx_self_text_to_codes()} is used internally to convert the text form of the diagnosis to the code used in the UKBdata table.
 }

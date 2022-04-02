@@ -5,16 +5,16 @@
 \title{Years from instance to death}
 \usage{
 years_from_instance_to_death(
-  .data,
+  data,
   instance_num,
   date_of_instance_col = f.53.0.0.Date_of_attending_assessment_centre,
   death_date_col = f.40000.0.0.Date_of_death
 )
 }
 \arguments{
-\item{.data}{The primary.data frame.
+\item{data}{The primarydata frame.
 
-This.data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
+Thisdata frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
 \item{instance_num}{An integer specifying the instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use in the current function.}
 

@@ -6,13 +6,13 @@
 \title{Age at instance}
 \usage{
 age_at_instance(
-  .data,
+  data,
   instance_num,
   age_at_instance_col = f.21003.0.0.Age_when_attended_assessment_centre
 )
 
 age_at_instance_computed(
-  .data,
+  data,
   instance_num,
   date_of_instance_col = f.53.0.0.Date_of_attending_assessment_centre,
   year_of_birth_col = f.34.0.0.Year_of_birth,
@@ -20,9 +20,9 @@ age_at_instance_computed(
 )
 }
 \arguments{
-\item{.data}{The primary.data frame.
+\item{data}{The primarydata frame.
 
-This.data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
+Thisdata frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
 \item{instance_num}{An integer specifying the instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use in the current function.}
 

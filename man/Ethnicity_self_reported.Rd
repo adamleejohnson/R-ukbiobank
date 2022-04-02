@@ -4,12 +4,12 @@
 \alias{ethnicity_self_reported}
 \title{Self-reported ethnicity, simplified}
 \usage{
-ethnicity_self_reported(.data, ethnicity_col = f.21000.0.0.Ethnic_background)
+ethnicity_self_reported(data, ethnicity_col = f.21000.0.0.Ethnic_background)
 }
 \arguments{
-\item{.data}{The primary.data frame.
+\item{data}{The primarydata frame.
 
-This.data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
+Thisdata frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
 \item{ethnicity_col}{Template column name for ethnic background.\cr Default = \code{f.21000.0.0.Ethnic_background}.}
 }

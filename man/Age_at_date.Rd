@@ -5,16 +5,16 @@
 \title{Age at date}
 \usage{
 age_at_date(
-  .data,
+  data,
   date,
   year_of_birth_col = f.34.0.0.Year_of_birth,
   month_of_birth_col = f.52.0.0.Month_of_birth
 )
 }
 \arguments{
-\item{.data}{The primary.data frame.
+\item{data}{The primarydata frame.
 
-This.data frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
+Thisdata frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
 \item{date}{Target date, as a string which is then passed to \code{\link[lubridate:as_date]{lubridate::as_date()}}.}
 

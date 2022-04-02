@@ -1,5 +1,5 @@
 #' @noRd
-column_expansion_helper <- function(.data,
+column_expansion_helper <- function(data,
                                     field_name,
                                     ctrl_ind,
                                     min_instance = 0,
@@ -26,7 +26,7 @@ column_expansion_helper <- function(.data,
   field_matcher <- paste0(pt1, pt2, pt3)
 
   # find matched columns
-  matched_cols <- colnames(.data)[stringr::str_detect(colnames(.data), field_matcher)]
+  matched_cols <- colnames(data)[stringr::str_detect(colnames(data), field_matcher)]
   if (length(matched_cols) == 0) {
     stop("\n\n\U26D4 There are no columns in the dataframe that match the template column name: \U26D4\n\n\t\"", field_name, "\"")
   }
@@ -67,23 +67,23 @@ column_expansion_helper <- function(.data,
 }
 
 #' @noRd
-expand_instances <- function(.data, field_name, ...) {
-  column_expansion_helper(.data, {{ field_name }}, 4, ...)
+expand_instances <- function(data, field_name, ...) {
+  column_expansion_helper(data, {{ field_name }}, 4, ...)
 }
 
 #' @noRd
-expand_array <- function(.data, field_name, ...) {
-  column_expansion_helper(.data, {{ field_name }}, 6, ...)
+expand_array <- function(data, field_name, ...) {
+  column_expansion_helper(data, {{ field_name }}, 6, ...)
 }
 
 #' @noRd
-expand_instances_and_array <- function(.data, field_name, ...) {
-  column_expansion_helper(.data, {{ field_name }}, 4:6, ...)
+expand_instances_and_array <- function(data, field_name, ...) {
+  column_expansion_helper(data, {{ field_name }}, 4:6, ...)
 }
 
 #' @noRd
-select_instance_and_expand_array <- function(.data, field_name, instance, ...) {
-  column_expansion_helper(.data, {{ field_name }}, 4:6,
+select_instance_and_expand_array <- function(data, field_name, instance, ...) {
+  column_expansion_helper(data, {{ field_name }}, 4:6,
     min_instance = instance,
     max_instance = instance,
     ...
@@ -91,8 +91,8 @@ select_instance_and_expand_array <- function(.data, field_name, instance, ...) {
 }
 
 #' @noRd
-select_instance_and_array <- function(.data, field_name, instance, array) {
-  column_expansion_helper(.data, {{ field_name }}, 4:6,
+select_instance_and_array <- function(data, field_name, instance, array) {
+  column_expansion_helper(data, {{ field_name }}, 4:6,
     min_instance = instance,
     max_instance = instance,
     min_array = array,
@@ -106,7 +106,7 @@ select_instance_and_array <- function(.data, field_name, instance, array) {
 #' @inheritParams ukbiobank
 #' @param lookup_by_instance_fn Function that takes a target instance as its only argument, and returns a vector of data.
 #' @keywords internal
-instance_combiner <- function(.data,
+instance_combiner <- function(data,
                               lookup_by_instance_fn,
                               combine_instances = c("any", "max", "min", "first", "last", "mean"),
                               up_to_instance = default_up_to_inst(),
@@ -119,17 +119,17 @@ instance_combiner <- function(.data,
 
   # get the instance numbers and the min/max overall
   # IMPORTANT: after_instance is NOT inclusive of the starting instance, but min_instances IS inclusive, hence the +1
-  min_instances <- .data %>%
+  min_instances <- data %>%
     mutate(pmax(as.numeric({{ after_instance }}) + 1, MINIMUM_INSTANCE_NUM)) %>%
     pull()
-  max_instances <- .data %>%
+  max_instances <- data %>%
     mutate(pmin(as.numeric({{ up_to_instance }}), MAXIMUM_INSTANCE_NUM)) %>%
     pull()
   min_inst_overall <- min(min_instances)
   max_inst_overall <- max(max_instances)
 
   # populate results for each instance
-  # ... create a.data frame to hold the results for each instances that we calculate
+  # ... create adata frame to hold the results for each instances that we calculate
   stopifnot("** Minimum start instance is greater than the maximum end instance" = min_inst_overall <= max_inst_overall)
   { # message
     min_inst_text <- wrap_str(quo_text(enquo(after_instance)), "`", condition = !quo_is_numeric(enquo(after_instance)))
@@ -146,7 +146,7 @@ instance_combiner <- function(.data,
   for (i in populate_inst) {
     i_idx <- which(i == populate_inst)
     message(i, if (i_idx < length(populate_inst)) "..." else "", appendLF = F)
-    lookup_result <- lookup_by_instance_fn(i)
+    lookup_result <- lookup_by_instance_fn(i) %||% NA
     results_by_inst[[i_idx]] <- lookup_result
   }
   message(" \U2713")
