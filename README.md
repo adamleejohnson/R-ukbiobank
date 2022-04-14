@@ -57,8 +57,8 @@ To return a numeric vector of the age (in years) of all patients at a specific d
 ukb_data_frame %>%
   ukbiobank::Age_at_date(
     "2020-01-01",
-    year_of_birth = f.34.0.0.Year_of_birth,
-    month_of_birth = f.52.0.0.Month_of_birth
+    year_of_birth_col = f.34.0.0.Year_of_birth,
+    month_of_birth_col = f.52.0.0.Month_of_birth
   )
 ```
 
