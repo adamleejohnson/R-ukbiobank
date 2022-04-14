@@ -25,9 +25,9 @@ devtools::install_github("adamleejohnson/R-ukbiobank")
 
 ## General Usage
 
-Most functions in this package take an entire data frame (containing UKB data) as the first argument. The user then specifies the names of columns (with [data masking](https://dplyr.tidyverse.org/reference/dplyr_data_masking.html)) in the data frame that correspond to relevant UKB fields.
+Most functions in this package take an entire data frame (containing UKB data) as the first argument. This means that the raw data must be obtained from the UK Biobank under an authorized application, and provided by the user as an R data frame. The user then specifies the names of columns (with [data masking](https://dplyr.tidyverse.org/reference/dplyr_data_masking.html)) in the data frame that correspond to relevant UKB fields.
 
-The default names of the fields are in the following format, which may differ depending on how the UKB data has been imported into R:
+By default, this package looks for field names that are in the following format. This may differ depending on how the UKB data has been imported into R:
 
     f.{FieldNum}.{InstanceNum}.{ArrayNum}.{Field_Description}
 
@@ -35,17 +35,17 @@ For example, field 53, containing the date of visit to the assessment center, is
 
     f.53.0.0.Date_of_attending_assessment_centre
 
-The field names can be specified and overriden if they have been formatted differently in the UKB data frame. However, this may break the field name expansion functionality (see below), so it is therefore recommended to at least have the leading portion of the field name in the above format.
-
-For code clarity, it is recommended to refer to functions using `::` notation (e.g. `ukbiobank::Age_at_date()`), rather than loading the library with `library(ukbiobank)`.
+The field names can be specified and overriden if they have been formatted differently in the UKB data frame. However, this may break the field name expansion functionality (see below), so it is therefore recommended to at least have the leading portion of the field name (_e.g._, f.53.0.0) in the above format.
 
 ### Data masking
 
-Functions that require the name of a field (i.e., column) in the data frame can accept quoted (i.e. symbolic) field names to facilitate tidy data masking. See https://dplyr.tidyverse.org/reference/dplyr_data_masking.html.
+Functions that require the name of a field in the data frame can accept quoted field names, _à la_ dplyr, to facilitate tidy data masking. See https://dplyr.tidyverse.org/reference/dplyr_data_masking.html.
 
 ### Field name expansion
 
-Some functions (for example those that look-up ICD10 codes) will need to search many consecutive fields that are indexed by instance number or array number. In this case, only one field name needs to be provided and the function will identify all related fields. For example, the ICD10 lookup function needs to know that field `f.41270.0.0.Diagnoses_ICD10` is used for ICD10 diagnoses, but will automatically search all fields of the form `f.41270.###.###.Diagnoses_ICD10`. This means, however, that each field must include "Field.Instance.Array" in `###.###.###` format somewhere in the name. Such functions will also typically allow the user to specify the minimum and maxum instance/array numbers to use.
+Some functions (_e.g._, those that look-up ICD10 codes) will need to search many consecutive fields that are indexed by instance number or array number. In these cases, only one field name needs to be provided and the function will identify all related fields. For example, the ICD10 lookup function needs to know that field `f.41270.0.0.Diagnoses_ICD10` is used for ICD10 diagnoses, but will automatically search all fields of the form `f.41270.###.###.Diagnoses_ICD10`. This means, however, that each field must include "Field.Instance.Array" in `###.###.###` format somewhere in the name. Such functions will also typically allow the user to specify the minimum and maximum instance/array numbers to use, and how to aggregate values across multiple instances or across an array.
+
+For further information about instances and arrays in the UKB data, refer to this document: https://biobank.ctsu.ox.ac.uk/~bbdatan/Repeat_assessment_doc_v1.0.pdf.
 
 ## Examples
 
@@ -64,7 +64,7 @@ ukb_data_frame %>%
 
 ### Mutating new columns with dplyr
 
-Note that if using the pipe `%>%` operator with functions like `dplyr::mutate()`, the `.` symbol must be passed to the first argument of most functions in this package (i.e., most functions require the entire dataset be passed as the first argument). See documentation for the [`magrittr "dot"`](https://magrittr.tidyverse.org/reference/pipe.html) for an explanation of the `%>%` and `.` notation.
+Note that if using the pipe `%>%` operator with functions like `dplyr::mutate()`, the `.` symbol must be passed to the first argument of most functions in this package (i.e., most functions require the entire dataset be passed as the first argument). See documentation for the [magrittr "dot"](https://magrittr.tidyverse.org/reference/pipe.html) for an explanation of the `%>%` and `.` notation.
 
 ```r
 ukb_data_frame %>%
