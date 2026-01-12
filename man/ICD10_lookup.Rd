@@ -101,9 +101,9 @@ Thisdata frame includes all necessary columns required to perform look-ups (e.g.
 
 \item{codes}{ICD10 codes to look up.}
 
-\item{after_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{minimum instance (non-inclusive)}. Used to include alldata \strong{after but NOT including} the specified instance number. Defaults to \code{default_after_inst()}, which is typically -1 (i.e., include instances 0 and later).}
+\item{after_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[dplyr:dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{minimum instance (non-inclusive)}. Used to include alldata \strong{after but NOT including} the specified instance number. Defaults to \code{default_after_inst()}, which is typically -1 (i.e., include instances 0 and later).}
 
-\item{up_to_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{maximum instance (inclusive)}. Used to include alldata \strong{up to and including} the specified instance number. Defaults to \code{default_up_to_inst()}, which as of this writing returns \code{3}.}
+\item{up_to_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[dplyr:dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{maximum instance (inclusive)}. Used to include alldata \strong{up to and including} the specified instance number. Defaults to \code{default_up_to_inst()}, which as of this writing returns \code{3}.}
 
 \item{icd10_col}{Template column name for ICD10 codes.\cr Default = \code{f.41270.0.0.Diagnoses_ICD10}.}
 

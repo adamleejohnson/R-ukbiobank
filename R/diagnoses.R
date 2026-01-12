@@ -166,3 +166,86 @@ diagnosed_diabetes <- function(data,
 
   return(self_dx %|% icd10 %|% oha_meds %|% insulin %|% (a1c >= 6.5))
 }
+
+# ================================================================================================
+
+#' @name age_of_diagnosis_placeholder
+#' @title Age of first diagnosis for selected diseases
+#' @description These convenience functions use Category 42 ("Algorithmically
+#'   define outcomes") to calculate the age at which a particular disease
+#'   condition was diagnosed.
+#' @inheritParams ukbiobank
+#' @inheritSection ukbiobank Instancing
+#' @inheritSection ukbiobank Column names
+#' @rdname age_of_diagnosis_placeholder
+#' @export
+age_of_first_diagnosis <- function(data,
+                                   diagnosis_date_col,
+                                   year_of_birth_col = f.34.0.0.Year_of_birth,
+                                   month_of_birth_col = f.52.0.0.Month_of_birth) {
+  data %>%
+    mutate(
+      birth_date = lubridate::make_date({{ year_of_birth_col }}, {{ month_of_birth_col }}, 15),
+      target_date = lubridate::as_date(as.character({{ diagnosis_date_col }})),
+      target_date = if_else(target_date %in% lubridate::as_date(as.character(coding_819[[1]])), NA, target_date),
+      diff = lubridate::interval(birth_date, target_date)
+    ) %>%
+    pull(diff) %>%
+    as.numeric("years")
+}
+
+#' @rdname age_of_diagnosis_placeholder
+#' @export
+age_of_first_mi <- function(data,
+                           diagnosis_date_col = f.42000.0.0.Date_of_myocardial_infarction,
+                           year_of_birth_col = f.34.0.0.Year_of_birth,
+                           month_of_birth_col = f.52.0.0.Month_of_birth) {
+  age_of_first_diagnosis(
+    data = data,
+    diagnosis_date_col = {{ diagnosis_date_col }},
+    year_of_birth_col = {{ year_of_birth_col }},
+    month_of_birth_col = {{ month_of_birth_col }}
+  )
+}
+
+#' @rdname age_of_diagnosis_placeholder
+#' @export
+age_of_first_stroke <- function(data,
+                            diagnosis_date_col = f.42006.0.0.Date_of_stroke,
+                            year_of_birth_col = f.34.0.0.Year_of_birth,
+                            month_of_birth_col = f.52.0.0.Month_of_birth) {
+  age_of_first_diagnosis(
+    data = data,
+    diagnosis_date_col = {{ diagnosis_date_col }},
+    year_of_birth_col = {{ year_of_birth_col }},
+    month_of_birth_col = {{ month_of_birth_col }}
+  )
+}
+
+#' @rdname age_of_diagnosis_placeholder
+#' @export
+age_of_first_chf <- function(data,
+                              diagnosis_date_col = f.131354.0.0,
+                              year_of_birth_col = f.34.0.0.Year_of_birth,
+                              month_of_birth_col = f.52.0.0.Month_of_birth) {
+  age_of_first_diagnosis(
+    data = data,
+    diagnosis_date_col = {{ diagnosis_date_col }},
+    year_of_birth_col = {{ year_of_birth_col }},
+    month_of_birth_col = {{ month_of_birth_col }}
+  )
+}
+
+#' @rdname age_of_diagnosis_placeholder
+#' @export
+age_of_first_copd <- function(data,
+                             diagnosis_date_col = f.42016.0.0.Date_chronic_obstructive_pulmonary_disease_report,
+                             year_of_birth_col = f.34.0.0.Year_of_birth,
+                             month_of_birth_col = f.52.0.0.Month_of_birth) {
+  age_of_first_diagnosis(
+    data = data,
+    diagnosis_date_col = {{ diagnosis_date_col }},
+    year_of_birth_col = {{ year_of_birth_col }},
+    month_of_birth_col = {{ month_of_birth_col }}
+  )
+}

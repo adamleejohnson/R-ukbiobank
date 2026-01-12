@@ -2,6 +2,7 @@
 % Please edit documentation in R/aaa.R
 \docType{package}
 \name{ukbiobank}
+\alias{ukbiobank-package}
 \alias{ukbiobank}
 \title{ukbiobank}
 \arguments{
@@ -9,11 +10,11 @@
 
 Thisdata frame includes all necessary columns required to perform look-ups (e.g. ICD10 code columns, medication code columns, age, sex, etc.).}
 
-\item{instance_num}{An integer specifying the instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use in the current function.}
+\item{instance_num}{An integer specifying the instance number, or the name of the column (using <\code{\link[dplyr:dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use in the current function.}
 
-\item{after_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{minimum instance (non-inclusive)}. Used to include alldata \strong{after but NOT including} the specified instance number. Defaults to \code{default_after_inst()}, which is typically -1 (i.e., include instances 0 and later).}
+\item{after_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[dplyr:dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{minimum instance (non-inclusive)}. Used to include alldata \strong{after but NOT including} the specified instance number. Defaults to \code{default_after_inst()}, which is typically -1 (i.e., include instances 0 and later).}
 
-\item{up_to_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[=dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{maximum instance (inclusive)}. Used to include alldata \strong{up to and including} the specified instance number. Defaults to \code{default_up_to_inst()}, which as of this writing returns \code{3}.}
+\item{up_to_instance}{An integer specifying an instance number, or the name of the column (using <\code{\link[dplyr:dplyr_data_masking]{data-masking}}> rules) containing instance numbers to use as the \strong{maximum instance (inclusive)}. Used to include alldata \strong{up to and including} the specified instance number. Defaults to \code{default_up_to_inst()}, which as of this writing returns \code{3}.}
 
 \item{combine_instances}{The method used by \code{\link[=instance_combiner]{instance_combiner()}} or other Reduce-like functions when combining results of a lookup (e.g. a medication lookup, icd10 lookup, biomarker lookup) across multiple instances.
 
@@ -76,4 +77,8 @@ Arguments like \code{up_to_instance} and \code{after_instance} can take a consta
  Most functions in this package will take column names (\verb{*_col}) as optional arguments (otherwise a default column names are used) which are then used as templates to find all other columns with the same field number, but different instance and array numbers. These functions will automatically find all matching instances (and arrays within each instance) within the specified parameters. Internally, a set of \verb{expand_instance_*()} helper functions, which themselves rely on the \code{column_expansion_helper()} function, perform the work of searching for matching columns.
 }
 
+\author{
+\strong{Maintainer}: Adam Johnson \email{sealant.06.sirloin@icloud.com}
+
+}
 \keyword{internal}
